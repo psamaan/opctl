@@ -1,0 +1,9 @@
+version: "2"
+services:
+  go-build-windows:
+    extends:
+      service: go-build
+      file: ../.common/docker-compose.yml
+    environment:
+      - GOOS=windows
+      - OUTPUT_FILE_EXTENSION=.exe

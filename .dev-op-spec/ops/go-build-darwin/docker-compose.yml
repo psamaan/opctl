@@ -1,0 +1,9 @@
+version: "2"
+services:
+  go-build-darwin:
+    extends:
+      service: go-build
+      file: ../.common/docker-compose.yml
+    environment:
+      - GOOS=darwin
+      - OUTPUT_FILE_EXTENSION

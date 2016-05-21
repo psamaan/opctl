@@ -1,0 +1,9 @@
+version: "2"
+services:
+  test:
+    extends:
+      service: go
+      file: ../.common/docker-compose.yml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    entrypoint: .dev-op-spec/ops/test/entrypoint.sh

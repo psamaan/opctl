@@ -1,0 +1,2 @@
+description: publishes a code coverage profile to https://codecov.io
+name: publish-coverage-to-codecov

@@ -1,0 +1,2 @@
+description: cross compiles a binary for the windows platform
+name: go-build-windows

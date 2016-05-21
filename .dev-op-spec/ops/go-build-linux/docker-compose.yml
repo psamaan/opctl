@@ -1,0 +1,9 @@
+version: "2"
+services:
+  go-build-linux:
+    extends:
+      service: go-build
+      file: ../.common/docker-compose.yml
+    environment:
+      - GOOS=linux
+      - OUTPUT_FILE_EXTENSION
