@@ -13,7 +13,7 @@ import (
 
 func runCmd(
 dosCli *cli.Cli,
-devOpSpecSdk sdk.Client,
+sdk sdk.Client,
 ) {
 
   dosCli.Command("run", "Run an op", func(runCmd *cli.Cmd) {
@@ -42,10 +42,10 @@ devOpSpecSdk sdk.Client,
       )
       if (nil != err) {
         fmt.Errorf(err.Error())
-        os.Exit(1)
+        cli.Exit(1)
       }
 
-      opRunId, correlationId, err := devOpSpecSdk.RunOp(
+      opRunId, correlationId, err := sdk.RunOp(
         *models.NewRunOpReq(
           opUrl,
         ),
@@ -54,97 +54,91 @@ devOpSpecSdk sdk.Client,
         fmt.Fprintln(os.Stderr, err)
       }
 
-      // handle SIGINT
+      // init signal channel
+      intSignalsReceived := 0
       signalChannel := make(chan os.Signal, 1)
       signal.Notify(
         signalChannel,
-        syscall.SIGINT,
+        syscall.SIGINT, //handle SIGINT
       )
 
-      go func() {
-
-        <-signalChannel
-
-        devOpSpecSdk.KillOpRun(
-          *models.NewKillOpRunReq(
-            opRunId,
-          ),
-        )
-
-        return
-
-      }()
-
-      eventStream, err := devOpSpecSdk.GetEventStream()
+      // init event channel
+      eventChannel, err := sdk.GetEventStream()
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
+        return
       }
 
       for {
+        select {
 
-        event, isOpen := <-eventStream
-        if (!isOpen) {
-          return
-        }
+        case <-signalChannel:
+          if (intSignalsReceived == 0) {
 
-        switch event := event.(type) {
-        case models.LogEntryEmittedEvent:
-          // @TODO: this doesn't catch log entries for the same tree but triggered from different actions (such as kills)
-          if (event.CorrelationId() == correlationId) {
-            fmt.Printf(
-              "%v \n",
-              event.LogEntryMsg(),
+            sdk.KillOpRun(
+              *models.NewKillOpRunReq(
+                opRunId,
+              ),
             )
+
+            intSignalsReceived++
+            fmt.Println()
+            fmt.Println("Gracefully stopping... (press Ctrl+C again to force)")
+          } else {
+            return
           }
-        case models.OpRunFinishedEvent:
-          if (event.RootOpRunId() == opRunId) {
-            fmt.Printf(
-              "OpRunFinished: Id=%v ExitCode=%v Timestamp=%v \n",
-              event.OpRunId(),
-              event.OpRunExitCode(),
-              event.Timestamp(),
-            )
-            if (event.OpRunId() == opRunId) {
-              os.Exit(event.OpRunExitCode())
-              return
+
+        case event, isEventChannelOpen := <-eventChannel:
+          if (!isEventChannelOpen) {
+            return
+          }
+
+          switch event := event.(type) {
+          case models.LogEntryEmittedEvent:
+            // @TODO: this doesn't catch log entries for the same tree but triggered from different actions (such as kills)
+            if (event.CorrelationId() == correlationId) {
+              fmt.Printf(
+                "%v \n",
+                event.LogEntryMsg(),
+              )
             }
-          }
-        case models.OpRunStartedEvent:
-          if (event.RootOpRunId() == opRunId) {
-            opUrl := event.OpRunOpUrl()
-            fmt.Printf(
-              "OpRunStarted: Id=%v OpUrl=%v Timestamp=%v \n",
-              event.OpRunId(),
-              opUrl.String(),
-              event.Timestamp(),
-            )
+          case models.OpRunFinishedEvent:
+            if (event.RootOpRunId() == opRunId) {
+              fmt.Printf(
+                "OpRunFinished: Id=%v ExitCode=%v Timestamp=%v \n",
+                event.OpRunId(),
+                event.OpRunExitCode(),
+                event.Timestamp(),
+              )
+              if (event.OpRunId() == opRunId) {
+                os.Exit(event.OpRunExitCode())
+                return
+              }
+            }
+          case models.OpRunStartedEvent:
+            if (event.RootOpRunId() == opRunId) {
+              opUrl := event.OpRunOpUrl()
+              fmt.Printf(
+                "OpRunStarted: Id=%v OpUrl=%v Timestamp=%v \n",
+                event.OpRunId(),
+                opUrl.String(),
+                event.Timestamp(),
+              )
 
+            }
+          case models.OpRunKilledEvent:
+            if (event.RootOpRunId() == opRunId) {
+              fmt.Printf(
+                "OpRunKilled: Id=%v Timestamp=%v \n",
+                event.OpRunId(),
+                event.Timestamp(),
+              )
+            }
+          default: // no op
           }
-        case models.OpRunKilledEvent:
-          if (event.RootOpRunId() == opRunId) {
-            fmt.Printf(
-              "OpRunKilled: Id=%v Timestamp=%v \n",
-              event.OpRunId(),
-              event.Timestamp(),
-            )
-          }
-        default: // no op
         }
 
       }
-
-      if (nil != err) {
-
-        fmt.Fprintln(os.Stderr, *name + " unsuccessful")
-        os.Exit(2)
-
-      } else {
-
-        fmt.Printf("%v successful \n", *name)
-
-      }
-
-      fmt.Println()
 
     }
 

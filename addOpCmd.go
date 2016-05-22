@@ -11,7 +11,7 @@ import (
 
 func addOpCmd(
 dosCli *cli.Cli,
-devOpSpecSdk sdk.Client,
+sdk sdk.Client,
 ) {
 
   dosCli.Command("add-op", "Add an op", func(opAddCmd *cli.Cmd) {
@@ -38,7 +38,7 @@ devOpSpecSdk sdk.Client,
         cli.Exit(1)
       }
 
-      devOpSpecSdk.AddOp(
+      sdk.AddOp(
         *models.NewAddOpReq(
           projectUrl,
           *name,

@@ -8,34 +8,34 @@ import (
 )
 
 type fakeCompositionRoot struct {
-	DevOpSpecSdkStub        func() sdk.Client
-	devOpSpecSdkMutex       sync.RWMutex
-	devOpSpecSdkArgsForCall []struct{}
-	devOpSpecSdkReturns     struct {
+	SdkStub        func() sdk.Client
+	sdkMutex       sync.RWMutex
+	sdkArgsForCall []struct{}
+	sdkReturns     struct {
 		result1 sdk.Client
 	}
 }
 
-func (fake *fakeCompositionRoot) DevOpSpecSdk() sdk.Client {
-	fake.devOpSpecSdkMutex.Lock()
-	fake.devOpSpecSdkArgsForCall = append(fake.devOpSpecSdkArgsForCall, struct{}{})
-	fake.devOpSpecSdkMutex.Unlock()
-	if fake.DevOpSpecSdkStub != nil {
-		return fake.DevOpSpecSdkStub()
+func (fake *fakeCompositionRoot) Sdk() sdk.Client {
+	fake.sdkMutex.Lock()
+	fake.sdkArgsForCall = append(fake.sdkArgsForCall, struct{}{})
+	fake.sdkMutex.Unlock()
+	if fake.SdkStub != nil {
+		return fake.SdkStub()
 	} else {
-		return fake.devOpSpecSdkReturns.result1
+		return fake.sdkReturns.result1
 	}
 }
 
-func (fake *fakeCompositionRoot) DevOpSpecSdkCallCount() int {
-	fake.devOpSpecSdkMutex.RLock()
-	defer fake.devOpSpecSdkMutex.RUnlock()
-	return len(fake.devOpSpecSdkArgsForCall)
+func (fake *fakeCompositionRoot) SdkCallCount() int {
+	fake.sdkMutex.RLock()
+	defer fake.sdkMutex.RUnlock()
+	return len(fake.sdkArgsForCall)
 }
 
-func (fake *fakeCompositionRoot) DevOpSpecSdkReturns(result1 sdk.Client) {
-	fake.DevOpSpecSdkStub = nil
-	fake.devOpSpecSdkReturns = struct {
+func (fake *fakeCompositionRoot) SdkReturns(result1 sdk.Client) {
+	fake.SdkStub = nil
+	fake.sdkReturns = struct {
 		result1 sdk.Client
 	}{result1}
 }

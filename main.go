@@ -15,13 +15,13 @@ func main() {
   }
 
   dosCli := cli.App("opctl", "control http://opendevops.io/ compliant ops")
-  addOpCmd(dosCli, compositionRoot.DevOpSpecSdk())
-  addSubOpCmd(dosCli, compositionRoot.DevOpSpecSdk())
-  eventsCmd(dosCli, compositionRoot.DevOpSpecSdk())
-  killCmd(dosCli, compositionRoot.DevOpSpecSdk())
-  lsCmd(dosCli, compositionRoot.DevOpSpecSdk())
-  opCmd(dosCli, compositionRoot.DevOpSpecSdk())
-  runCmd(dosCli, compositionRoot.DevOpSpecSdk())
+  addOpCmd(dosCli, compositionRoot.Sdk())
+  addSubOpCmd(dosCli, compositionRoot.Sdk())
+  eventsCmd(dosCli, compositionRoot.Sdk())
+  killCmd(dosCli, compositionRoot.Sdk())
+  lsCmd(dosCli, compositionRoot.Sdk())
+  opCmd(dosCli, compositionRoot.Sdk())
+  runCmd(dosCli, compositionRoot.Sdk())
   dosCli.Version("v version", "opctl version 0.9.0")
   dosCli.Run(os.Args)
 

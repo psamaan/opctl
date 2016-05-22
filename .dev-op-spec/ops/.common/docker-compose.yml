@@ -3,16 +3,15 @@ services:
   src:
     image: scratch
     volumes:
-      - ../../../:/golang/src/github.com/open-devops/cli
-    working_dir: /golang/src/github.com/open-devops/cli
+      - ../../../:/golang/src/github.com/opctl/cli
+    working_dir: /golang/src/github.com/opctl/cli
   go:
     extends:
       service: src
     build: ./
-    network_mode: host
     environment:
       - GOPATH=/golang
-      - GOARCH=amd64
+      - "GOARCH=amd64"
       - CGO_ENABLED=0
   go-build:
     extends:

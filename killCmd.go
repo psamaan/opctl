@@ -8,7 +8,7 @@ import (
 
 func killCmd(
 dosCli *cli.Cli,
-devOpSpecSdk sdk.Client,
+sdk sdk.Client,
 ) {
 
   dosCli.Command("kill", "Kill an op run", func(runCmd *cli.Cmd) {
@@ -21,7 +21,7 @@ devOpSpecSdk sdk.Client,
 
     runCmd.Action = func() {
 
-      devOpSpecSdk.KillOpRun(
+      sdk.KillOpRun(
         *models.NewKillOpRunReq(
           *opRunId,
         ),

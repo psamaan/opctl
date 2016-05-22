@@ -26,7 +26,7 @@ Run 'opctl COMMAND --help' for more information on a command.
 ```
 
 # Supported Use Cases
-- get opctl version
+- get cli version
 - add op
 - add sub op
 - get event stream
@@ -46,7 +46,6 @@ This project adheres to the [Semantic Versioning](http://semver.org/) specificat
 see [INSTALLATION.md](INSTALLATION.md)
 
 # Contributing
-
 see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 # Changelog

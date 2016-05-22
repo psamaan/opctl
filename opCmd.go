@@ -11,18 +11,18 @@ import (
 
 func opCmd(
 dosCli *cli.Cli,
-devOpSpecSdk sdk.Client,
+sdk sdk.Client,
 ) {
 
   dosCli.Command("op", "Op-related operations", func(opCmd *cli.Cmd) {
-    opSetDescriptionCmd(opCmd, devOpSpecSdk)
+    opSetDescriptionCmd(opCmd, sdk)
   })
 
 }
 
 func opSetDescriptionCmd(
 opCmd *cli.Cmd,
-devOpSpecSdk sdk.Client,
+sdk sdk.Client,
 ) {
 
   opCmd.Command("set-description", "Set the description of an op", func(opSetDescriptionCmd *cli.Cmd) {
@@ -49,7 +49,7 @@ devOpSpecSdk sdk.Client,
         cli.Exit(1)
       }
 
-      devOpSpecSdk.SetDescriptionOfOp(
+      sdk.SetDescriptionOfOp(
         *models.NewSetDescriptionOfOpReq(
           projectUrl,
           *description,

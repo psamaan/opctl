@@ -16,10 +16,10 @@ var _ = Describe("compositionRoot", func() {
       }
 
       /* act */
-      actualDevOpSpecSdk := objectUnderTest.DevOpSpecSdk()
+      actualSdk := objectUnderTest.Sdk()
 
       /* assert */
-      Expect(actualDevOpSpecSdk).ToNot(BeNil())
+      Expect(actualSdk).ToNot(BeNil())
 
     })
   })

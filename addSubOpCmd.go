@@ -11,7 +11,7 @@ import (
 
 func addSubOpCmd(
 dosCli *cli.Cli,
-devOpSpecSdk sdk.Client,
+sdk sdk.Client,
 ) {
 
   dosCli.Command("add-sub-op", "Add a sub op", func(opAddSubOpCmd *cli.Cmd) {
@@ -56,7 +56,7 @@ devOpSpecSdk sdk.Client,
         cli.Exit(1)
       }
 
-      devOpSpecSdk.AddSubOp(
+      sdk.AddSubOp(
         *models.NewAddSubOpReq(
           projectUrl,
           *opName,

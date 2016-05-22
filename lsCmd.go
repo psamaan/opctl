@@ -11,7 +11,7 @@ import (
 
 func lsCmd(
 dosCli *cli.Cli,
-devOpSpecSdk sdk.Client,
+sdk sdk.Client,
 ) {
 
   dosCli.Command("ls", "List ops", func(opLsCmd *cli.Cmd) {
@@ -36,7 +36,7 @@ devOpSpecSdk sdk.Client,
 
       fmt.Fprintln(w, "NAME\tDESCRIPTION")
 
-      ops, err := devOpSpecSdk.ListOps(
+      ops, err := sdk.ListOps(
         projectUrl,
       )
       if (nil != err) {

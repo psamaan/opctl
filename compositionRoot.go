@@ -2,42 +2,25 @@ package main
 
 import (
   "github.com/opctl/sdk-for-golang/sdk"
-  sdkDosEngine "github.com/opctl/sdk-for-golang/sdk/adapters/dosruntime/dosengine"
-  sdkNetHttp "github.com/opctl/sdk-for-golang/sdk/adapters/http/net"
-  "net/url"
+  dockerSdkHostAdapter "github.com/opctl/sdk-for-golang/sdk/adapters/host/docker"
 )
 
 type compositionRoot interface {
-  DevOpSpecSdk() sdk.Client
+  Sdk() sdk.Client
 }
 
 func newCompositionRoot(
 ) (compositionRoot compositionRoot, err error) {
 
-  sdkDosRuntime := sdkDosEngine.New()
-
-  baseUrl, err := url.Parse("http://192.168.99.100:42224/")
-  if (nil != err) {
-    return
-  }
-
-  sdkHttpAdapter, err := sdkNetHttp.New(
-    sdkNetHttp.NewConfig(*baseUrl),
-  )
-  if (nil != err) {
-    return
-  }
-
-  devOpSpecSdk, err := sdk.New(
-    sdkDosRuntime,
-    sdkHttpAdapter,
+  sdk, err := sdk.New(
+    dockerSdkHostAdapter.New(),
   )
   if (nil != err) {
     return
   }
 
   compositionRoot = &_compositionRoot{
-    devOpSpecSdk:devOpSpecSdk,
+    sdk:sdk,
   }
 
   return
@@ -45,9 +28,9 @@ func newCompositionRoot(
 }
 
 type _compositionRoot struct {
-  devOpSpecSdk sdk.Client
+  sdk sdk.Client
 }
 
-func (this _compositionRoot) DevOpSpecSdk() sdk.Client {
-  return this.devOpSpecSdk
+func (this _compositionRoot) Sdk() sdk.Client {
+  return this.sdk
 }

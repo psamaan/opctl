@@ -10,14 +10,14 @@ import (
 
 func eventsCmd(
 dosCli *cli.Cli,
-devOpSpecSdk sdk.Client,
+sdk sdk.Client,
 ) {
 
   dosCli.Command("events", "Get real time events from the server", func(eventsCmd *cli.Cmd) {
 
     eventsCmd.Action = func() {
 
-      eventStream, err := devOpSpecSdk.GetEventStream()
+      eventStream, err := sdk.GetEventStream()
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
       }
