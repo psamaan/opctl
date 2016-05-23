@@ -57,7 +57,7 @@ sdk sdk.Client,
       eventChannel, err := sdk.GetEventStream()
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
-        return
+        os.Exit(1)
       }
 
       opRunId, correlationId, err := sdk.RunOp(
@@ -67,6 +67,7 @@ sdk sdk.Client,
       )
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
+        os.Exit(1)
       }
 
       for {
@@ -85,12 +86,12 @@ sdk sdk.Client,
             fmt.Println()
             fmt.Println("Gracefully stopping... (press Ctrl+C again to force)")
           } else {
-            return
+            os.Exit(1)
           }
 
         case event, isEventChannelOpen := <-eventChannel:
           if (!isEventChannelOpen) {
-            return
+            os.Exit(1)
           }
 
           switch event := event.(type) {
@@ -112,7 +113,6 @@ sdk sdk.Client,
               )
               if (event.OpRunId() == opRunId) {
                 os.Exit(event.OpRunExitCode())
-                return
               }
             }
           case models.OpRunStartedEvent:
