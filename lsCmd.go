@@ -24,14 +24,14 @@ sdk sdk.Client,
       currentWorkDir, err := os.Getwd()
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
-        cli.Exit(1)
+        os.Exit(1)
       }
 
       var projectUrl *url.URL
       projectUrl, err = url.Parse(currentWorkDir)
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
-        cli.Exit(1)
+        os.Exit(1)
       }
 
       fmt.Fprintln(w, "NAME\tDESCRIPTION")
@@ -41,7 +41,7 @@ sdk sdk.Client,
       )
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
-        cli.Exit(1)
+        os.Exit(1)
       }
 
       for _, op := range ops {

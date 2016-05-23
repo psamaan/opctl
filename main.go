@@ -1,7 +1,7 @@
 package main
 
 import (
-  "github.com/jawher/mow.cli"
+  mowCli "github.com/jawher/mow.cli"
   "os"
   "fmt"
 )
@@ -14,15 +14,15 @@ func main() {
     os.Exit(1)
   }
 
-  dosCli := cli.App("opctl", "control http://opendevops.io/ compliant ops")
-  addOpCmd(dosCli, compositionRoot.Sdk())
-  addSubOpCmd(dosCli, compositionRoot.Sdk())
-  eventsCmd(dosCli, compositionRoot.Sdk())
-  killCmd(dosCli, compositionRoot.Sdk())
-  lsCmd(dosCli, compositionRoot.Sdk())
-  opCmd(dosCli, compositionRoot.Sdk())
-  runCmd(dosCli, compositionRoot.Sdk())
-  dosCli.Version("v version", "opctl version 0.9.0")
-  dosCli.Run(os.Args)
+  cli := mowCli.App("opctl", "control http://devopspec.com compliant ops")
+  addOpCmd(cli, compositionRoot.Sdk())
+  addSubOpCmd(cli, compositionRoot.Sdk())
+  eventsCmd(cli, compositionRoot.Sdk())
+  killCmd(cli, compositionRoot.Sdk())
+  lsCmd(cli, compositionRoot.Sdk())
+  opCmd(cli, compositionRoot.Sdk())
+  runCmd(cli, compositionRoot.Sdk())
+  cli.Version("v version", "opctl version 0.1.0")
+  cli.Run(os.Args)
 
 }

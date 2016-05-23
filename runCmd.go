@@ -29,7 +29,7 @@ sdk sdk.Client,
       currentWorkDir, err := os.Getwd()
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
-        cli.Exit(1)
+        os.Exit(1)
       }
 
       var opUrl *url.URL
@@ -41,8 +41,23 @@ sdk sdk.Client,
         ),
       )
       if (nil != err) {
-        fmt.Errorf(err.Error())
-        cli.Exit(1)
+        fmt.Fprintln(os.Stderr, err)
+        os.Exit(1)
+      }
+
+      // init signal channel
+      intSignalsReceived := 0
+      signalChannel := make(chan os.Signal, 1)
+      signal.Notify(
+        signalChannel,
+        syscall.SIGINT, //handle SIGINTs
+      )
+
+      // init event channel
+      eventChannel, err := sdk.GetEventStream()
+      if (nil != err) {
+        fmt.Fprintln(os.Stderr, err)
+        return
       }
 
       opRunId, correlationId, err := sdk.RunOp(
@@ -52,21 +67,6 @@ sdk sdk.Client,
       )
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
-      }
-
-      // init signal channel
-      intSignalsReceived := 0
-      signalChannel := make(chan os.Signal, 1)
-      signal.Notify(
-        signalChannel,
-        syscall.SIGINT, //handle SIGINT
-      )
-
-      // init event channel
-      eventChannel, err := sdk.GetEventStream()
-      if (nil != err) {
-        fmt.Fprintln(os.Stderr, err)
-        return
       }
 
       for {

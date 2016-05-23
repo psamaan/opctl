@@ -37,7 +37,7 @@ sdk sdk.Client,
           )
         case models.OpRunFinishedEvent:
           fmt.Printf(
-            "OpEventsFinished: Id=%v ExitCode=%v Timestamp=%v \n",
+            "OpRunFinished: Id=%v ExitCode=%v Timestamp=%v \n",
             event.OpRunId(),
             event.OpRunExitCode(),
             event.Timestamp(),
@@ -45,14 +45,14 @@ sdk sdk.Client,
         case models.OpRunStartedEvent:
           opUrl := event.OpRunOpUrl()
           fmt.Printf(
-            "OpEventsStarted: Id=%v OpUrl=%v Timestamp=%v \n",
+            "OpRunStarted: Id=%v OpUrl=%v Timestamp=%v \n",
             event.OpRunId(),
             opUrl.String(),
             event.Timestamp(),
           )
         case models.OpRunKilledEvent:
           fmt.Printf(
-            "OpEventsKilled: Id=%v Timestamp=%v \n",
+            "OpRunKilled: Id=%v Timestamp=%v \n",
             event.OpRunId(),
             event.Timestamp(),
           )
