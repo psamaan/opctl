@@ -9,6 +9,7 @@ import (
   "os"
   "syscall"
   "os/signal"
+  "strings"
 )
 
 func runCmd(
@@ -18,9 +19,10 @@ sdk sdk.Client,
 
   dosCli.Command("run", "Run an op", func(runCmd *cli.Cmd) {
 
-    runCmd.Spec = "OP_NAME"
+    runCmd.Spec = "[-a...] OP_NAME"
 
     var (
+      argsSlice = runCmd.StringsOpt("a", []string{}, "Pass args to op in format: NAME[=VALUE] (gets VALUE from env if not provided)")
       name = runCmd.StringArg("OP_NAME", "", "the name of the op")
     )
 
@@ -30,6 +32,22 @@ sdk sdk.Client,
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
         os.Exit(1)
+      }
+
+      argsMap := make(map[string]string)
+      for _, arg := range *argsSlice {
+
+        argParts := strings.Split(arg, "=")
+
+        argName := argParts[0]
+        var argValue string
+        if (len(argParts) > 1) {
+          argValue = argParts[1]
+        } else {
+          argValue = os.Getenv(arg)
+        }
+
+        argsMap[argName] = argValue
       }
 
       var opUrl *url.URL
@@ -62,6 +80,7 @@ sdk sdk.Client,
 
       opRunId, correlationId, err := sdk.RunOp(
         *models.NewRunOpReq(
+          argsMap,
           opUrl,
         ),
       )
