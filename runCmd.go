@@ -53,7 +53,7 @@ sdk sdk.Client,
       var opUrl *url.URL
       opUrl, err = url.Parse(
         fmt.Sprintf(
-          "%v/.dev-op-spec/ops/%v",
+          "%v/.opspec/%v",
           currentWorkDir,
           *name,
         ),

@@ -1,6 +1,0 @@
-name: to-delete
-description: dummy
-subOps:
-- url: build
-- url: go-build-linux
-- url: test

@@ -3,7 +3,7 @@ services:
   src:
     image: scratch
     volumes:
-      - ../../../:/golang/src/github.com/opctl/cli
+      - ../../:/golang/src/github.com/opctl/cli
     working_dir: /golang/src/github.com/opctl/cli
   go:
     extends:
@@ -16,6 +16,4 @@ services:
   go-build:
     extends:
       service: go
-    environment:
-      - PATH_TO_TMP_DIR=.dev-op-spec/ops/.tmp/build
-    entrypoint: .dev-op-spec/ops/.common/go-build-entrypoint.sh
+    entrypoint: .opspec/.common/go-build-entrypoint.sh
