@@ -8,7 +8,7 @@ opctl
 
 Usage: opctl [OPTIONS] COMMAND [arg...]
 
-control http://devopspec.com/ compliant ops
+control http://opspec.io compliant ops
 
 Options:
   -v, --version    Show the version and exit
