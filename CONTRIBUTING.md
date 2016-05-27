@@ -1,3 +1,3 @@
 # Dev Ops
 
-This project adheres to the [dev op spec](http://devopspec.com/)
+This projects dev ops adhere to [op spec](http://opspec.io/)
