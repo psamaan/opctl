@@ -1,6 +1,6 @@
 description: runs all ops necessary to perform a release
 name: release
 subOps:
-- name: build
-- name: test
-- name: publish-coverage-to-codecov
+- url: build
+- url: test
+- url: publish-coverage-to-codecov
