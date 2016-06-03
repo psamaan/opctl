@@ -1,5 +1,5 @@
-description: ensures the cli is of "deliverable quality" and delivers it
-name: continuous-delivery
+description: runs all ops necessary to perform a release
+name: release
 subOps:
 - name: build
 - name: test
