@@ -17,3 +17,9 @@ services:
     extends:
       service: go
     entrypoint: .opspec/.common/go-build-entrypoint.sh
+  docker:
+    image: docker:1.11.1
+    extends:
+      service: src
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
