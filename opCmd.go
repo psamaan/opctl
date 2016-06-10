@@ -10,11 +10,11 @@ import (
 )
 
 func opCmd(
-dosCli *cli.Cli,
+opctlCli *cli.Cli,
 sdk sdk.Client,
 ) {
 
-  dosCli.Command("op", "Op-related operations", func(opCmd *cli.Cmd) {
+  opctlCli.Command("op", "Op-related operations", func(opCmd *cli.Cmd) {
     opSetDescriptionCmd(opCmd, sdk)
   })
 

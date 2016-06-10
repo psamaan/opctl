@@ -10,11 +10,11 @@ import (
 )
 
 func lsCmd(
-dosCli *cli.Cli,
+opctlCli *cli.Cli,
 sdk sdk.Client,
 ) {
 
-  dosCli.Command("ls", "List ops", func(opLsCmd *cli.Cmd) {
+  opctlCli.Command("ls", "List ops", func(opLsCmd *cli.Cmd) {
 
     w := new(tabwriter.Writer)
     w.Init(os.Stdout, 0, 8, 1, '\t', 0)

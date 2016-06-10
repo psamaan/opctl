@@ -13,11 +13,11 @@ import (
 )
 
 func runCmd(
-dosCli *cli.Cli,
+opctlCli *cli.Cli,
 sdk sdk.Client,
 ) {
 
-  dosCli.Command("run", "Run an op", func(runCmd *cli.Cmd) {
+  opctlCli.Command("run", "Run an op", func(runCmd *cli.Cmd) {
 
     runCmd.Spec = "[-a...] OP_NAME"
 

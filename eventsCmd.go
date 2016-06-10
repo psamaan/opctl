@@ -9,11 +9,11 @@ import (
 )
 
 func eventsCmd(
-dosCli *cli.Cli,
+opctlCli *cli.Cli,
 sdk sdk.Client,
 ) {
 
-  dosCli.Command("events", "Get real time events from the server", func(eventsCmd *cli.Cmd) {
+  opctlCli.Command("events", "Get real time events from the server", func(eventsCmd *cli.Cmd) {
 
     eventsCmd.Action = func() {
 

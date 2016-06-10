@@ -10,11 +10,11 @@ import (
 )
 
 func addOpCmd(
-dosCli *cli.Cli,
+opctlCli *cli.Cli,
 sdk sdk.Client,
 ) {
 
-  dosCli.Command("add-op", "Add an op", func(opAddCmd *cli.Cmd) {
+  opctlCli.Command("add-op", "Add an op", func(opAddCmd *cli.Cmd) {
 
     opAddCmd.Spec = "[--description] OP_NAME"
 

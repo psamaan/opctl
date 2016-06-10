@@ -10,11 +10,11 @@ import (
 )
 
 func addSubOpCmd(
-dosCli *cli.Cli,
+opctlCli *cli.Cli,
 sdk sdk.Client,
 ) {
 
-  dosCli.Command("add-sub-op", "Add a sub op", func(opAddSubOpCmd *cli.Cmd) {
+  opctlCli.Command("add-sub-op", "Add a sub op", func(opAddSubOpCmd *cli.Cmd) {
 
     opAddSubOpCmd.Spec = "[--preceding-sub-op-url] SUB_OP_URL OP_NAME"
 

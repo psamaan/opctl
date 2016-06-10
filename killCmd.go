@@ -7,11 +7,11 @@ import (
 )
 
 func killCmd(
-dosCli *cli.Cli,
+opctlCli *cli.Cli,
 sdk sdk.Client,
 ) {
 
-  dosCli.Command("kill", "Kill an op run", func(runCmd *cli.Cmd) {
+  opctlCli.Command("kill", "Kill an op run", func(runCmd *cli.Cmd) {
 
     runCmd.Spec = "OP_RUN_ID"
 
