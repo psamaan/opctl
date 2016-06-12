@@ -2,11 +2,14 @@ package main
 
 import (
   . "github.com/onsi/ginkgo"
-  . "github.com/onsi/gomega"
+  "github.com/opctl/engine-sdk-golang"
+  "github.com/opspec-io/sdk-golang"
 )
 
 var _ = Describe("compositionRoot", func() {
+
   Context("OpSpecSdk()", func() {
+
     It("should return an opspec.Sdk instance", func() {
 
       /* arrange */
@@ -19,12 +22,18 @@ var _ = Describe("compositionRoot", func() {
       actualOpSpecSdk := objectUnderTest.OpSpecSdk()
 
       /* assert */
-      Expect(actualOpSpecSdk).ToNot(BeNil())
+      _, ok := actualOpSpecSdk.(opspec.Sdk)
+      if !ok {
+        Fail("result not assignable to opspec.Sdk")
+      }
 
     })
+
   })
+
   Context("Sdk()", func() {
-    It("should return a opctlengine.OpCtlEngineSdk instance", func() {
+
+    It("should return a opctlengine.Sdk instance", func() {
 
       /* arrange */
       objectUnderTest, err := newCompositionRoot()
@@ -36,8 +45,13 @@ var _ = Describe("compositionRoot", func() {
       actualOpCtlEngineSdk := objectUnderTest.OpCtlEngineSdk()
 
       /* assert */
-      Expect(actualOpCtlEngineSdk).ToNot(BeNil())
+      _, ok := actualOpCtlEngineSdk.(opctlengine.Sdk)
+      if !ok {
+        Fail("result not assignable to opctlengine.Sdk")
+      }
 
     })
+
   })
+
 })
