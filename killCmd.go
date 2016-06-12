@@ -2,13 +2,13 @@ package main
 
 import (
   "github.com/jawher/mow.cli"
-  "github.com/opctl/sdk-for-golang/sdk"
-  "github.com/opctl/sdk-for-golang/sdk/models"
+  "github.com/opctl/engine-sdk-golang"
+  "github.com/opctl/engine-sdk-golang/models"
 )
 
 func killCmd(
 opctlCli *cli.Cli,
-sdk sdk.Client,
+opctlEngineSdk opctlengine.Sdk,
 ) {
 
   opctlCli.Command("kill", "Kill an op run", func(runCmd *cli.Cmd) {
@@ -21,7 +21,7 @@ sdk sdk.Client,
 
     runCmd.Action = func() {
 
-      sdk.KillOpRun(
+      opctlEngineSdk.KillOpRun(
         *models.NewKillOpRunReq(
           *opRunId,
         ),

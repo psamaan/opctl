@@ -5,16 +5,16 @@ import (
   "github.com/opspec-io/sdk-golang"
 )
 
-func opCmd(
+func collectionCmd(
 opctlCli *cli.Cli,
 opspecSdk opspec.Sdk,
 ) {
 
   opctlCli.Command(
-    "op",
-    "Op related actions",
-    func(opCmd *cli.Cmd) {
-      opSetCmd(opCmd, opspecSdk)
+    "collection",
+    "Collection related actions",
+    func(collectionCmd *cli.Cmd) {
+      collectionSetCmd(collectionCmd, opspecSdk)
     },
   )
 

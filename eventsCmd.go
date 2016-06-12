@@ -3,21 +3,21 @@ package main
 import (
   "fmt"
   "github.com/jawher/mow.cli"
-  "github.com/opctl/sdk-for-golang/sdk"
-  "github.com/opctl/sdk-for-golang/sdk/models"
+  "github.com/opctl/engine-sdk-golang"
+  "github.com/opctl/engine-sdk-golang/models"
   "os"
 )
 
 func eventsCmd(
 opctlCli *cli.Cli,
-sdk sdk.Client,
+opctlEngineSdk opctlengine.Sdk,
 ) {
 
   opctlCli.Command("events", "Get real time events from the server", func(eventsCmd *cli.Cmd) {
 
     eventsCmd.Action = func() {
 
-      eventStream, err := sdk.GetEventStream()
+      eventStream, err := opctlEngineSdk.GetEventStream()
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
       }

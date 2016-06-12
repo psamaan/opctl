@@ -22,10 +22,11 @@ Options:
 Commands:
   add-op       Add an op
   add-sub-op   Add a sub op
+  collection   Collection related actions
   events       Get real time events from the server
   kill         Kill an op run
   ls           List ops
-  op           Op-related operations
+  op           Op related actions
   run          Run an op
 
 Run 'opctl COMMAND --help' for more information on a command.

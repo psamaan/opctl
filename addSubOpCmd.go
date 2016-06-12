@@ -2,8 +2,8 @@ package main
 
 import (
   "github.com/jawher/mow.cli"
-  "github.com/opctl/sdk-for-golang/sdk"
-  "github.com/opctl/sdk-for-golang/sdk/models"
+  "github.com/opctl/engine-sdk-golang"
+  "github.com/opctl/engine-sdk-golang/models"
   "fmt"
   "os"
   "net/url"
@@ -11,7 +11,7 @@ import (
 
 func addSubOpCmd(
 opctlCli *cli.Cli,
-sdk sdk.Client,
+opctlEngineSdk opctlengine.Sdk,
 ) {
 
   opctlCli.Command("add-sub-op", "Add a sub op", func(opAddSubOpCmd *cli.Cmd) {
@@ -56,7 +56,7 @@ sdk sdk.Client,
         os.Exit(1)
       }
 
-      sdk.AddSubOp(
+      opctlEngineSdk.AddSubOp(
         *models.NewAddSubOpReq(
           projectUrl,
           *opName,

@@ -3,8 +3,8 @@ package main
 import (
   "fmt"
   "github.com/jawher/mow.cli"
-  "github.com/opctl/sdk-for-golang/sdk"
-  "github.com/opctl/sdk-for-golang/sdk/models"
+  "github.com/opctl/engine-sdk-golang"
+  "github.com/opctl/engine-sdk-golang/models"
   "net/url"
   "os"
   "syscall"
@@ -14,7 +14,7 @@ import (
 
 func runCmd(
 opctlCli *cli.Cli,
-sdk sdk.Client,
+opctlEngineSdk opctlengine.Sdk,
 ) {
 
   opctlCli.Command("run", "Run an op", func(runCmd *cli.Cmd) {
@@ -72,13 +72,13 @@ sdk sdk.Client,
       )
 
       // init event channel
-      eventChannel, err := sdk.GetEventStream()
+      eventChannel, err := opctlEngineSdk.GetEventStream()
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
         os.Exit(1)
       }
 
-      opRunId, correlationId, err := sdk.RunOp(
+      opRunId, correlationId, err := opctlEngineSdk.RunOp(
         *models.NewRunOpReq(
           argsMap,
           opUrl,
@@ -95,7 +95,7 @@ sdk sdk.Client,
         case <-signalChannel:
           if (intSignalsReceived == 0) {
 
-            sdk.KillOpRun(
+            opctlEngineSdk.KillOpRun(
               *models.NewKillOpRunReq(
                 opRunId,
               ),

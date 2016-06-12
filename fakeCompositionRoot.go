@@ -4,21 +4,56 @@ package main
 import (
 	"sync"
 
-	"github.com/opctl/sdk-for-golang/sdk"
+	"github.com/opctl/engine-sdk-golang"
+  "github.com/opspec-io/sdk-golang"
 )
 
 type fakeCompositionRoot struct {
-	SdkStub        func() sdk.Client
+	OpSpecSdkStub        func() opspec.Sdk
+	opSpecSdkMutex       sync.RWMutex
+	opSpecSdkArgsForCall []struct{}
+	opSpecSdkReturns     struct {
+		result1 opspec.Sdk
+	}
+	SdkStub        func() opctlengine.Sdk
 	sdkMutex       sync.RWMutex
 	sdkArgsForCall []struct{}
 	sdkReturns     struct {
-		result1 sdk.Client
+		result1 opctlengine.Sdk
+	}
+	invocations      map[string][][]interface{}
+	invocationsMutex sync.RWMutex
+}
+
+func (fake *fakeCompositionRoot) OpSpecSdk() opspec.Sdk {
+	fake.opSpecSdkMutex.Lock()
+	fake.opSpecSdkArgsForCall = append(fake.opSpecSdkArgsForCall, struct{}{})
+	fake.recordInvocation("OpSpecSdk", []interface{}{})
+	fake.opSpecSdkMutex.Unlock()
+	if fake.OpSpecSdkStub != nil {
+		return fake.OpSpecSdkStub()
+	} else {
+		return fake.opSpecSdkReturns.result1
 	}
 }
 
-func (fake *fakeCompositionRoot) Sdk() sdk.Client {
+func (fake *fakeCompositionRoot) OpSpecSdkCallCount() int {
+	fake.opSpecSdkMutex.RLock()
+	defer fake.opSpecSdkMutex.RUnlock()
+	return len(fake.opSpecSdkArgsForCall)
+}
+
+func (fake *fakeCompositionRoot) OpSpecSdkReturns(result1 opspec.Sdk) {
+	fake.OpSpecSdkStub = nil
+	fake.opSpecSdkReturns = struct {
+		result1 opspec.Sdk
+	}{result1}
+}
+
+func (fake *fakeCompositionRoot) Sdk() opctlengine.Sdk {
 	fake.sdkMutex.Lock()
 	fake.sdkArgsForCall = append(fake.sdkArgsForCall, struct{}{})
+	fake.recordInvocation("Sdk", []interface{}{})
 	fake.sdkMutex.Unlock()
 	if fake.SdkStub != nil {
 		return fake.SdkStub()
@@ -33,9 +68,31 @@ func (fake *fakeCompositionRoot) SdkCallCount() int {
 	return len(fake.sdkArgsForCall)
 }
 
-func (fake *fakeCompositionRoot) SdkReturns(result1 sdk.Client) {
+func (fake *fakeCompositionRoot) SdkReturns(result1 opctlengine.Sdk) {
 	fake.SdkStub = nil
 	fake.sdkReturns = struct {
-		result1 sdk.Client
+		result1 opctlengine.Sdk
 	}{result1}
+}
+
+func (fake *fakeCompositionRoot) Invocations() map[string][][]interface{} {
+	fake.invocationsMutex.RLock()
+	defer fake.invocationsMutex.RUnlock()
+	fake.opSpecSdkMutex.RLock()
+	defer fake.opSpecSdkMutex.RUnlock()
+	fake.sdkMutex.RLock()
+	defer fake.sdkMutex.RUnlock()
+	return fake.invocations
+}
+
+func (fake *fakeCompositionRoot) recordInvocation(key string, args []interface{}) {
+	fake.invocationsMutex.Lock()
+	defer fake.invocationsMutex.Unlock()
+	if fake.invocations == nil {
+		fake.invocations = map[string][][]interface{}{}
+	}
+	if fake.invocations[key] == nil {
+		fake.invocations[key] = [][]interface{}{}
+	}
+	fake.invocations[key] = append(fake.invocations[key], args)
 }

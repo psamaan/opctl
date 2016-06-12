@@ -1,18 +1,22 @@
 package main
 
+//go:generate counterfeiter -o ./fakeCompositionRoot.go --fake-name fakeCompositionRoot ./ compositionRoot
+
 import (
-  "github.com/opctl/sdk-for-golang/sdk"
-  dockerSdkHostAdapter "github.com/opctl/sdk-for-golang/sdk/adapters/host/docker"
+  "github.com/opctl/engine-sdk-golang"
+  dockerSdkHostAdapter "github.com/opctl/engine-sdk-golang/adapters/host/docker"
+  "github.com/opspec-io/sdk-golang"
 )
 
 type compositionRoot interface {
-  Sdk() sdk.Client
+  OpSpecSdk() opspec.Sdk
+  OpCtlEngineSdk() opctlengine.Sdk
 }
 
 func newCompositionRoot(
 ) (compositionRoot compositionRoot, err error) {
 
-  sdk, err := sdk.New(
+  opctlEngineSdk, err := opctlengine.New(
     dockerSdkHostAdapter.New(),
   )
   if (nil != err) {
@@ -20,7 +24,8 @@ func newCompositionRoot(
   }
 
   compositionRoot = &_compositionRoot{
-    sdk:sdk,
+    opspecSdk:opspec.New(),
+    opctlEngineSdk:opctlEngineSdk,
   }
 
   return
@@ -28,9 +33,14 @@ func newCompositionRoot(
 }
 
 type _compositionRoot struct {
-  sdk sdk.Client
+  opspecSdk      opspec.Sdk
+  opctlEngineSdk opctlengine.Sdk
 }
 
-func (this _compositionRoot) Sdk() sdk.Client {
-  return this.sdk
+func (this _compositionRoot) OpSpecSdk() opspec.Sdk {
+  return this.opspecSdk
+}
+
+func (this _compositionRoot) OpCtlEngineSdk() opctlengine.Sdk {
+  return this.opctlEngineSdk
 }

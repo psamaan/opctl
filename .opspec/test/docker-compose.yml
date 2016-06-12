@@ -6,5 +6,10 @@ services:
       file: ../.common/docker-compose.yml
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    entrypoint: .opspec/test/entrypoint.sh
+    entrypoint: |
+      sh -c "
+        go get -t ./... && \
+        go get github.com/onsi/ginkgo/ginkgo && \
+        ginkgo -r -cover
+      "
     network_mode: host

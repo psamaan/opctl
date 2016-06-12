@@ -2,7 +2,7 @@ package main
 
 import (
   "github.com/jawher/mow.cli"
-  "github.com/opctl/sdk-for-golang/sdk"
+  "github.com/opctl/engine-sdk-golang"
   "fmt"
   "os"
   "text/tabwriter"
@@ -11,7 +11,7 @@ import (
 
 func lsCmd(
 opctlCli *cli.Cli,
-sdk sdk.Client,
+opctlEngineSdk opctlengine.Sdk,
 ) {
 
   opctlCli.Command("ls", "List ops", func(opLsCmd *cli.Cmd) {
@@ -36,7 +36,7 @@ sdk sdk.Client,
 
       fmt.Fprintln(w, "NAME\tDESCRIPTION")
 
-      ops, err := sdk.ListOps(
+      ops, err := opctlEngineSdk.ListOps(
         projectUrl,
       )
       if (nil != err) {

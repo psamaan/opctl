@@ -3,23 +3,20 @@ services:
   src:
     image: scratch
     volumes:
-      - ../../:/golang/src/github.com/opctl/cli
-    working_dir: /golang/src/github.com/opctl/cli
+      - ../../:/go/src/github.com/opctl/cli
+    working_dir: /go/src/github.com/opctl/cli
   go:
     extends:
       service: src
     build: ./
     environment:
-      - GOPATH=/golang
       - "GOARCH=amd64"
       - CGO_ENABLED=0
   go-build:
     extends:
       service: go
-    entrypoint: .opspec/.common/go-build-entrypoint.sh
-  docker:
-    image: docker:1.11.1
-    extends:
-      service: src
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    entrypoint: |
+      sh -c "
+        go get ./... && \
+        go build -a -o .tmp/opctl-$${GOOS}-x86_64$${OUTPUT_FILE_EXTENSION}
+      "

@@ -6,8 +6,8 @@ import (
 )
 
 var _ = Describe("compositionRoot", func() {
-  Context("Sdk", func() {
-    It("should return a sdk.Client instance", func() {
+  Context("OpSpecSdk()", func() {
+    It("should return an opspec.Sdk instance", func() {
 
       /* arrange */
       objectUnderTest, err := newCompositionRoot()
@@ -16,10 +16,27 @@ var _ = Describe("compositionRoot", func() {
       }
 
       /* act */
-      actualSdk := objectUnderTest.Sdk()
+      actualOpSpecSdk := objectUnderTest.OpSpecSdk()
 
       /* assert */
-      Expect(actualSdk).ToNot(BeNil())
+      Expect(actualOpSpecSdk).ToNot(BeNil())
+
+    })
+  })
+  Context("Sdk()", func() {
+    It("should return a opctlengine.OpCtlEngineSdk instance", func() {
+
+      /* arrange */
+      objectUnderTest, err := newCompositionRoot()
+      if (nil != err) {
+        Fail(err.Error())
+      }
+
+      /* act */
+      actualOpCtlEngineSdk := objectUnderTest.OpCtlEngineSdk()
+
+      /* assert */
+      Expect(actualOpCtlEngineSdk).ToNot(BeNil())
 
     })
   })
