@@ -15,7 +15,6 @@ func main() {
   }
 
   cli := mowCli.App("opctl", "control http://opspec.io compliant ops")
-  addOpCmd(cli, compositionRoot.OpCtlEngineSdk())
   addSubOpCmd(cli, compositionRoot.OpCtlEngineSdk())
   collectionCmd(cli, compositionRoot.OpSpecSdk())
   eventsCmd(cli, compositionRoot.OpCtlEngineSdk())

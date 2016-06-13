@@ -14,6 +14,7 @@ opspecSdk opspec.Sdk,
     "op",
     "Op related actions",
     func(opCmd *cli.Cmd) {
+      opCreateCmd(opCmd, opspecSdk)
       opSetCmd(opCmd, opspecSdk)
     },
   )
