@@ -3,12 +3,15 @@
 
 CLI for controlling http://opspec.io compliant ops.
 
-*Be advised: this project is currently at Major version zero. Per the semantic versioning spec:
- "Major version zero (0.y.z) is for initial development. Anything may change at any time. The public API should not be considered stable."*
+*Be advised: this project is currently at Major version zero. Per the
+semantic versioning spec: "Major version zero (0.y.z) is for initial
+development. Anything may change at any time. The public API should not
+be considered stable."*
 
 # Usage
 
 for usage guidance simply execute without any arguments:
+
 ```SHELL
 opctl
 
@@ -20,7 +23,6 @@ Options:
   -v, --version    Show the version and exit
 
 Commands:
-  add-op       Add an op
   add-sub-op   Add a sub op
   collection   Collection related actions
   events       Get real time events from the server
@@ -33,6 +35,7 @@ Run 'opctl COMMAND --help' for more information on a command.
 ```
 
 # Supported Use Cases
+
 - get cli version
 - add op
 - add sub op
@@ -43,17 +46,24 @@ Run 'opctl COMMAND --help' for more information on a command.
 - set description of op
 
 # Releases
-All releases will be [tagged](https://github.com/opctl/cli/tags) and made available on the 
-[releases](https://github.com/opctl/cli/releases) page with release notes.
+
+All releases will be [tagged](https://github.com/opctl/cli/tags) and
+made available on the [releases](https://github.com/opctl/cli/releases)
+page with release notes.
 
 # Versioning
-This project adheres to the [Semantic Versioning](http://semver.org/) specification
+
+This project adheres to the [Semantic Versioning](http://semver.org/)
+specification
 
 # Installation
+
 see [INSTALLATION.md](INSTALLATION.md)
 
 # Contributing
+
 see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 # Changelog
+
 see [CHANGELOG.md](CHANGELOG.md)

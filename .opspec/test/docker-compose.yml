@@ -9,7 +9,7 @@ services:
     entrypoint: |
       sh -c "
         go get -t ./... && \
-        go get github.com/go-playground/overalls && \
-        overalls -project=github.com/opctl/cli
+        go get github.com/onsi/ginkgo/ginkgo && \
+        ginkgo -cover
       "
     network_mode: host

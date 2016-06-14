@@ -19,7 +19,7 @@ func main() {
   collectionCmd(cli, compositionRoot.OpSpecSdk())
   eventsCmd(cli, compositionRoot.OpCtlEngineSdk())
   killCmd(cli, compositionRoot.OpCtlEngineSdk())
-  lsCmd(cli, compositionRoot.OpCtlEngineSdk())
+  lsCmd(cli, compositionRoot.OpSpecSdk())
   opCmd(cli, compositionRoot.OpSpecSdk())
   runCmd(cli, compositionRoot.OpCtlEngineSdk())
   cli.Version("v version", "opctl version 0.1.0")

@@ -2,16 +2,16 @@ package main
 
 import (
   "github.com/jawher/mow.cli"
-  "github.com/opctl/engine-sdk-golang"
   "fmt"
   "os"
   "text/tabwriter"
-  "net/url"
+  "github.com/opspec-io/sdk-golang"
+  "path"
 )
 
 func lsCmd(
 opctlCli *cli.Cli,
-opctlEngineSdk opctlengine.Sdk,
+opspecSdk opspec.Sdk,
 ) {
 
   opctlCli.Command("ls", "List ops", func(opLsCmd *cli.Cmd) {
@@ -27,24 +27,17 @@ opctlEngineSdk opctlengine.Sdk,
         os.Exit(1)
       }
 
-      var projectUrl *url.URL
-      projectUrl, err = url.Parse(currentWorkDir)
-      if (nil != err) {
-        fmt.Fprintln(os.Stderr, err)
-        os.Exit(1)
-      }
-
       fmt.Fprintln(w, "NAME\tDESCRIPTION")
 
-      ops, err := opctlEngineSdk.ListOps(
-        projectUrl,
+      ops, err := opspecSdk.GetCollection(
+        path.Join(currentWorkDir, ".opspec"),
       )
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
         os.Exit(1)
       }
 
-      for _, op := range ops {
+      for _, op := range ops.Ops {
 
         fmt.Fprintf(w, "%v\t%v", op.Name, op.Description)
         fmt.Fprintln(w)
