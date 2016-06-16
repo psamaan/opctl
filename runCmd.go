@@ -10,11 +10,14 @@ import (
   "syscall"
   "os/signal"
   "strings"
+  "github.com/opspec-io/sdk-golang"
+  "path"
 )
 
 func runCmd(
 opctlCli *cli.Cli,
 opctlEngineSdk opctlengine.Sdk,
+opspecSdk opspec.Sdk,
 ) {
 
   opctlCli.Command("run", "Run an op", func(runCmd *cli.Cmd) {
@@ -22,7 +25,7 @@ opctlEngineSdk opctlengine.Sdk,
     runCmd.Spec = "[-a...] OP_NAME"
 
     var (
-      argsSlice = runCmd.StringsOpt("a", []string{}, "Pass args to op in format: NAME[=VALUE] (gets VALUE from env if not provided)")
+      argsSlice = runCmd.StringsOpt("a", []string{}, "Pass args to op in format: NAME[=VALUE] (gets from env if not provided)")
       name = runCmd.StringArg("OP_NAME", "", "the name of the op")
     )
 
@@ -34,7 +37,7 @@ opctlEngineSdk opctlengine.Sdk,
         os.Exit(1)
       }
 
-      argsMap := make(map[string]string)
+      providedArgMap := make(map[string]string)
       for _, arg := range *argsSlice {
 
         argParts := strings.Split(arg, "=")
@@ -47,20 +50,24 @@ opctlEngineSdk opctlengine.Sdk,
           argValue = os.Getenv(arg)
         }
 
-        argsMap[argName] = argValue
+        providedArgMap[argName] = argValue
       }
 
-      var opUrl *url.URL
-      opUrl, err = url.Parse(
-        fmt.Sprintf(
-          "%v/.opspec/%v",
-          currentWorkDir,
-          *name,
-        ),
-      )
+      opPath := path.Join(currentWorkDir, ".opspec", *name)
+      opView, err := opspecSdk.GetOp(opPath)
       if (nil != err) {
         fmt.Fprintln(os.Stderr, err)
         os.Exit(1)
+      }
+
+      // [only] pass defined params
+      argsMap := make(map[string]string)
+      for _, opParam := range opView.Params {
+        if providedArg, ok := providedArgMap[opParam.Name]; ok {
+          argsMap[opParam.Name] = providedArg
+        } else {
+          argsMap[opParam.Name] = os.Getenv(opParam.Name)
+        }
       }
 
       // init signal channel
@@ -81,7 +88,7 @@ opctlEngineSdk opctlengine.Sdk,
       opRunId, correlationId, err := opctlEngineSdk.RunOp(
         *models.NewRunOpReq(
           argsMap,
-          opUrl,
+          &url.URL{Path:opPath},
         ),
       )
       if (nil != err) {
