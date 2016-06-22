@@ -23,7 +23,6 @@ Options:
   -v, --version    Show the version and exit
 
 Commands:
-  add-sub-op   Add a sub op
   collection   Collection related actions
   events       Get real time events from the server
   kill         Kill an op run
@@ -38,7 +37,6 @@ Run 'opctl COMMAND --help' for more information on a command.
 
 - get cli version
 - create op
-- add sub op
 - get event stream
 - kill op run
 - list ops

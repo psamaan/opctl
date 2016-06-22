@@ -15,14 +15,13 @@ func main() {
   }
 
   cli := mowCli.App("opctl", "control http://opspec.io compliant ops")
-  addSubOpCmd(cli, compositionRoot.OpCtlEngineSdk())
   collectionCmd(cli, compositionRoot.OpSpecSdk())
   eventsCmd(cli, compositionRoot.OpCtlEngineSdk())
   killCmd(cli, compositionRoot.OpCtlEngineSdk())
   lsCmd(cli, compositionRoot.OpSpecSdk())
   opCmd(cli, compositionRoot.OpSpecSdk())
   runCmd(cli, compositionRoot.OpCtlEngineSdk(), compositionRoot.OpSpecSdk())
-  cli.Version("v version", "opctl version 0.1.1")
+  cli.Version("v version", "opctl version 0.1.2")
   cli.Run(os.Args)
 
 }
