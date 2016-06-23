@@ -1,9 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.1.3 - 2016-06-22
+### Changed
+- updated to opctl/engine:0.1.2 (see [CHANGELOG.md](https://github.com/opctl/engine/tree/0.1.2/CHANGELOG.md))
+
 ## 0.1.2 - 2016-06-22
 ### Changed
-- updated to opctl/engine:0.1.1 (fix for inability to run multiple ops with same name simultaneously)
+- updated to opctl/engine:0.1.1 (see [CHANGELOG.md](https://github.com/opctl/engine/tree/0.1.1/CHANGELOG.md))
 
 ### Removed
 - `add-sub-op` sub command
