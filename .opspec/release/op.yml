@@ -2,7 +2,6 @@ description: runs all ops necessary to perform a release
 name: release
 subOps:
 - url: build
-- url: test
 - url: publish-coverage-to-codecov
 params:
   CODECOV_TOKEN:

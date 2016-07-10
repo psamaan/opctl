@@ -1,6 +1,11 @@
 description: builds binaries for all supported platforms/architectures
 name: build
 subOps:
-- url: go-build-darwin
-- url: go-build-linux
-- url: go-build-windows
+- url: test
+  isParallel: true
+- url: build-bin-darwin
+  isParallel: true
+- url: build-bin-linux
+  isParallel: true
+- url: build-bin-windows
+  isParallel: true

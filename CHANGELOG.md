@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Added
+- [Support new opspec subop `isParallel` flag](https://github.com/opctl/engine/issues/11)
+
 ## 0.1.3 - 2016-06-22
 ### Changed
 - updated to opctl/engine:0.1.2 (see [CHANGELOG.md](https://github.com/opctl/engine/tree/0.1.2/CHANGELOG.md))

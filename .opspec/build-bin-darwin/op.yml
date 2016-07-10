@@ -1,0 +1,2 @@
+description: builds a binary for the darwin platform (OSX)
+name: build-bin-darwin

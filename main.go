@@ -21,7 +21,7 @@ func main() {
   lsCmd(cli, compositionRoot.OpSpecSdk())
   opCmd(cli, compositionRoot.OpSpecSdk())
   runCmd(cli, compositionRoot.OpCtlEngineSdk(), compositionRoot.OpSpecSdk())
-  cli.Version("v version", "opctl version 0.1.3")
+  cli.Version("v version", "opctl version 0.1.4")
   cli.Run(os.Args)
 
 }

@@ -1,2 +1,0 @@
-description: cross compiles a binary for the darwin platform (OSX)
-name: go-build-darwin

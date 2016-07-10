@@ -1,6 +1,6 @@
 version: "2"
 services:
-  go-build-darwin:
+  build-bin-darwin:
     extends:
       service: go-build
       file: ../.common/docker-compose.yml

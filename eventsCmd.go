@@ -35,13 +35,6 @@ opctlEngineSdk opctlengine.Sdk,
             "%v \n",
             event.LogEntryMsg(),
           )
-        case models.OpRunFinishedEvent:
-          fmt.Printf(
-            "OpRunFinished: Id=%v ExitCode=%v Timestamp=%v \n",
-            event.OpRunId(),
-            event.OpRunExitCode(),
-            event.Timestamp(),
-          )
         case models.OpRunStartedEvent:
           opUrl := event.OpRunOpUrl()
           fmt.Printf(
@@ -50,9 +43,10 @@ opctlEngineSdk opctlengine.Sdk,
             opUrl.String(),
             event.Timestamp(),
           )
-        case models.OpRunKilledEvent:
+        case models.OpRunEndedEvent:
           fmt.Printf(
-            "OpRunKilled: Id=%v Timestamp=%v \n",
+            "OpRunEnded: Outcome=%v Id=%v Timestamp=%v \n",
+            event.Outcome(),
             event.OpRunId(),
             event.Timestamp(),
           )

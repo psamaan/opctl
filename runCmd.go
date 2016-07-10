@@ -85,7 +85,7 @@ opspecSdk opspec.Sdk,
         os.Exit(1)
       }
 
-      opRunId, correlationId, err := opctlEngineSdk.RunOp(
+      rootOpRunId, correlationId, err := opctlEngineSdk.RunOp(
         *models.NewRunOpReq(
           argsMap,
           &url.URL{Path:opPath},
@@ -104,7 +104,7 @@ opspecSdk opspec.Sdk,
 
             opctlEngineSdk.KillOpRun(
               *models.NewKillOpRunReq(
-                opRunId,
+                rootOpRunId,
               ),
             )
 
@@ -122,27 +122,15 @@ opspecSdk opspec.Sdk,
 
           switch event := event.(type) {
           case models.LogEntryEmittedEvent:
-            // @TODO: this doesn't catch log entries for the same tree but triggered from different actions (such as kills)
+            // @TODO: this doesn't catch log entries for the same tree but triggered from different actions (such as kills) see https://github.com/opctl/engine/issues/2
             if (event.CorrelationId() == correlationId) {
               fmt.Printf(
                 "%v \n",
                 event.LogEntryMsg(),
               )
             }
-          case models.OpRunFinishedEvent:
-            if (event.RootOpRunId() == opRunId) {
-              fmt.Printf(
-                "OpRunFinished: Id=%v ExitCode=%v Timestamp=%v \n",
-                event.OpRunId(),
-                event.OpRunExitCode(),
-                event.Timestamp(),
-              )
-              if (event.OpRunId() == opRunId) {
-                os.Exit(event.OpRunExitCode())
-              }
-            }
           case models.OpRunStartedEvent:
-            if (event.RootOpRunId() == opRunId) {
+            if (event.RootOpRunId() == rootOpRunId) {
               opUrl := event.OpRunOpUrl()
               fmt.Printf(
                 "OpRunStarted: Id=%v OpUrl=%v Timestamp=%v \n",
@@ -150,15 +138,18 @@ opspecSdk opspec.Sdk,
                 opUrl.String(),
                 event.Timestamp(),
               )
-
             }
-          case models.OpRunKilledEvent:
-            if (event.RootOpRunId() == opRunId) {
+          case models.OpRunEndedEvent:
+            if (event.RootOpRunId() == rootOpRunId) {
               fmt.Printf(
-                "OpRunKilled: Id=%v Timestamp=%v \n",
+                "OpRunEnded: Outcome:%v Id=%v Timestamp=%v \n",
+                event.Outcome(),
                 event.OpRunId(),
                 event.Timestamp(),
               )
+              if (event.OpRunId() == rootOpRunId) {
+                os.Exit(0)
+              }
             }
           default: // no op
           }
