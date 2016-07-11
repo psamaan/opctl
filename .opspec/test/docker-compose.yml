@@ -10,6 +10,6 @@ services:
       sh -c "
         go get -t ./... && \
         go get github.com/onsi/ginkgo/ginkgo && \
-        ginkgo -cover
+        ginkgo -cover --progress
       "
     network_mode: host

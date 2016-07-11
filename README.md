@@ -36,13 +36,14 @@ Run 'opctl COMMAND --help' for more information on a command.
 # Supported Use Cases
 
 - get cli version
+- create collection
 - create op
-- get event stream
 - kill op run
-- list ops
+- list ops in collection
 - run op
 - set collection description
 - set op description
+- stream events
 
 # Releases
 

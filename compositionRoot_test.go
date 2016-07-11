@@ -7,7 +7,7 @@ import (
 
 var _ = Describe("compositionRoot", func() {
 
-  Context("OpSpecSdk()", func() {
+  Context("CreateCollectionUseCase()", func() {
 
     It("should not return nil", func() {
 
@@ -18,18 +18,18 @@ var _ = Describe("compositionRoot", func() {
       }
 
       /* act */
-      actualOpSpecSdk := objectUnderTest.OpSpecSdk()
+      actualCli := objectUnderTest.CreateCollectionUseCase()
 
       /* assert */
-      Expect(actualOpSpecSdk).NotTo(BeNil())
+      Expect(actualCli).ShouldNot(BeNil())
 
     })
 
   })
 
-  Context("Sdk()", func() {
+  Context("CreateOpUseCase()", func() {
 
-    It("should return a opctlengine.Sdk instance", func() {
+    It("should not return nil", func() {
 
       /* arrange */
       objectUnderTest, err := newCompositionRoot()
@@ -38,13 +38,132 @@ var _ = Describe("compositionRoot", func() {
       }
 
       /* act */
-      actualOpCtlEngineSdk := objectUnderTest.OpCtlEngineSdk()
+      actualCli := objectUnderTest.CreateOpUseCase()
 
       /* assert */
-      Expect(actualOpCtlEngineSdk).NotTo(BeNil())
+      Expect(actualCli).ShouldNot(BeNil())
 
     })
 
   })
 
+  Context("KillOpRunUseCase()", func() {
+
+    It("should not return nil", func() {
+
+      /* arrange */
+      objectUnderTest, err := newCompositionRoot()
+      if (nil != err) {
+        Fail(err.Error())
+      }
+
+      /* act */
+      actualCli := objectUnderTest.KillOpRunUseCase()
+
+      /* assert */
+      Expect(actualCli).ShouldNot(BeNil())
+
+    })
+
+  })
+
+  Context("ListOpsInCollectionUseCase()", func() {
+
+    It("should not return nil", func() {
+
+      /* arrange */
+      objectUnderTest, err := newCompositionRoot()
+      if (nil != err) {
+        Fail(err.Error())
+      }
+
+      /* act */
+      actualCli := objectUnderTest.ListOpsInCollectionUseCase()
+
+      /* assert */
+      Expect(actualCli).ShouldNot(BeNil())
+
+    })
+
+  })
+
+  Context("RunOpUseCase()", func() {
+
+    It("should not return nil", func() {
+
+      /* arrange */
+      objectUnderTest, err := newCompositionRoot()
+      if (nil != err) {
+        Fail(err.Error())
+      }
+
+      /* act */
+      actualCli := objectUnderTest.RunOpUseCase()
+
+      /* assert */
+      Expect(actualCli).ShouldNot(BeNil())
+
+    })
+
+  })
+
+  Context("SetCollectionDescriptionUseCase()", func() {
+
+    It("should not return nil", func() {
+
+      /* arrange */
+      objectUnderTest, err := newCompositionRoot()
+      if (nil != err) {
+        Fail(err.Error())
+      }
+
+      /* act */
+      actualCli := objectUnderTest.SetCollectionDescriptionUseCase()
+
+      /* assert */
+      Expect(actualCli).ShouldNot(BeNil())
+
+    })
+
+  })
+
+  Context("SetOpDescriptionUseCase()", func() {
+
+    It("should not return nil", func() {
+
+      /* arrange */
+      objectUnderTest, err := newCompositionRoot()
+      if (nil != err) {
+        Fail(err.Error())
+      }
+
+      /* act */
+      actualCli := objectUnderTest.SetOpDescriptionUseCase()
+
+      /* assert */
+      Expect(actualCli).ShouldNot(BeNil())
+
+    })
+
+  })
+
+  Context("StreamEventsUseCase()", func() {
+
+    It("should not return nil", func() {
+
+      /* arrange */
+      objectUnderTest, err := newCompositionRoot()
+      if (nil != err) {
+        Fail(err.Error())
+      }
+
+      /* act */
+      actualCli := objectUnderTest.StreamEventsUseCase()
+
+      /* assert */
+      Expect(actualCli).ShouldNot(BeNil())
+
+    })
+
+  })
 })
