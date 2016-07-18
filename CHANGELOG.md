@@ -1,9 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## 0.1.5 - 2016-07-15
 ### Fixed
-- exit code not representative of operation outcome
+- [regression] exit code not representative of operation outcome
 
 ## 0.1.4 - 2016-07-09
 ### Added
