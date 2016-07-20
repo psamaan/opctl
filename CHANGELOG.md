@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.1.6 - 2016-07-20
+### Fixed
+- windows path handling
+
 ## 0.1.5 - 2016-07-15
 ### Fixed
 - [regression] exit code not representative of operation outcome

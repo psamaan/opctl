@@ -51,11 +51,10 @@ func (this _streamEventsUseCase) Execute(
         event.LogEntryMsg(),
       )
     case models.OpRunStartedEvent:
-      opUrl := event.OpRunOpUrl()
       fmt.Printf(
         "OpRunStarted: Id=%v OpUrl=%v Timestamp=%v \n",
         event.OpRunId(),
-        opUrl.String(),
+        event.OpRunOpUrl(),
         event.Timestamp(),
       )
     case models.OpRunEndedEvent:

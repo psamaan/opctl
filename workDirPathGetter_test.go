@@ -4,16 +4,19 @@ import (
   . "github.com/onsi/ginkgo"
   . "github.com/onsi/gomega"
   "os"
+  "path/filepath"
 )
 
 var _ = Describe("workDirPathGetter", func() {
   Context("Get", func() {
-    It("should return current work dir path", func() {
+    It("should return current slash separated work dir path", func() {
       /* arrange */
-      expectedWorkDirPath, err := os.Getwd()
+      currentWorkDir, err := os.Getwd()
       if (nil != err) {
         Fail(err.Error())
       }
+
+      expectedWorkDirPath := filepath.ToSlash(currentWorkDir)
 
       objectUnderTest := newWorkDirPathGetter()
 

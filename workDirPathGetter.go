@@ -2,7 +2,10 @@ package main
 
 //go:generate counterfeiter -o ./fakeWorkDirPathGetter.go --fake-name fakeWorkDirPathGetter ./ workDirPathGetter
 
-import "os"
+import (
+  "os"
+  "path/filepath"
+)
 
 type workDirPathGetter interface {
   Get() (workDirPath string)
@@ -15,7 +18,8 @@ func newWorkDirPathGetter() workDirPathGetter {
 type _workDirPathGetter struct{}
 
 func (this _workDirPathGetter) Get() (workDirPath string) {
-  workDirPath, err := os.Getwd()
+  wd, err := os.Getwd()
+  workDirPath = filepath.ToSlash(wd)
   if (err != nil) {
     panic(err)
   }

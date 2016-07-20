@@ -7,14 +7,13 @@ import (
   "github.com/opctl/engine-sdk-golang"
   "github.com/opctl/engine-sdk-golang/models"
   engineModels "github.com/opctl/engine/core/models"
-  "net/url"
   "os"
   "syscall"
   "os/signal"
   "strings"
   "github.com/opspec-io/sdk-golang"
-  "path"
   "errors"
+  "path"
 )
 
 type runOpUseCase interface {
@@ -100,7 +99,7 @@ name string,
   rootOpRunId, correlationId, err := this.opctlEngineSdk.RunOp(
     *models.NewRunOpReq(
       argsMap,
-      &url.URL{Path:opPath},
+      opPath,
     ),
   )
   if (nil != err) {
@@ -146,11 +145,10 @@ name string,
         }
       case models.OpRunStartedEvent:
         if (event.RootOpRunId() == rootOpRunId) {
-          opUrl := event.OpRunOpUrl()
           fmt.Printf(
             "OpRunStarted: Id=%v OpUrl=%v Timestamp=%v \n",
             event.OpRunId(),
-            opUrl.String(),
+            event.OpRunOpUrl(),
             event.Timestamp(),
           )
         }
