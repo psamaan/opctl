@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 - use specific tag of engine rather than latest
 
 ### Changed
-- updated to opctl/engine:0.1.3
+- updated to opctl/engine:0.1.5
 
 ### Removed
 - set description use case

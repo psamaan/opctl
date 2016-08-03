@@ -5,7 +5,6 @@ package opspec
 import (
   "github.com/opspec-io/sdk-golang/models"
   "path"
-  "errors"
 )
 
 type opViewFactory interface {
@@ -64,9 +63,6 @@ err error,
     run = models.NewContainerRunInstruction(opFile.Run.Container)
   } else if (len(opFile.Run.SubOps) > 0) {
     run = models.NewSubOpsRunInstruction(opFile.Run.SubOps)
-  } else {
-    err = errors.New("run not set or invalid")
-    return
   }
 
   opView = *models.NewOpView(

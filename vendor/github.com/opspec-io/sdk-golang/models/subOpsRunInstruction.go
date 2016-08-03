@@ -11,5 +11,5 @@ subOps []SubOpRunInstruction,
 }
 
 type SubOpsRunInstruction struct {
-  SubOps []SubOpRunInstruction
+  SubOps []SubOpRunInstruction `yaml:"subOps"`
 }

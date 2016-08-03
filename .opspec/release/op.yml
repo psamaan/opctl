@@ -1,11 +1,12 @@
 description: runs all ops necessary to perform a release
 name: release
-subOps:
-- url: build
-- url: publish-coverage-to-codecov
-params:
-  CODECOV_TOKEN:
+run:
+  subOps:
+  - url: build
+  - url: publish-coverage-to-codecov
+inputs:
+  - name: CODECOV_TOKEN
     description: A https://codecov.io/ auth token
     isSecure: true
-  GIT_BRANCH:
+  - name: GIT_BRANCH
     description: The git branch the coverage should be associated with

@@ -10,6 +10,6 @@ type OpFile struct {
   Description string `yaml:"description"`
   Inputs      []Parameter `yaml:"inputs,omitempty"`
   Outputs     []Parameter `yaml:"outputs,omitempty"`
-  Run         OpFileRunInstruction `yaml:"run"`
+  Run         OpFileRunInstruction `yaml:"run,omitempty"`
   Version     string `yaml:"version,omitempty"`
 }

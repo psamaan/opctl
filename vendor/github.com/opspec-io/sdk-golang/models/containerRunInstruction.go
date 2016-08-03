@@ -11,5 +11,5 @@ container *Container,
 }
 
 type ContainerRunInstruction struct {
-  Container *Container
+  Container *Container `yaml:"container"`
 }

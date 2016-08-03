@@ -50,7 +50,7 @@ func (this _containerStarter) ContainerStart(
       "/var/run/docker.sock:/var/run/docker.sock",
       "--name",
       containerName,
-      "opctl/engine:0.1.4",
+      "opctl/engine:0.1.5",
     )
 
   _, err = dockerRunCmd.Output()

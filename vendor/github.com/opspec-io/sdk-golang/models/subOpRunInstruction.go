@@ -14,5 +14,5 @@ isParallel bool,
 
 type SubOpRunInstruction struct {
   Url        string `yaml:"url"`
-  IsParallel bool `yaml:"isParallel"`
+  IsParallel bool `yaml:"isParallel,omitempty"`
 }
