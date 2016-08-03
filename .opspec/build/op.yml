@@ -1,11 +1,12 @@
 description: builds binaries for all supported platforms/architectures
 name: build
-subOps:
-- url: test
-  isParallel: true
-- url: build-bin-darwin
-  isParallel: true
-- url: build-bin-linux
-  isParallel: true
-- url: build-bin-windows
-  isParallel: true
+run:
+  subOps:
+  - url: test
+    isParallel: true
+  - url: build-bin-darwin
+    isParallel: true
+  - url: build-bin-linux
+    isParallel: true
+  - url: build-bin-windows
+    isParallel: true
