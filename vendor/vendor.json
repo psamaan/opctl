@@ -213,10 +213,11 @@
 			"revisionTime": "2016-07-19T02:01:31Z"
 		},
 		{
-			"checksumSHA1": "phJT/z5fxTyKnYx8nxA9//uWam8=",
+			"checksumSHA1": "/lTKWCfefu+VImazVgxc1eUKdvc=",
 			"path": "github.com/opspec-io/sdk-golang",
-			"revision": "5b383a22a6d91ada301e22f622e9aced4fd7b549",
-			"revisionTime": "2016-06-29T05:11:38Z"
+			"revision": "0c92639e1c89a63c4f9bcd27ae0b056c3d322e61",
+			"revisionTime": "2016-08-03T03:52:05Z",
+			"tree": true
 		},
 		{
 			"checksumSHA1": "AtKKm1fm7uJq9BsS/EwZ3FAAtcI=",
@@ -226,6 +227,7 @@
 		},
 		{
 			"checksumSHA1": "+OgOXBoiQ+X+C2dsAeiOHwBIEH0=",
+			"origin": "github.com/opspec-io/sdk-golang/vendor/gopkg.in/yaml.v2",
 			"path": "gopkg.in/yaml.v2",
 			"revision": "a83829b6f1293c91addabc89d0571c246397bbf4",
 			"revisionTime": "2016-03-01T20:40:22Z"

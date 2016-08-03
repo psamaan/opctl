@@ -106,7 +106,7 @@ var _ = Describe("runOpUseCase", func() {
           fakeOpspecSdk := new(opspec.FakeSdk)
           fakeOpspecSdk.GetOpReturns(
             opspecSdkModels.OpView{
-              Params:[]opspecSdkModels.OpParamView{
+              Inputs:[]opspecSdkModels.Parameter{
                 {
                   Name:param1Name,
                 },
@@ -146,7 +146,7 @@ var _ = Describe("runOpUseCase", func() {
           fakeOpspecSdk := new(opspec.FakeSdk)
           fakeOpspecSdk.GetOpReturns(
             opspecSdkModels.OpView{
-              Params:[]opspecSdkModels.OpParamView{
+              Inputs:[]opspecSdkModels.Parameter{
                 {
                   Name:param1Name,
                 },
@@ -186,7 +186,7 @@ var _ = Describe("runOpUseCase", func() {
           fakeOpspecSdk := new(opspec.FakeSdk)
           fakeOpspecSdk.GetOpReturns(
             opspecSdkModels.OpView{
-              Params:[]opspecSdkModels.OpParamView{
+              Inputs:[]opspecSdkModels.Parameter{
                 {
                   Name:param1Name,
                 },

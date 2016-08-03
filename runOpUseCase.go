@@ -73,7 +73,7 @@ name string,
 
   // [only] pass defined params
   argsMap := make(map[string]string)
-  for _, opParam := range opView.Params {
+  for _, opParam := range opView.Inputs {
     if providedArg, ok := providedArgMap[opParam.Name]; ok {
       argsMap[opParam.Name] = providedArg
     } else {
