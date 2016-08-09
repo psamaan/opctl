@@ -183,10 +183,10 @@
 			"revisionTime": "2016-03-05T21:39:52Z"
 		},
 		{
-			"checksumSHA1": "0azpP/fPA+ge26B+RWmCHGISXx8=",
+			"checksumSHA1": "20w0fxp3+l31RCraNuT12EKg8Po=",
 			"path": "github.com/opctl/engine-sdk-golang",
-			"revision": "6ebb431222c72b91469afb77c91cd2d103b93ba7",
-			"revisionTime": "2016-08-03T06:12:12Z",
+			"revision": "13ef3eb2a1eb0f05007be8aa5954828e54a9fc4e",
+			"revisionTime": "2016-08-09T05:45:47Z",
 			"tree": true
 		},
 		{

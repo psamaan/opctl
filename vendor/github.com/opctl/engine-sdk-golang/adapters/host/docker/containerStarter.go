@@ -47,6 +47,8 @@ func (this _containerStarter) ContainerStart(
       "-v",
       fmt.Sprintf("%v:%v", normalizedUsersDir, normalizedUsersDir),
       "-v",
+      fmt.Sprintf("%v/.docker/config.json:/root/.docker/config.json", normalizedUsersDir),
+      "-v",
       "/var/run/docker.sock:/var/run/docker.sock",
       "--name",
       containerName,
