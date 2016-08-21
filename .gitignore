@@ -3,7 +3,7 @@
 .idea/
 
 ### temp
-*.tmp/
+tmp/
 
 ### codecov.io
 *.coverprofile

@@ -1,5 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## 0.1.9 - 2016-08-21
+### Added
+- prompt for op args if not provided or in environment
+
 ## 0.1.8 - 2016-08-08
 ### Added
 - support for private docker images

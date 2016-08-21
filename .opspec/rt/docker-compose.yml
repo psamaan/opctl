@@ -1,0 +1,7 @@
+version: "2"
+services:
+  rt:
+    image: alpine
+    entrypoint: sh -c "env"
+    environment:
+    - DUMMY_NAME

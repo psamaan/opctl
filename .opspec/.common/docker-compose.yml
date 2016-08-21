@@ -18,5 +18,5 @@ services:
     entrypoint: |
       sh -c "
         go get ./... && \
-        go build -a -o .tmp/opctl-$${GOOS}-x86_64$${OUTPUT_FILE_EXTENSION}
+        go build -a -o tmp/opctl-$${GOOS}-x86_64$${OUTPUT_FILE_EXTENSION}
       "

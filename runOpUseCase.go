@@ -14,6 +14,7 @@ import (
   "github.com/opspec-io/sdk-golang"
   "errors"
   "path"
+  "github.com/peterh/liner"
 )
 
 type runOpUseCase interface {
@@ -67,19 +68,41 @@ name string,
   opPath := path.Join(this.workDirPathGetter.Get(), ".opspec", name)
   opView, err := this.opspecSdk.GetOp(opPath)
   if (nil != err) {
+    fmt.Fprintln(os.Stderr, err)
     this.exiter.Exit(1)
     return
   }
+
+  line := liner.NewLiner()
+  line.SetCtrlCAborts(true)
+  defer line.Close()
 
   // [only] pass defined params
   argsMap := make(map[string]string)
   for _, opParam := range opView.Inputs {
     if providedArg, ok := providedArgMap[opParam.Name]; ok {
       argsMap[opParam.Name] = providedArg
-    } else {
+    } else if ("" != os.Getenv(opParam.Name)) {
       argsMap[opParam.Name] = os.Getenv(opParam.Name)
+    } else {
+      var argValue string
+      argPrompt := fmt.Sprintf("%v: ",opParam.Name)
+      if (opParam.IsSecret) {
+        argValue, err = line.PasswordPrompt(argPrompt)
+      } else {
+        argValue, err = line.Prompt(argPrompt)
+      }
+
+      if (nil != err) {
+        fmt.Fprintln(os.Stderr, err)
+        this.exiter.Exit(1)
+        return
+      }
+
+      argsMap[opParam.Name] = argValue
     }
   }
+  line.Close()
 
   // init signal channel
   intSignalsReceived := 0
@@ -92,6 +115,7 @@ name string,
   // init event channel
   eventChannel, err := this.opctlEngineSdk.GetEventStream()
   if (nil != err) {
+    fmt.Fprintln(os.Stderr, err)
     this.exiter.Exit(1)
     return
   }
@@ -103,6 +127,7 @@ name string,
     ),
   )
   if (nil != err) {
+    fmt.Fprintln(os.Stderr, err)
     this.exiter.Exit(1)
     return
   }
