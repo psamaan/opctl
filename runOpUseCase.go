@@ -12,7 +12,6 @@ import (
   "os/signal"
   "strings"
   "github.com/opspec-io/sdk-golang"
-  "errors"
   "path"
   "github.com/peterh/liner"
 )
@@ -68,9 +67,8 @@ name string,
   opPath := path.Join(this.workDirPathGetter.Get(), ".opspec", name)
   opView, err := this.opspecSdk.GetOp(opPath)
   if (nil != err) {
-    fmt.Fprintln(os.Stderr, err)
-    this.exiter.Exit(1)
-    return
+    this.exiter.Exit(exitReq{Message:err.Error(), Code:1})
+    return // support fake exiter
   }
 
   line := liner.NewLiner()
@@ -80,13 +78,14 @@ name string,
   // [only] pass defined params
   argsMap := make(map[string]string)
   for _, opParam := range opView.Inputs {
+
     if providedArg, ok := providedArgMap[opParam.Name]; ok {
       argsMap[opParam.Name] = providedArg
     } else if ("" != os.Getenv(opParam.Name)) {
       argsMap[opParam.Name] = os.Getenv(opParam.Name)
     } else {
       var argValue string
-      argPrompt := fmt.Sprintf("%v: ",opParam.Name)
+      argPrompt := fmt.Sprintf("%v: ", opParam.Name)
       if (opParam.IsSecret) {
         argValue, err = line.PasswordPrompt(argPrompt)
       } else {
@@ -94,15 +93,13 @@ name string,
       }
 
       if (nil != err) {
-        fmt.Fprintln(os.Stderr, err)
-        this.exiter.Exit(1)
-        return
+        this.exiter.Exit(exitReq{Message:err.Error(), Code:1})
+        return // support fake exiter
       }
 
       argsMap[opParam.Name] = argValue
     }
   }
-  line.Close()
 
   // init signal channel
   intSignalsReceived := 0
@@ -115,9 +112,8 @@ name string,
   // init event channel
   eventChannel, err := this.opctlEngineSdk.GetEventStream()
   if (nil != err) {
-    fmt.Fprintln(os.Stderr, err)
-    this.exiter.Exit(1)
-    return
+    this.exiter.Exit(exitReq{Message:err.Error(), Code:1})
+    return // support fake exiter
   }
 
   rootOpRunId, correlationId, err := this.opctlEngineSdk.RunOp(
@@ -127,9 +123,8 @@ name string,
     ),
   )
   if (nil != err) {
-    fmt.Fprintln(os.Stderr, err)
-    this.exiter.Exit(1)
-    return
+    this.exiter.Exit(exitReq{Message:err.Error(), Code:1})
+    return // support fake exiter
   }
 
   for {
@@ -146,17 +141,16 @@ name string,
 
         intSignalsReceived++
         fmt.Println()
-        fmt.Println("Gracefully stopping... (press Ctrl+C again to force)")
+        fmt.Println("Gracefully stopping... (signal Control-C again to force)")
       } else {
-        this.exiter.Exit(130)
-        return
+        this.exiter.Exit(exitReq{Message:"Terminated by Control-C", Code:130})
+        return // support fake exiter
       }
 
     case event, isEventChannelOpen := <-eventChannel:
       if (!isEventChannelOpen) {
-        err = errors.New("event channel closed unexpectedly")
-        this.exiter.Exit(1)
-        return
+        this.exiter.Exit(exitReq{Message:"Event channel closed unexpectedly", Code:1})
+        return // support fake exiter
       }
 
       switch event := event.(type) {
@@ -188,14 +182,16 @@ name string,
           if (event.OpRunId() == rootOpRunId) {
             switch event.Outcome(){
             case engineModels.OpRunOutcomeSucceeded:
-              this.exiter.Exit(0)
+              this.exiter.Exit(exitReq{Message:"", Code:0})
             case engineModels.OpRunOutcomeKilled:
-              this.exiter.Exit(130)
+              this.exiter.Exit(exitReq{Message:"", Code:137})
+            case engineModels.OpRunOutcomeFailed:
+              this.exiter.Exit(exitReq{Message:"", Code:1})
             default:
               // fallback to general error
-              this.exiter.Exit(1)
+              this.exiter.Exit(exitReq{Message:fmt.Sprintf("Received unknown outcome `%v`", event.Outcome()), Code:1})
             }
-            return
+            return // support fake exiter
           }
         }
       default: // no op

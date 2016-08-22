@@ -20,12 +20,13 @@ type _host struct {
 }
 
 func (this _host) EnsureRunning(
+image string,
 ) (err error) {
 
   return this.
   compositionRoot.
-  EnsureRunningUseCase().
-  Execute()
+    EnsureRunningUseCase().
+    Execute(image)
 
 }
 
@@ -37,7 +38,7 @@ err error,
 
   return this.
   compositionRoot.
-  GetHostnameUseCase().
-  Execute()
+    GetHostnameUseCase().
+    Execute()
 
 }

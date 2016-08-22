@@ -2,10 +2,13 @@ package main
 
 //go:generate counterfeiter -o ./fakeExiter.go --fake-name fakeExiter ./ exiter
 
-import "os"
+type exitReq struct {
+  Message string
+  Code    int
+}
 
 type exiter interface {
-  Exit(code int)
+  Exit(req exitReq)
 }
 
 func newExiter() exiter {
@@ -14,6 +17,6 @@ func newExiter() exiter {
 
 type _exiter struct{}
 
-func (this _exiter) Exit(code int) {
-  os.Exit(code)
+func (this _exiter) Exit(req exitReq) {
+  panic(req)
 }

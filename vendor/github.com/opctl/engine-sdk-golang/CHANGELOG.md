@@ -5,9 +5,10 @@ All notable changes to this project will be documented in this file.
 ### Added
 - better error msg when docker not available
 - use specific tag of engine rather than latest
+- automatic correction of invalid engine state & version
 
 ### Changed
-- updated to opctl/engine:0.1.5
+- updated to opctl/engine:0.1.6
 
 ### Removed
 - set description use case

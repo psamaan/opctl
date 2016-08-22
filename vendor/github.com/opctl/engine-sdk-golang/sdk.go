@@ -39,7 +39,7 @@ func New(
 host ports.Host,
 ) (sdk Sdk, err error) {
 
-  err = host.EnsureRunning()
+  err = host.EnsureRunning("opctl/engine:0.1.6")
   if (nil != err) {
     return
   }
@@ -81,16 +81,16 @@ func (this _sdk) GetLiveness(
 ) (err error) {
   return this.
   compositionRoot.
-  GetLivenessUseCase().
-  Execute()
+    GetLivenessUseCase().
+    Execute()
 }
 
 func (this _sdk) GetEventStream(
 ) (stream chan models.Event, err error) {
   return this.
   compositionRoot.
-  GetEventStreamUseCase().
-  Execute()
+    GetEventStreamUseCase().
+    Execute()
 }
 
 func (this _sdk) KillOpRun(
@@ -101,8 +101,8 @@ err error,
 ) {
   return this.
   compositionRoot.
-  KillOpRunUseCase().
-  Execute(req)
+    KillOpRunUseCase().
+    Execute(req)
 }
 
 func (this _sdk) RunOp(
@@ -114,8 +114,8 @@ err error,
 ) {
   return this.
   compositionRoot.
-  RunOpUseCase().
-  Execute(
+    RunOpUseCase().
+    Execute(
     req,
   )
 }

@@ -4,6 +4,7 @@ package ports
 
 type Host interface {
   EnsureRunning(
+  image string,
   ) (err error)
 
   GetHostname(

@@ -8,10 +8,12 @@ import (
 )
 
 type FakeHost struct {
-	EnsureRunningStub        func() (err error)
+	EnsureRunningStub        func(image string) (err error)
 	ensureRunningMutex       sync.RWMutex
-	ensureRunningArgsForCall []struct{}
-	ensureRunningReturns     struct {
+	ensureRunningArgsForCall []struct {
+		image string
+	}
+	ensureRunningReturns struct {
 		result1 error
 	}
 	GetHostnameStub        func() (hostname string, err error)
@@ -21,14 +23,19 @@ type FakeHost struct {
 		result1 string
 		result2 error
 	}
+	invocations      map[string][][]interface{}
+	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeHost) EnsureRunning() (err error) {
+func (fake *FakeHost) EnsureRunning(image string) (err error) {
 	fake.ensureRunningMutex.Lock()
-	fake.ensureRunningArgsForCall = append(fake.ensureRunningArgsForCall, struct{}{})
+	fake.ensureRunningArgsForCall = append(fake.ensureRunningArgsForCall, struct {
+		image string
+	}{image})
+	fake.recordInvocation("EnsureRunning", []interface{}{image})
 	fake.ensureRunningMutex.Unlock()
 	if fake.EnsureRunningStub != nil {
-		return fake.EnsureRunningStub()
+		return fake.EnsureRunningStub(image)
 	} else {
 		return fake.ensureRunningReturns.result1
 	}
@@ -38,6 +45,12 @@ func (fake *FakeHost) EnsureRunningCallCount() int {
 	fake.ensureRunningMutex.RLock()
 	defer fake.ensureRunningMutex.RUnlock()
 	return len(fake.ensureRunningArgsForCall)
+}
+
+func (fake *FakeHost) EnsureRunningArgsForCall(i int) string {
+	fake.ensureRunningMutex.RLock()
+	defer fake.ensureRunningMutex.RUnlock()
+	return fake.ensureRunningArgsForCall[i].image
 }
 
 func (fake *FakeHost) EnsureRunningReturns(result1 error) {
@@ -50,6 +63,7 @@ func (fake *FakeHost) EnsureRunningReturns(result1 error) {
 func (fake *FakeHost) GetHostname() (hostname string, err error) {
 	fake.getHostnameMutex.Lock()
 	fake.getHostnameArgsForCall = append(fake.getHostnameArgsForCall, struct{}{})
+	fake.recordInvocation("GetHostname", []interface{}{})
 	fake.getHostnameMutex.Unlock()
 	if fake.GetHostnameStub != nil {
 		return fake.GetHostnameStub()
@@ -70,6 +84,28 @@ func (fake *FakeHost) GetHostnameReturns(result1 string, result2 error) {
 		result1 string
 		result2 error
 	}{result1, result2}
+}
+
+func (fake *FakeHost) Invocations() map[string][][]interface{} {
+	fake.invocationsMutex.RLock()
+	defer fake.invocationsMutex.RUnlock()
+	fake.ensureRunningMutex.RLock()
+	defer fake.ensureRunningMutex.RUnlock()
+	fake.getHostnameMutex.RLock()
+	defer fake.getHostnameMutex.RUnlock()
+	return fake.invocations
+}
+
+func (fake *FakeHost) recordInvocation(key string, args []interface{}) {
+	fake.invocationsMutex.Lock()
+	defer fake.invocationsMutex.Unlock()
+	if fake.invocations == nil {
+		fake.invocations = map[string][][]interface{}{}
+	}
+	if fake.invocations[key] == nil {
+		fake.invocations[key] = [][]interface{}{}
+	}
+	fake.invocations[key] = append(fake.invocations[key], args)
 }
 
 var _ ports.Host = new(FakeHost)

@@ -12,10 +12,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest, err := newCompositionRoot()
-      if (nil != err) {
-        Fail(err.Error())
-      }
+      objectUnderTest := newCompositionRoot()
 
       /* act */
       actualCli := objectUnderTest.CreateCollectionUseCase()
@@ -32,10 +29,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest, err := newCompositionRoot()
-      if (nil != err) {
-        Fail(err.Error())
-      }
+      objectUnderTest := newCompositionRoot()
 
       /* act */
       actualCli := objectUnderTest.CreateOpUseCase()
@@ -52,10 +46,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest, err := newCompositionRoot()
-      if (nil != err) {
-        Fail(err.Error())
-      }
+      objectUnderTest := newCompositionRoot()
 
       /* act */
       actualCli := objectUnderTest.KillOpRunUseCase()
@@ -72,10 +63,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest, err := newCompositionRoot()
-      if (nil != err) {
-        Fail(err.Error())
-      }
+      objectUnderTest := newCompositionRoot()
 
       /* act */
       actualCli := objectUnderTest.ListOpsInCollectionUseCase()
@@ -92,10 +80,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest, err := newCompositionRoot()
-      if (nil != err) {
-        Fail(err.Error())
-      }
+      objectUnderTest := newCompositionRoot()
 
       /* act */
       actualCli := objectUnderTest.RunOpUseCase()
@@ -112,10 +97,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest, err := newCompositionRoot()
-      if (nil != err) {
-        Fail(err.Error())
-      }
+      objectUnderTest := newCompositionRoot()
 
       /* act */
       actualCli := objectUnderTest.SetCollectionDescriptionUseCase()
@@ -132,10 +114,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest, err := newCompositionRoot()
-      if (nil != err) {
-        Fail(err.Error())
-      }
+      objectUnderTest := newCompositionRoot()
 
       /* act */
       actualCli := objectUnderTest.SetOpDescriptionUseCase()
@@ -152,10 +131,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest, err := newCompositionRoot()
-      if (nil != err) {
-        Fail(err.Error())
-      }
+      objectUnderTest := newCompositionRoot()
 
       /* act */
       actualCli := objectUnderTest.StreamEventsUseCase()

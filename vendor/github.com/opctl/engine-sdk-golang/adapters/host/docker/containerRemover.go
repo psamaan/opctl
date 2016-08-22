@@ -24,14 +24,13 @@ func (this _containerRemover) ContainerRemove(
 ) (err error) {
 
   dockerRmCmd :=
-  exec.Command(
-    "docker",
-    "rm",
-    "-v",
-    containerName,
-  )
+    exec.Command(
+      "docker",
+      "rm",
+      "-fv",
+      containerName,
+    )
 
   _, err = dockerRmCmd.Output()
-
   return
 }

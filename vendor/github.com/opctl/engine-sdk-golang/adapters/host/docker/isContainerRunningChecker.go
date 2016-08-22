@@ -7,6 +7,7 @@ import (
 
 type isContainerRunningChecker interface {
   IsContainerRunningCheck(
+  image string,
   ) (isContainerRunning bool, err error)
 }
 
@@ -22,15 +23,18 @@ func newIsContainerRunningChecker(
 type _isContainerRunningChecker struct{}
 
 func (this _isContainerRunningChecker) IsContainerRunningCheck(
+image string,
 ) (isContainerRunning bool, err error) {
 
   dockerPsCmd :=
-  exec.Command(
-    "docker",
-    "ps",
-    "-q",
-    "-f",
-    fmt.Sprintf("name=%v", containerName),
+    exec.Command(
+      "docker",
+      "ps",
+      "-q",
+      "-f",
+      fmt.Sprintf("name=%v", containerName),
+      "-f",
+      fmt.Sprintf("ancestor=%v", image),
   )
 
   dockerPsCmdOutput, err := dockerPsCmd.Output()

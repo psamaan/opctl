@@ -1,5 +1,0 @@
-description: rt
-name: rt
-inputs:
-- name: DUMMY_NAME
-  isSecret: false
