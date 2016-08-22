@@ -7,6 +7,7 @@ import (
 
 type ensureRunningUseCase interface {
   Execute(
+  image string,
   ) (err error)
 }
 
@@ -36,10 +37,11 @@ type _ensureRunningUseCase struct {
 }
 
 func (this _ensureRunningUseCase) Execute(
+image string,
 ) (err error) {
 
   // if already running we're done
-  isContainerRunning, err := this.isContainerRunningChecker.IsContainerRunningCheck()
+  isContainerRunning, err := this.isContainerRunningChecker.IsContainerRunningCheck(image)
   if (nil != err) {
     err = errors.New(
       fmt.Sprintf("Unable to connect to docker engine\n error was: %v \n", err),
@@ -61,7 +63,7 @@ func (this _ensureRunningUseCase) Execute(
     }
   }
 
-  err = this.containerStarter.ContainerStart()
+  err = this.containerStarter.ContainerStart(image)
 
   return
 }

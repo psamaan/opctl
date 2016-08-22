@@ -21,9 +21,10 @@ var _ = Describe("runOpUseCase", func() {
     It("should call exiter with expected args when opspecSdk.GetOp returns error", func() {
       /* arrange */
       fakeExiter := new(fakeExiter)
+      returnedError := errors.New("dummyError")
 
       fakeOpspecSdk := new(opspec.FakeSdk)
-      fakeOpspecSdk.GetOpReturns(opspecSdkModels.OpView{}, errors.New("dummyError"))
+      fakeOpspecSdk.GetOpReturns(opspecSdkModels.OpView{}, returnedError)
 
       fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
       eventChannel := make(chan models.Event)
@@ -41,7 +42,8 @@ var _ = Describe("runOpUseCase", func() {
       objectUnderTest.Execute([]string{}, "dummyName")
 
       /* assert */
-      Expect(fakeExiter.ExitArgsForCall(0)).Should(Equal(1))
+      Expect(fakeExiter.ExitArgsForCall(0)).
+        Should(Equal(exitReq{Message:returnedError.Error(), Code:1}))
     })
     It("should call opspecSdk.GetOp with expected args", func() {
       /* arrange */
@@ -76,12 +78,13 @@ var _ = Describe("runOpUseCase", func() {
     It("should call exiter with expected args when opctlEngineSdk.GetEventStream returns error", func() {
       /* arrange */
       fakeExiter := new(fakeExiter)
+      returnedError := errors.New("dummyError")
 
       fakeOpspecSdk := new(opspec.FakeSdk)
       fakeOpspecSdk.GetOpReturns(opspecSdkModels.OpView{}, nil)
 
       fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
-      fakeOpctlEngineSdk.GetEventStreamReturns(nil, errors.New("dummyError"))
+      fakeOpctlEngineSdk.GetEventStreamReturns(nil, returnedError)
 
       objectUnderTest := newRunOpUseCase(
         fakeExiter,
@@ -94,7 +97,8 @@ var _ = Describe("runOpUseCase", func() {
       objectUnderTest.Execute([]string{}, "dummyOpName")
 
       /* assert */
-      Expect(fakeExiter.ExitArgsForCall(0)).Should(Equal(1))
+      Expect(fakeExiter.ExitArgsForCall(0)).
+        Should(Equal(exitReq{Message:returnedError.Error(), Code:1}))
     })
     Describe("when op has params defined", func() {
       Describe("and corresponding args are provided explicitly with values", func() {
@@ -219,12 +223,13 @@ var _ = Describe("runOpUseCase", func() {
     It("should call exiter with expected args when opctlEngineSdk.RunOp returns error", func() {
       /* arrange */
       fakeExiter := new(fakeExiter)
+      returnedError := errors.New("dummyError")
 
       fakeOpspecSdk := new(opspec.FakeSdk)
       fakeOpspecSdk.GetOpReturns(opspecSdkModels.OpView{}, nil)
 
       fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
-      fakeOpctlEngineSdk.RunOpReturns("dummyOpRunId", "dummyCorrelationId", errors.New("dummyError"))
+      fakeOpctlEngineSdk.RunOpReturns("dummyOpRunId", "dummyCorrelationId", returnedError)
 
       objectUnderTest := newRunOpUseCase(
         fakeExiter,
@@ -237,7 +242,8 @@ var _ = Describe("runOpUseCase", func() {
       objectUnderTest.Execute([]string{}, "dummyOpName")
 
       /* assert */
-      Expect(fakeExiter.ExitArgsForCall(0)).Should(Equal(1))
+      Expect(fakeExiter.ExitArgsForCall(0)).
+        Should(Equal(exitReq{Message:returnedError.Error(), Code:1}))
     })
     It("should call exiter with expected args when event channel closes unexpectedly", func() {
       /* arrange */
@@ -262,7 +268,8 @@ var _ = Describe("runOpUseCase", func() {
       objectUnderTest.Execute([]string{}, "dummyOpName")
 
       /* assert */
-      Expect(fakeExiter.ExitArgsForCall(0)).Should(Equal(1))
+      Expect(fakeExiter.ExitArgsForCall(0)).
+        Should(Equal(exitReq{Message:"Event channel closed unexpectedly", Code:1}))
     })
     Describe("when a related OpRunEndedEvent is received", func() {
       It("should call exiter with expected args when it's Outcome is SUCCEEDED", func() {
@@ -296,7 +303,8 @@ var _ = Describe("runOpUseCase", func() {
 
         /* act/assert */
         objectUnderTest.Execute([]string{}, "dummyOpName")
-        Expect(fakeExiter.ExitArgsForCall(0)).Should(Equal(0))
+        Expect(fakeExiter.ExitArgsForCall(0)).
+          Should(Equal(exitReq{Message:"", Code:0}))
       })
       It("should call exiter with expected args when it's Outcome is KILLED", func() {
         /* arrange */
@@ -329,7 +337,8 @@ var _ = Describe("runOpUseCase", func() {
 
         /* act/assert */
         objectUnderTest.Execute([]string{}, "dummyOpName")
-        Expect(fakeExiter.ExitArgsForCall(0)).Should(Equal(130))
+        Expect(fakeExiter.ExitArgsForCall(0)).
+          Should(Equal(exitReq{Message:"", Code:137}))
       })
       It("should call exiter with expected args when it's Outcome is unexpected", func() {
         /* arrange */
@@ -362,7 +371,8 @@ var _ = Describe("runOpUseCase", func() {
 
         /* act/assert */
         objectUnderTest.Execute([]string{}, "dummyOpName")
-        Expect(fakeExiter.ExitArgsForCall(0)).Should(Equal(1))
+        Expect(fakeExiter.ExitArgsForCall(0)).
+          Should(Equal(exitReq{Message:fmt.Sprintf("Received unknown outcome `%v`", opRunEndedEvent.Outcome()), Code:1}))
       })
     })
   })

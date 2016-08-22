@@ -183,10 +183,10 @@
 			"revisionTime": "2016-03-05T21:39:52Z"
 		},
 		{
-			"checksumSHA1": "20w0fxp3+l31RCraNuT12EKg8Po=",
+			"checksumSHA1": "T53+B7oFYARXy2gQpNSKUAX5X6w=",
 			"path": "github.com/opctl/engine-sdk-golang",
-			"revision": "13ef3eb2a1eb0f05007be8aa5954828e54a9fc4e",
-			"revisionTime": "2016-08-09T05:45:47Z",
+			"revision": "e202185a9478095ca2882393778e8dabdf098aca",
+			"revisionTime": "2016-08-22T06:03:30Z",
 			"tree": true
 		},
 		{
@@ -225,6 +225,12 @@
 			"path": "github.com/opspec-io/sdk-golang/models",
 			"revision": "5b383a22a6d91ada301e22f622e9aced4fd7b549",
 			"revisionTime": "2016-06-29T05:11:38Z"
+		},
+		{
+			"checksumSHA1": "i8KS96zyCztA4003YeqcAmpcXXs=",
+			"path": "github.com/peterh/liner",
+			"revision": "8975875355a81d612fafb9f5a6037bdcc2d9b073",
+			"revisionTime": "2016-06-15T11:30:19Z"
 		},
 		{
 			"checksumSHA1": "+OgOXBoiQ+X+C2dsAeiOHwBIEH0=",

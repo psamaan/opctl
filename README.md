@@ -49,7 +49,9 @@ Run 'opctl COMMAND --help' for more information on a command.
 
 All releases will be [tagged](https://github.com/opctl/cli/tags) and
 made available on the [releases](https://github.com/opctl/cli/releases)
-page with release notes.
+page with links to the corresponding versions of the
+[INSTALLATION.md](INSTALLATION.md) and [CHANGELOG.md](CHANGELOG.md)
+docs.
 
 # Versioning
 

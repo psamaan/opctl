@@ -32,16 +32,16 @@ func (this _streamEventsUseCase) Execute(
 
   eventChannel, err := this.opctlEngineSdk.GetEventStream()
   if (nil != err) {
-    this.exiter.Exit(1)
-    return
+    this.exiter.Exit(exitReq{Message:err.Error(), Code:1})
+    return // support fake exiter
   }
 
   for {
 
     event, isEventChannelOpen := <-eventChannel
     if (!isEventChannelOpen) {
-      this.exiter.Exit(1)
-      return
+      this.exiter.Exit(exitReq{Message:"Event channel closed unexpectedly", Code:1})
+      return // support fake exiter
     }
 
     switch event := event.(type) {

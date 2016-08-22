@@ -25,14 +25,14 @@ func (this _isContainerExistentChecker) IsContainerExistentCheck(
 ) (isContainerExistent bool, err error) {
 
   dockerPsCmd :=
-  exec.Command(
-    "docker",
-    "ps",
-    "-a",
-    "-q",
-    "-f",
-    fmt.Sprintf("name=%v", containerName),
-  )
+    exec.Command(
+      "docker",
+      "ps",
+      "-a",
+      "-q",
+      "-f",
+      fmt.Sprintf("name=%v", containerName),
+    )
 
   dockerPsCmdOutput, err := dockerPsCmd.Output()
   if (nil != err) {

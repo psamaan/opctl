@@ -7,13 +7,18 @@ import (
 
 func main() {
 
-  compositionRoot, err := newCompositionRoot()
-  if (nil != err) {
-    fmt.Fprint(os.Stderr, err)
-    os.Exit(1)
-  }
+  defer func() {
+    if panicArg := recover(); panicArg != nil {
+      switch err := panicArg.(type) {
+      case exitReq:
+        fmt.Fprintln(os.Stderr, err.Message)
+        os.Exit(err.Code)
+      default:
+        os.Exit(1)
+      }
+    }
+  }()
 
-  newCli(compositionRoot).
-  Run(os.Args)
+  newCli(newCompositionRoot()).Run(os.Args)
 
 }

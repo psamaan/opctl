@@ -21,16 +21,17 @@ type compositionRoot interface {
 }
 
 func newCompositionRoot(
-) (compositionRoot compositionRoot, err error) {
+) (compositionRoot compositionRoot) {
+
+  exiter := newExiter()
 
   opctlEngineSdk, err := opctlengine.New(
     dockerSdkHostAdapter.New(),
   )
   if (nil != err) {
-    return
+    exiter.Exit(exitReq{Message:err.Error(), Code:1})
   }
 
-  exiter := newExiter()
   opspecSdk := opspec.New()
   workDirPathGetter := newWorkDirPathGetter()
 
@@ -42,7 +43,7 @@ func newCompositionRoot(
     runOpUseCase:newRunOpUseCase(exiter, opspecSdk, opctlEngineSdk, workDirPathGetter),
     setCollectionDescriptionUseCase:newSetCollectionDescriptionUseCase(opspecSdk, workDirPathGetter),
     setOpDescriptionUseCase:newSetOpDescriptionUseCase(opspecSdk, workDirPathGetter),
-    streamEventsUseCase:newStreamEventsUseCase(exiter,opctlEngineSdk),
+    streamEventsUseCase:newStreamEventsUseCase(exiter, opctlEngineSdk),
   }
 
   return

@@ -8,6 +8,7 @@ import (
 
 type containerStarter interface {
   ContainerStart(
+  image string,
   ) (err error)
 }
 
@@ -28,6 +29,7 @@ type _containerStarter struct {
 }
 
 func (this _containerStarter) ContainerStart(
+image string,
 ) (err error) {
 
   usersDir, err := homedir.Dir()
@@ -52,7 +54,7 @@ func (this _containerStarter) ContainerStart(
       "/var/run/docker.sock:/var/run/docker.sock",
       "--name",
       containerName,
-      "opctl/engine:0.1.5",
+      image,
     )
 
   _, err = dockerRunCmd.Output()

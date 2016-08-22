@@ -1,11 +1,9 @@
->If performing an upgrade of an existing installation; just kill the
->existing engine by running `docker rm -fv opctl_engine` then proceed
->with a normal install.
+>Note: these instructions work equally well for upgrading.
 
 ## On Linux
 
 ```shell
-curl -L -o /usr/local/bin/opctl https://github.com/opctl/cli/releases/download/0.1.8/opctl-linux-x86_64 && \
+curl -L -o /usr/local/bin/opctl https://github.com/opctl/cli/releases/download/0.1.9/opctl-linux-x86_64 && \
 chmod +x /usr/local/bin/opctl
 ```
 
@@ -18,7 +16,7 @@ chmod +x /usr/local/bin/opctl
 > [docker-machine-nfs](https://github.com/adlogix/docker-machine-nfs)
 
 ```shell
-curl -L -o /usr/local/bin/opctl https://github.com/opctl/cli/releases/download/0.1.8/opctl-darwin-x86_64 && \
+curl -L -o /usr/local/bin/opctl https://github.com/opctl/cli/releases/download/0.1.9/opctl-darwin-x86_64 && \
 chmod +x /usr/local/bin/opctl
 ```
 
@@ -26,7 +24,6 @@ chmod +x /usr/local/bin/opctl
 
 ```shell
 if [[ ! -d "$HOME/bin" ]]; then mkdir -p "$HOME/bin"; fi && \
-curl -L https://github.com/opctl/cli/releases/download/0.1.8/opctl-windows-x86_64.exe > "$HOME/bin/opctl.exe" && \
+curl -L https://github.com/opctl/cli/releases/download/0.1.9/opctl-windows-x86_64.exe > "$HOME/bin/opctl.exe" && \
 chmod +x "$HOME/bin/opctl.exe"
 ```
-
