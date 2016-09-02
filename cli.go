@@ -6,7 +6,7 @@ import (
   mow "github.com/jawher/mow.cli"
 )
 
-const cliVersion = "0.1.9"
+const cliVersion = "0.1.10"
 
 type cli interface {
   Run(args []string) error

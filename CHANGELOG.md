@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.1.10 - 2016-09-02
+### Fixed
+- [opctl does not wait for parallel op containers to die before returning](https://github.com/opspec-io/cli/issues/8)
+- [Many parallel ops crash engine](https://github.com/opspec-io/engine/issues/17)
+
 ## 0.1.9 - 2016-08-21
 ### Added
 - prompt for op args if not provided or in environment

@@ -11,8 +11,7 @@ func newCompositionRoot(
   ensureRunningUseCase := newEnsureRunningUseCase(
     newContainerRemover(),
     newContainerStarter(newPathNormalizer()),
-    newIsContainerExistentChecker(),
-    newIsContainerRunningChecker(),
+    newContainerChecker(),
   )
 
   compositionRoot = &_compositionRoot{

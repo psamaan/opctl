@@ -104,6 +104,8 @@ name string,
   // init signal channel
   intSignalsReceived := 0
   signalChannel := make(chan os.Signal, 1)
+  defer close(signalChannel)
+
   signal.Notify(
     signalChannel,
     syscall.SIGINT, //handle SIGINTs
@@ -133,15 +135,15 @@ name string,
     case <-signalChannel:
       if (intSignalsReceived == 0) {
 
+        intSignalsReceived++
+        fmt.Println()
+        fmt.Println("Gracefully stopping... (signal Control-C again to force)")
+
         this.opctlEngineSdk.KillOpRun(
           *models.NewKillOpRunReq(
             rootOpRunId,
           ),
         )
-
-        intSignalsReceived++
-        fmt.Println()
-        fmt.Println("Gracefully stopping... (signal Control-C again to force)")
       } else {
         this.exiter.Exit(ExitReq{Message:"Terminated by Control-C", Code:130})
         return // support fake exiter

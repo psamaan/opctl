@@ -183,28 +183,28 @@
 			"revisionTime": "2016-08-24T19:54:34Z"
 		},
 		{
-			"checksumSHA1": "0mwfw7Ky4B/K2z0Ls/LJL7vDsxo=",
+			"checksumSHA1": "hGrPmOoI6sY6BTotOGHTogZ+FTc=",
 			"path": "github.com/opspec-io/engine-sdk-golang",
-			"revision": "d8da5d102dea71e601536eb933963e298d36bbda",
-			"revisionTime": "2016-09-01T06:48:15Z"
+			"revision": "e3eeb8bbfdf96227d242d052f014e3de2ec22008",
+			"revisionTime": "2016-09-03T09:20:16Z"
 		},
 		{
-			"checksumSHA1": "WHblgvkpEcrHhJJcjJ85qTCK9e0=",
+			"checksumSHA1": "KGcA+yEh0gtqXpoI8yikV2HrgIs=",
 			"path": "github.com/opspec-io/engine-sdk-golang/adapters/host/docker",
-			"revision": "d8da5d102dea71e601536eb933963e298d36bbda",
-			"revisionTime": "2016-09-01T06:48:15Z"
+			"revision": "e3eeb8bbfdf96227d242d052f014e3de2ec22008",
+			"revisionTime": "2016-09-03T09:20:16Z"
 		},
 		{
 			"checksumSHA1": "qsi94aWIkw2fDONAg953FSPbHPE=",
 			"path": "github.com/opspec-io/engine-sdk-golang/models",
-			"revision": "d8da5d102dea71e601536eb933963e298d36bbda",
-			"revisionTime": "2016-09-01T06:48:15Z"
+			"revision": "e3eeb8bbfdf96227d242d052f014e3de2ec22008",
+			"revisionTime": "2016-09-03T09:20:16Z"
 		},
 		{
 			"checksumSHA1": "dJbAxKadKBAYcxvp2xy+y2z12uk=",
 			"path": "github.com/opspec-io/engine-sdk-golang/ports",
-			"revision": "d8da5d102dea71e601536eb933963e298d36bbda",
-			"revisionTime": "2016-09-01T06:48:15Z"
+			"revision": "e3eeb8bbfdf96227d242d052f014e3de2ec22008",
+			"revisionTime": "2016-09-03T09:20:16Z"
 		},
 		{
 			"checksumSHA1": "X1lWv181zbl/Tm8ObgQQbTe0z3g=",

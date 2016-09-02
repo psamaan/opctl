@@ -36,7 +36,7 @@ name string,
 ) error {
   err := this.opspecSdk.CreateCollection(
     *opspecModels.NewCreateCollectionReq(
-      path.Join(this.workDirPathGetter.Get(), ".opspec", name),
+      path.Join(this.workDirPathGetter.Get(), name),
       name,
       description,
     ),

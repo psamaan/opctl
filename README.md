@@ -3,10 +3,10 @@
 
 CLI for controlling http://opspec.io compliant ops.
 
-*Be advised: this project is currently at Major version zero. Per the
-semantic versioning spec: "Major version zero (0.y.z) is for initial
-development. Anything may change at any time. The public API should not
-be considered stable."*
+> *Be advised: this project is currently at Major version zero. Per the
+> semantic versioning spec: "Major version zero (0.y.z) is for initial
+> development. Anything may change at any time. The public API should
+> not be considered stable."*
 
 # Usage
 
@@ -48,10 +48,10 @@ Run 'opctl COMMAND --help' for more information on a command.
 # Releases
 
 All releases will be [tagged](https://github.com/opspec-io/cli/tags) and
-made available on the [releases](https://github.com/opspec-io/cli/releases)
-page with links to the corresponding versions of the
-[INSTALLATION.md](INSTALLATION.md) and [CHANGELOG.md](CHANGELOG.md)
-docs.
+made available on the
+[releases](https://github.com/opspec-io/cli/releases) page with links to
+the corresponding versions of the [INSTALLATION.md](INSTALLATION.md) and
+[CHANGELOG.md](CHANGELOG.md) docs.
 
 # Versioning
 

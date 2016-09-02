@@ -7,7 +7,7 @@ import (
 )
 
 type containerStarter interface {
-  ContainerStart(
+  Start(
   image string,
   ) (err error)
 }
@@ -28,7 +28,7 @@ type _containerStarter struct {
   pathNormalizer pathNormalizer
 }
 
-func (this _containerStarter) ContainerStart(
+func (this _containerStarter) Start(
 image string,
 ) (err error) {
 
@@ -52,7 +52,16 @@ image string,
       image,
     )
 
-  _, err = dockerRunCmd.Output()
+  _, dockerRunCmdErr := dockerRunCmd.Output()
+
+  if (nil != dockerRunCmdErr) {
+    switch dockerRunCmdErr := dockerRunCmdErr.(type){
+    case *exec.ExitError:
+      err = fmt.Errorf("Docker returned error:\n  %v", string(dockerRunCmdErr.Stderr))
+    default:
+      err = dockerRunCmdErr
+    }
+  }
 
   return
 }
