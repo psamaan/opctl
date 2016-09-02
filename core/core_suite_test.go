@@ -1,4 +1,4 @@
-package main
+package core
 
 import (
   . "github.com/onsi/ginkgo"
@@ -7,7 +7,7 @@ import (
   "testing"
 )
 
-func TestCli(t *testing.T) {
+func TestCore(t *testing.T) {
   RegisterFailHandler(Fail)
-  RunSpecs(t, "cli")
+  RunSpecs(t, "cli/core")
 }

@@ -27,7 +27,7 @@ compositionRoot compositionRoot,
       description := createCmd.StringOpt("d description", "", "description of the collection")
 
       createCmd.Action = func() {
-        compositionRoot.CreateCollectionUseCase().Execute(*description, *name)
+        compositionRoot.CoreApi().CreateCollection(*description, *name)
       }
 
     })
@@ -37,7 +37,7 @@ compositionRoot compositionRoot,
         description := descriptionCmd.StringArg("DESCRIPTION", "", "description of the collection")
 
         descriptionCmd.Action = func() {
-          compositionRoot.SetCollectionDescriptionUseCase().Execute(*description)
+          compositionRoot.CoreApi().SetCollectionDescription(*description)
         }
       })
     })
@@ -45,7 +45,7 @@ compositionRoot compositionRoot,
 
   cli.Command("events", "Stream events from the engine", func(eventsCmd *mow.Cmd) {
     eventsCmd.Action = func() {
-      compositionRoot.StreamEventsUseCase().Execute()
+      compositionRoot.CoreApi().StreamEvents()
     }
   })
 
@@ -53,13 +53,13 @@ compositionRoot compositionRoot,
     opRunId := killCmd.StringArg("OP_RUN_ID", "", "the id of the op run to kill (must be a root op run)")
 
     killCmd.Action = func() {
-      compositionRoot.KillOpRunUseCase().Execute(*opRunId)
+      compositionRoot.CoreApi().KillOpRun(*opRunId)
     }
   })
 
   cli.Command("ls", "List ops in a collection", func(lsCmd *mow.Cmd) {
     lsCmd.Action = func() {
-      compositionRoot.ListOpsInCollectionUseCase().Execute()
+      compositionRoot.CoreApi().ListOpsInCollection()
     }
   })
 
@@ -71,7 +71,7 @@ compositionRoot compositionRoot,
       name := createCmd.StringArg("NAME", "", "name of the op")
 
       createCmd.Action = func() {
-        compositionRoot.CreateOpUseCase().Execute(*description, *name)
+        compositionRoot.CoreApi().CreateOp(*description, *name)
       }
 
     })
@@ -82,7 +82,7 @@ compositionRoot compositionRoot,
         name := descriptionCmd.StringArg("NAME", "", "name of the op")
 
         descriptionCmd.Action = func() {
-          compositionRoot.SetOpDescriptionUseCase().Execute(*description, *name)
+          compositionRoot.CoreApi().SetOpDescription(*description, *name)
         }
       })
     })
@@ -93,7 +93,7 @@ compositionRoot compositionRoot,
     name := runCmd.StringArg("OP_URL", "", "url of the op (op name if in collection)")
 
     runCmd.Action = func() {
-      compositionRoot.RunOpUseCase().Execute(*args, *name)
+      compositionRoot.CoreApi().RunOp(*args, *name)
     }
   })
 

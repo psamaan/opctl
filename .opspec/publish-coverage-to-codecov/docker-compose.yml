@@ -12,6 +12,7 @@ services:
       sh -c "
         # generate aggregate coverage profile
         cat cli.coverprofile > coverage.txt && \
+        cat core/core.coverprofile >> coverage.txt
 
         # strip fakes from coverage profile
         sed -i '/fake/d' coverage.txt && \
