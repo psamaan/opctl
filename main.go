@@ -3,6 +3,7 @@ package main
 import (
   "os"
   "fmt"
+  "github.com/opspec-io/cli/core"
 )
 
 func main() {
@@ -10,7 +11,7 @@ func main() {
   defer func() {
     if panicArg := recover(); panicArg != nil {
       switch err := panicArg.(type) {
-      case exitReq:
+      case core.ExitReq:
         fmt.Fprintln(os.Stderr, err.Message)
         os.Exit(err.Code)
       default:

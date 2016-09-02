@@ -3,6 +3,7 @@ package main
 import (
   . "github.com/onsi/ginkgo"
   . "github.com/onsi/gomega"
+  "github.com/opspec-io/cli/core"
 )
 
 var _ = Describe("cli", func() {
@@ -16,8 +17,8 @@ var _ = Describe("cli", func() {
           It("should call createCollectionUseCase.Execute with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
-            fakeCreateCollectionUseCase := new(fakeCreateCollectionUseCase)
-            fakeCompositionRoot.CreateCollectionUseCaseReturns(fakeCreateCollectionUseCase)
+            fakeApi := new(core.FakeApi)
+            fakeCompositionRoot.CoreApiReturns(fakeApi)
 
             expectedCollectionName := "dummyCollectionName"
             expectedCollectionDescription := "dummyCollectionDescription"
@@ -28,8 +29,8 @@ var _ = Describe("cli", func() {
             objectUnderTest.Run([]string{"opctl", "collection", "create", "-d", expectedCollectionDescription, expectedCollectionName})
 
             /* assert */
-            Expect(fakeCreateCollectionUseCase.ExecuteCallCount()).Should(Equal(1))
-            actualCollectionDescription, actualCollectionName := fakeCreateCollectionUseCase.ExecuteArgsForCall(0)
+            Expect(fakeApi.CreateCollectionCallCount()).Should(Equal(1))
+            actualCollectionDescription, actualCollectionName := fakeApi.CreateCollectionArgsForCall(0)
             Expect(actualCollectionName).Should(Equal(expectedCollectionName))
             Expect(actualCollectionDescription).Should(Equal(expectedCollectionDescription))
           })
@@ -39,8 +40,8 @@ var _ = Describe("cli", func() {
           It("should call createCollectionUseCase.Execute with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
-            fakeCreateCollectionUseCase := new(fakeCreateCollectionUseCase)
-            fakeCompositionRoot.CreateCollectionUseCaseReturns(fakeCreateCollectionUseCase)
+            fakeApi := new(core.FakeApi)
+            fakeCompositionRoot.CoreApiReturns(fakeApi)
 
             expectedCollectionName := "dummyCollectionName"
 
@@ -50,8 +51,8 @@ var _ = Describe("cli", func() {
             objectUnderTest.Run([]string{"opctl", "collection", "create", expectedCollectionName})
 
             /* assert */
-            Expect(fakeCreateCollectionUseCase.ExecuteCallCount()).Should(Equal(1))
-            actualCollectionDescription, actualCollectionName := fakeCreateCollectionUseCase.ExecuteArgsForCall(0)
+            Expect(fakeApi.CreateCollectionCallCount()).Should(Equal(1))
+            actualCollectionDescription, actualCollectionName := fakeApi.CreateCollectionArgsForCall(0)
             Expect(actualCollectionName).Should(Equal(expectedCollectionName))
             Expect(actualCollectionDescription).Should(BeEmpty())
           })
@@ -64,8 +65,8 @@ var _ = Describe("cli", func() {
           It("should call setCollectionDescriptionUseCase.Execute with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
-            fakeSetCollectionDescriptionUseCase := new(fakeSetCollectionDescriptionUseCase)
-            fakeCompositionRoot.SetCollectionDescriptionUseCaseReturns(fakeSetCollectionDescriptionUseCase)
+            fakeApi := new(core.FakeApi)
+            fakeCompositionRoot.CoreApiReturns(fakeApi)
 
             expectedCollectionDescription := "dummyCollectionDescription"
 
@@ -75,8 +76,8 @@ var _ = Describe("cli", func() {
             objectUnderTest.Run([]string{"opctl", "collection", "set", "description", expectedCollectionDescription})
 
             /* assert */
-            Expect(fakeSetCollectionDescriptionUseCase.ExecuteCallCount()).Should(Equal(1))
-            Expect(fakeSetCollectionDescriptionUseCase.ExecuteArgsForCall(0)).Should(Equal(expectedCollectionDescription))
+            Expect(fakeApi.SetCollectionDescriptionCallCount()).Should(Equal(1))
+            Expect(fakeApi.SetCollectionDescriptionArgsForCall(0)).Should(Equal(expectedCollectionDescription))
           })
         })
 
@@ -88,8 +89,8 @@ var _ = Describe("cli", func() {
       It("should call streamEventsUseCase.Execute with expected args", func() {
         /* arrange */
         fakeCompositionRoot := new(fakeCompositionRoot)
-        fakeStreamEventsUseCase := new(fakeStreamEventsUseCase)
-        fakeCompositionRoot.StreamEventsUseCaseReturns(fakeStreamEventsUseCase)
+        fakeApi := new(core.FakeApi)
+        fakeCompositionRoot.CoreApiReturns(fakeApi)
 
         objectUnderTest := newCli(fakeCompositionRoot)
 
@@ -97,7 +98,7 @@ var _ = Describe("cli", func() {
         objectUnderTest.Run([]string{"opctl", "events"})
 
         /* assert */
-        Expect(fakeStreamEventsUseCase.ExecuteCallCount()).Should(Equal(1))
+        Expect(fakeApi.StreamEventsCallCount()).Should(Equal(1))
       })
     })
 
@@ -105,8 +106,8 @@ var _ = Describe("cli", func() {
       It("should call killOpRunUseCase.Execute with expected args", func() {
         /* arrange */
         fakeCompositionRoot := new(fakeCompositionRoot)
-        fakeKillOpRunUseCase := new(fakeKillOpRunUseCase)
-        fakeCompositionRoot.KillOpRunUseCaseReturns(fakeKillOpRunUseCase)
+        fakeApi := new(core.FakeApi)
+        fakeCompositionRoot.CoreApiReturns(fakeApi)
 
         expectedOpRunId := "dummyOpRunId"
 
@@ -116,8 +117,8 @@ var _ = Describe("cli", func() {
         objectUnderTest.Run([]string{"opctl", "kill", expectedOpRunId})
 
         /* assert */
-        Expect(fakeKillOpRunUseCase.ExecuteCallCount()).Should(Equal(1))
-        Expect(fakeKillOpRunUseCase.ExecuteArgsForCall(0)).Should(Equal(expectedOpRunId))
+        Expect(fakeApi.KillOpRunCallCount()).Should(Equal(1))
+        Expect(fakeApi.KillOpRunArgsForCall(0)).Should(Equal(expectedOpRunId))
       })
     })
 
@@ -125,8 +126,8 @@ var _ = Describe("cli", func() {
       It("should call listOpsInCollectionUseCase.Execute with expected args", func() {
         /* arrange */
         fakeCompositionRoot := new(fakeCompositionRoot)
-        fakeListOpsInCollectionUseCase := new(fakeListOpsInCollectionUseCase)
-        fakeCompositionRoot.ListOpsInCollectionUseCaseReturns(fakeListOpsInCollectionUseCase)
+        fakeApi := new(core.FakeApi)
+        fakeCompositionRoot.CoreApiReturns(fakeApi)
 
         objectUnderTest := newCli(fakeCompositionRoot)
 
@@ -134,7 +135,7 @@ var _ = Describe("cli", func() {
         objectUnderTest.Run([]string{"opctl", "ls"})
 
         /* assert */
-        Expect(fakeListOpsInCollectionUseCase.ExecuteCallCount()).Should(Equal(1))
+        Expect(fakeApi.ListOpsInCollectionCallCount()).Should(Equal(1))
       })
     })
 
@@ -146,8 +147,8 @@ var _ = Describe("cli", func() {
           It("should call createOpUseCase.Execute with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
-            fakeCreateOpUseCase := new(fakeCreateOpUseCase)
-            fakeCompositionRoot.CreateOpUseCaseReturns(fakeCreateOpUseCase)
+            fakeApi := new(core.FakeApi)
+            fakeCompositionRoot.CoreApiReturns(fakeApi)
 
             expectedOpName := "dummyOpName"
             expectedOpDescription := "dummyOpDescription"
@@ -158,8 +159,8 @@ var _ = Describe("cli", func() {
             objectUnderTest.Run([]string{"opctl", "op", "create", "-d", expectedOpDescription, expectedOpName})
 
             /* assert */
-            Expect(fakeCreateOpUseCase.ExecuteCallCount()).Should(Equal(1))
-            actualOpDescription, actualOpName := fakeCreateOpUseCase.ExecuteArgsForCall(0)
+            Expect(fakeApi.CreateOpCallCount()).Should(Equal(1))
+            actualOpDescription, actualOpName := fakeApi.CreateOpArgsForCall(0)
             Expect(actualOpName).Should(Equal(expectedOpName))
             Expect(actualOpDescription).Should(Equal(expectedOpDescription))
           })
@@ -169,8 +170,8 @@ var _ = Describe("cli", func() {
           It("should call createOpUseCase.Execute with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
-            fakeCreateOpUseCase := new(fakeCreateOpUseCase)
-            fakeCompositionRoot.CreateOpUseCaseReturns(fakeCreateOpUseCase)
+            fakeApi := new(core.FakeApi)
+            fakeCompositionRoot.CoreApiReturns(fakeApi)
 
             expectedOpName := "dummyOpName"
 
@@ -180,8 +181,8 @@ var _ = Describe("cli", func() {
             objectUnderTest.Run([]string{"opctl", "op", "create", expectedOpName})
 
             /* assert */
-            Expect(fakeCreateOpUseCase.ExecuteCallCount()).Should(Equal(1))
-            actualOpDescription, actualOpName := fakeCreateOpUseCase.ExecuteArgsForCall(0)
+            Expect(fakeApi.CreateOpCallCount()).Should(Equal(1))
+            actualOpDescription, actualOpName := fakeApi.CreateOpArgsForCall(0)
             Expect(actualOpName).Should(Equal(expectedOpName))
             Expect(actualOpDescription).Should(BeEmpty())
           })
@@ -194,8 +195,8 @@ var _ = Describe("cli", func() {
           It("should call setOpDescriptionUseCase.Execute with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
-            fakeSetOpDescriptionUseCase := new(fakeSetOpDescriptionUseCase)
-            fakeCompositionRoot.SetOpDescriptionUseCaseReturns(fakeSetOpDescriptionUseCase)
+            fakeApi := new(core.FakeApi)
+            fakeCompositionRoot.CoreApiReturns(fakeApi)
 
             expectedOpName := "dummyOpName"
             expectedOpDescription := "dummyOpDescription"
@@ -206,8 +207,8 @@ var _ = Describe("cli", func() {
             objectUnderTest.Run([]string{"opctl", "op", "set", "description", expectedOpDescription, expectedOpName})
 
             /* assert */
-            Expect(fakeSetOpDescriptionUseCase.ExecuteCallCount()).Should(Equal(1))
-            actualOpDescription, actualOpName := fakeSetOpDescriptionUseCase.ExecuteArgsForCall(0)
+            Expect(fakeApi.SetOpDescriptionCallCount()).Should(Equal(1))
+            actualOpDescription, actualOpName := fakeApi.SetOpDescriptionArgsForCall(0)
             Expect(actualOpName).Should(Equal(expectedOpName))
             Expect(actualOpDescription).Should(Equal(expectedOpDescription))
           })
@@ -223,8 +224,8 @@ var _ = Describe("cli", func() {
         It("should call runOpUseCase.Execute with expected args", func() {
           /* arrange */
           fakeCompositionRoot := new(fakeCompositionRoot)
-          fakeRunOpUseCase := new(fakeRunOpUseCase)
-          fakeCompositionRoot.RunOpUseCaseReturns(fakeRunOpUseCase)
+          fakeApi := new(core.FakeApi)
+          fakeCompositionRoot.CoreApiReturns(fakeApi)
 
           expectedOpUrl := "dummyOpUrl"
           expectedOpRunArgs := []string{"arg1Name=arg1Value", "arg2Name=arg2Value"}
@@ -235,8 +236,8 @@ var _ = Describe("cli", func() {
           objectUnderTest.Run([]string{"opctl", "run", "-a", expectedOpRunArgs[0], "-a", expectedOpRunArgs[1], expectedOpUrl})
 
           /* assert */
-          Expect(fakeRunOpUseCase.ExecuteCallCount()).Should(Equal(1))
-          actualOpRunArgs, actualOpUrl := fakeRunOpUseCase.ExecuteArgsForCall(0)
+          Expect(fakeApi.RunOpCallCount()).Should(Equal(1))
+          actualOpRunArgs, actualOpUrl := fakeApi.RunOpArgsForCall(0)
           Expect(actualOpUrl).Should(Equal(expectedOpUrl))
           Expect(actualOpRunArgs).Should(Equal(expectedOpRunArgs))
         })
@@ -246,8 +247,8 @@ var _ = Describe("cli", func() {
         It("should call runOpUseCase.Execute with expected args", func() {
           /* arrange */
           fakeCompositionRoot := new(fakeCompositionRoot)
-          fakeRunOpUseCase := new(fakeRunOpUseCase)
-          fakeCompositionRoot.RunOpUseCaseReturns(fakeRunOpUseCase)
+          fakeApi := new(core.FakeApi)
+          fakeCompositionRoot.CoreApiReturns(fakeApi)
 
           expectedOpUrl := "dummyOpUrl"
 
@@ -257,9 +258,9 @@ var _ = Describe("cli", func() {
           objectUnderTest.Run([]string{"opctl", "run", expectedOpUrl})
 
           /* assert */
-          Expect(fakeRunOpUseCase.ExecuteCallCount()).Should(Equal(1))
+          Expect(fakeApi.RunOpCallCount()).Should(Equal(1))
 
-          actualOpRunArgs, actualOpUrl := fakeRunOpUseCase.ExecuteArgsForCall(0)
+          actualOpRunArgs, actualOpUrl := fakeApi.RunOpArgsForCall(0)
           Expect(actualOpUrl).Should(Equal(expectedOpUrl))
           Expect(actualOpRunArgs).Should(BeEmpty())
         })
