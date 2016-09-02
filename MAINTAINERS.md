@@ -49,13 +49,13 @@ The current chief maintainer for the project is Chris Dostert
 
 ## Decision Making
 
-[opctl/cli](https://github.com/opctl/cli) is an open-source project with
+[opspec-io/cli](https://github.com/opspec-io/cli) is an open-source project with
 an open design philosophy. This means that the repository is the source
 of truth for EVERY aspect of the project, including its philosophy,
 design, roadmap and APIs. *If it's part of the project, it's in the
 repo.*
 
-All decisions affecting [opctl/cli](https://github.com/opctl/cli), big
+All decisions affecting [opspec-io/cli](https://github.com/opspec-io/cli), big
 and small, follow the same steps:
 
 * Step 1: A pull request is opened.

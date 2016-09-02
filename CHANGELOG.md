@@ -1,5 +1,6 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+
 ## 0.1.9 - 2016-08-21
 ### Added
 - prompt for op args if not provided or in environment
@@ -25,15 +26,15 @@ All notable changes to this project will be documented in this file.
 
 ## 0.1.4 - 2016-07-09
 ### Added
-- [Support new opspec subop `isParallel` flag](https://github.com/opctl/engine/issues/11)
+- [Support new opspec subop `isParallel` flag](https://github.com/opspec-io/engine/issues/11)
 
 ## 0.1.3 - 2016-06-22
 ### Changed
-- updated to opctl/engine:0.1.2 (see [CHANGELOG.md](https://github.com/opctl/engine/tree/0.1.2/CHANGELOG.md))
+- updated to opspec/engine:0.1.2 (see [CHANGELOG.md](https://github.com/opspec-io/engine/tree/0.1.2/CHANGELOG.md))
 
 ## 0.1.2 - 2016-06-22
 ### Changed
-- updated to opctl/engine:0.1.1 (see [CHANGELOG.md](https://github.com/opctl/engine/tree/0.1.1/CHANGELOG.md))
+- updated to opspec/engine:0.1.1 (see [CHANGELOG.md](https://github.com/opspec-io/engine/tree/0.1.1/CHANGELOG.md))
 
 ### Removed
 - `add-sub-op` sub command
