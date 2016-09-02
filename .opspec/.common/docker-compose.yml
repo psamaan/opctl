@@ -3,8 +3,8 @@ services:
   src:
     image: scratch
     volumes:
-      - ../../:/go/src/github.com/opctl/cli
-    working_dir: /go/src/github.com/opctl/cli
+      - ../../:/go/src/github.com/opspec-io/cli
+    working_dir: /go/src/github.com/opspec-io/cli
   go:
     extends:
       service: src

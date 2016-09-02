@@ -3,8 +3,8 @@ package main
 //go:generate counterfeiter -o ./fakeCompositionRoot.go --fake-name fakeCompositionRoot ./ compositionRoot
 
 import (
-  "github.com/opctl/engine-sdk-golang"
-  dockerSdkHostAdapter "github.com/opctl/engine-sdk-golang/adapters/host/docker"
+  "github.com/opspec-io/engine-sdk-golang"
+  dockerSdkHostAdapter "github.com/opspec-io/engine-sdk-golang/adapters/host/docker"
   "github.com/opspec-io/sdk-golang"
   "os"
 )

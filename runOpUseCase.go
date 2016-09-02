@@ -4,9 +4,9 @@ package main
 
 import (
   "fmt"
-  "github.com/opctl/engine-sdk-golang"
-  "github.com/opctl/engine-sdk-golang/models"
-  engineModels "github.com/opctl/engine/core/models"
+  "github.com/opspec-io/engine-sdk-golang"
+  "github.com/opspec-io/engine-sdk-golang/models"
+  engineModels "github.com/opspec-io/engine/core/models"
   "os"
   "syscall"
   "os/signal"
@@ -155,7 +155,7 @@ name string,
 
       switch event := event.(type) {
       case models.LogEntryEmittedEvent:
-        // @TODO: this doesn't catch log entries for the same tree but triggered from different actions (such as kills) see https://github.com/opctl/engine/issues/2
+        // @TODO: this doesn't catch log entries for the same tree but triggered from different actions (such as kills) see https://github.com/opspec-io/engine/issues/2
         if (event.CorrelationId() == correlationId) {
           fmt.Printf(
             "%v \n",

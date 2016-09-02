@@ -3,8 +3,8 @@ package main
 //go:generate counterfeiter -o ./fakeKillOpRunUseCase.go --fake-name fakeKillOpRunUseCase ./ killOpRunUseCase
 
 import (
-  "github.com/opctl/engine-sdk-golang/models"
-  "github.com/opctl/engine-sdk-golang"
+  "github.com/opspec-io/engine-sdk-golang/models"
+  "github.com/opspec-io/engine-sdk-golang"
 )
 
 type killOpRunUseCase interface {

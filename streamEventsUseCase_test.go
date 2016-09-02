@@ -3,8 +3,8 @@ package main
 import (
   . "github.com/onsi/ginkgo"
   . "github.com/onsi/gomega"
-  "github.com/opctl/engine-sdk-golang"
-  "github.com/opctl/engine-sdk-golang/models"
+  "github.com/opspec-io/engine-sdk-golang"
+  "github.com/opspec-io/engine-sdk-golang/models"
   "errors"
 )
 

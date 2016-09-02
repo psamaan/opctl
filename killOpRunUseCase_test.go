@@ -3,9 +3,9 @@ package main
 import (
   . "github.com/onsi/ginkgo"
   . "github.com/onsi/gomega"
-  "github.com/opctl/engine-sdk-golang"
+  "github.com/opspec-io/engine-sdk-golang"
   "errors"
-  "github.com/opctl/engine/core/models"
+  "github.com/opspec-io/engine/core/models"
 )
 
 var _ = Describe("killOpRunUseCase", func() {
