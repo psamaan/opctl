@@ -23,7 +23,7 @@ var _ = Describe("createCollectionUseCase", func() {
       expectedCollectionName := "dummyCollectionName"
 
       expectedReq := *opspecModels.NewCreateCollectionReq(
-        path.Join(workDirPath, ".opspec", expectedCollectionName),
+        path.Join(workDirPath, expectedCollectionName),
         expectedCollectionName,
         "dummyCollectionDescription",
       )

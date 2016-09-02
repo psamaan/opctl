@@ -10,6 +10,8 @@ services:
       sh -c "
         go get -t ./... && \
         go get github.com/onsi/ginkgo/ginkgo && \
-        ginkgo -cover --progress . ./core
+        ginkgo -cover -race --progress . ./core
       "
+    environment:
+      - CGO_ENABLED=1
     network_mode: host
