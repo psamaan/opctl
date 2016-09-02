@@ -39,7 +39,7 @@ func New(
 host ports.Host,
 ) (sdk Sdk, err error) {
 
-  err = host.EnsureRunning("opctl/engine:0.1.6")
+  err = host.EnsureRunning("opspec/engine:0.1.7")
   if (nil != err) {
     return
   }
