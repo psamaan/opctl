@@ -3,9 +3,9 @@ package main
 //go:generate counterfeiter -o ./fakeStreamEventsUseCase.go --fake-name fakeStreamEventsUseCase ./ streamEventsUseCase
 
 import (
-  "github.com/opctl/engine-sdk-golang/models"
+  "github.com/opspec-io/engine-sdk-golang/models"
   "fmt"
-  "github.com/opctl/engine-sdk-golang"
+  "github.com/opspec-io/engine-sdk-golang"
 )
 
 type streamEventsUseCase interface {
