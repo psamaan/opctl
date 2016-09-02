@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/opctl/cli.svg?branch=master)](https://travis-ci.org/opctl/cli)
-[![Coverage](https://codecov.io/gh/opctl/cli/branch/master/graph/badge.svg)](https://codecov.io/gh/opctl/cli)
+[![Build Status](https://travis-ci.org/opspec-io/cli.svg?branch=master)](https://travis-ci.org/opspec-io/cli)
+[![Coverage](https://codecov.io/gh/opspec-io/cli/branch/master/graph/badge.svg)](https://codecov.io/gh/opspec-io/cli)
 
 CLI for controlling http://opspec.io compliant ops.
 
@@ -47,8 +47,8 @@ Run 'opctl COMMAND --help' for more information on a command.
 
 # Releases
 
-All releases will be [tagged](https://github.com/opctl/cli/tags) and
-made available on the [releases](https://github.com/opctl/cli/releases)
+All releases will be [tagged](https://github.com/opspec-io/cli/tags) and
+made available on the [releases](https://github.com/opspec-io/cli/releases)
 page with links to the corresponding versions of the
 [INSTALLATION.md](INSTALLATION.md) and [CHANGELOG.md](CHANGELOG.md)
 docs.

@@ -3,7 +3,7 @@ sudo: required
 before_script:
 - sudo apt-get remove --purge docker-engine
 - curl -fsSL https://get.docker.com/ | sh
-- sudo curl -L -o /usr/local/bin/opctl https://github.com/opctl/cli/releases/download/0.1.9/opctl-linux-x86_64
+- sudo curl -L -o /usr/local/bin/opctl https://github.com/opspec-io/cli/releases/download/0.1.9/opctl-linux-x86_64
 - sudo chmod +x /usr/local/bin/opctl
 services:
 - docker
@@ -11,4 +11,4 @@ script:
 - opctl run -a GIT_BRANCH=$TRAVIS_BRANCH release
 env:
   global:
-    secure: Ar6mYU0kIjOEue623L6wPmqq3xyP4F0Vuvq9vzk1BGC8iyJRTYGRutHbJXHD/oyQo9naTA6Gn5qHGJhHYVUZa9/cMlgsXlkFyIFwFYAHYTdW4DQjRI+c+HAdThNbr/rvpuh35MECQgEYVsSz0JV2OSnN7oa7kPHLuPWdNemAK/TysOPs8iSp9WxjL1Dn1NrzRzYiZ8GzDzb1oTgiBmCAh/L5k4TXg5hdO6VpHZpu6pj28j0Yet2lO2FNMaRrqoPCyxfMiiNDKNDvE6M4r2fLHhiH/M8mraAudPJ1lPrRgQ2LtrWQaGb54SXxv2AypX/t0RATiESzz2jRTrwgwXcFS8+petAgj9ydMOnCbmDiM9+iu3Ht9TuPZ+wi1imRHSCTxKbE3g2DbSsJdxKQgGFNOB1CSt+u14s6ze6WDIfGws2rXVuZpbrOw1CDaEUfvG5PhiToiKJyfmg0vrrexu1FXGGqAuRLHorMFO6U2X/csM4qWP9L6VQQ7M4+UMsAj6LYFdz6Sfzirmi4NaQanHAXAGgjshkYQ5OHCcy+TnwvjcZlP0f2/vp4ya+rsMutvIEmk9hu2/TJIRmSb7pMrm5sUiMSXWIKOPA/axTlZ1hr7q39jN1SZ0dVdOWzBlz04xyS8aKtpAlctCtBlcMLZKk0Qf/LSA0C9I4+fy4R2TJtRGA=
+    secure: DnqH08zzIPW9sLx0pBZfodqh35ObREdWMkVCnkHpR7gOqp6jYL1Taj66HPKxV8HZWTODvRnXRuR3tVoZ8eeZMiYvq2odtOaRNnzx19OAmyXRnHibASVRLgYVChqrOiLBf+qyVCmAy4BnMaFKr8Rdd8k7VwakQIx0s5Yqi+3DY5UQmL46PfHWZURfhs2SZ2DZldHxa/K8rhOItISh9PhrSRoqnbwagMFJY9RfYXmhcPtjsJ5DwQPxWyq58uoAKgpUtlZoxDpgl4FcZBLDqiP4wuPLBp5bqhaySemFMCZ//5QKoLMkfXXIpArAw1cEbJfwVhGyAgVFaF4nWKwz23IRNRvLshkCP+5bFgOGrsXBU9honxOWmBFQ8AQPy/aYUZvK9yGMeos4eI4yfQCfTeC0mzZBR2US8FNQXvRkvJAuCivtxk0Ike1GBv5KRUcCAo6vMAGHxzhYvNpOohY6mVM2ErLdwXFTqzGsuZzxfEwjHaDo0NzHeQSBs4ayhEqIfhmE3YLq2g7QOafThVMydqCc0RxlNW+k1H0eAkfuhrIQb6ILVWpTMHsBEuFjOBoC4zPYXXfbt7OfxzC/OED91qDV01Psd5ZmZUQpGuZywmPKRj+x53czzdBXo9N3L7RSooJowUAovOe8JqlUDHO32uTztHzeUz9lpf0HJwx1DB8vnDM=
