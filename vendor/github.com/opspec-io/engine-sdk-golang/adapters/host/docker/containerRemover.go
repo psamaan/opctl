@@ -2,10 +2,12 @@ package docker
 
 import (
   "os/exec"
+  "fmt"
 )
 
 type containerRemover interface {
-  ContainerRemove(
+  RemoveIfExists(
+  containerName string,
   ) (err error)
 }
 
@@ -20,18 +22,52 @@ func newContainerRemover(
 
 type _containerRemover struct{}
 
-func (this _containerRemover) ContainerRemove(
+func (this _containerRemover) RemoveIfExists(
+containerName string,
 ) (err error) {
 
-  dockerRmCmd :=
-  exec.Command(
-    "docker",
-    "rm",
-    "-v",
-    containerName,
-  )
+  dockerPsCmd :=
+    exec.Command(
+      "docker",
+      "ps",
+      "-a",
+      "-q",
+      "-f",
+      fmt.Sprintf("name=%v", containerName),
+    )
 
-  _, err = dockerRmCmd.Output()
+  dockerPsCmdOutput, dockerPsCmdErr := dockerPsCmd.Output()
+
+  if (nil != dockerPsCmdErr) {
+    switch dockerRmCmdErr := dockerPsCmdErr.(type){
+    case *exec.ExitError:
+      err = fmt.Errorf("Docker returned error:\n  %v", string(dockerRmCmdErr.Stderr))
+    default:
+      err = dockerRmCmdErr
+    }
+    return
+  }
+
+  if (len(dockerPsCmdOutput) > 0 ) {
+    dockerRmCmd :=
+      exec.Command(
+        "docker",
+        "rm",
+        "-fv",
+        containerName,
+      )
+
+    _, dockerRmCmdErr := dockerRmCmd.Output()
+
+    if (nil != dockerRmCmdErr) {
+      switch dockerRmCmdErr := dockerRmCmdErr.(type){
+      case *exec.ExitError:
+        err = fmt.Errorf("Docker returned error:\n  %v", string(dockerRmCmdErr.Stderr))
+      default:
+        err = dockerRmCmdErr
+      }
+    }
+  }
 
   return
 }

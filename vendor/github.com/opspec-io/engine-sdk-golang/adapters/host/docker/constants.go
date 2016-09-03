@@ -1,5 +1,6 @@
 package docker
 
 const(
-  containerName ="opctl_engine"
+  obsoleteContainerName = "opctl_engine"
+  containerName = "opspec.engine"
 )

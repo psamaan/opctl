@@ -1,10 +1,5 @@
 package docker
 
-import (
-  "fmt"
-  "errors"
-)
-
 type ensureRunningUseCase interface {
   Execute(
   image string,
@@ -14,15 +9,13 @@ type ensureRunningUseCase interface {
 func newEnsureRunningUseCase(
 containerRemover           containerRemover,
 containerStarter           containerStarter,
-isContainerExistentChecker isContainerExistentChecker,
-isContainerRunningChecker  isContainerRunningChecker,
+containerChecker  containerChecker,
 ) (ensureRunningUseCase ensureRunningUseCase) {
 
   ensureRunningUseCase = &_ensureRunningUseCase{
     containerRemover:containerRemover,
     containerStarter:containerStarter,
-    isContainerExistentChecker:isContainerExistentChecker,
-    isContainerRunningChecker:isContainerRunningChecker,
+    containerChecker:containerChecker,
   }
 
   return
@@ -30,40 +23,29 @@ isContainerRunningChecker  isContainerRunningChecker,
 }
 
 type _ensureRunningUseCase struct {
-  containerRemover           containerRemover
-  containerStarter           containerStarter
-  isContainerExistentChecker isContainerExistentChecker
-  isContainerRunningChecker  isContainerRunningChecker
+  containerRemover containerRemover
+  containerStarter containerStarter
+  containerChecker containerChecker
 }
 
 func (this _ensureRunningUseCase) Execute(
 image string,
 ) (err error) {
 
-  // if already running we're done
-  isContainerRunning, err := this.isContainerRunningChecker.IsContainerRunningCheck(image)
-  if (nil != err) {
-    err = errors.New(
-      fmt.Sprintf("Unable to connect to docker engine\n error was: %v \n", err),
-    )
-    return
-  } else if (isContainerRunning) {
+  // handle obsolete container
+  this.containerRemover.RemoveIfExists(obsoleteContainerName)
+
+  // if valid container running or error checking, return
+  isValidContainerRunning, err := this.containerChecker.IsValidContainerRunning(image)
+  if (nil != err || isValidContainerRunning) {
     return
   }
 
-  // if not running but exists we need to kill it.
-  isContainerExistent, err := this.isContainerExistentChecker.IsContainerExistentCheck(image)
-  if (nil != err) {
-    return
-  }
-  if (isContainerExistent) {
-    err = this.containerRemover.ContainerRemove()
-    if (nil != err) {
-      return
-    }
-  }
+  // cleanup invalid container
+  this.containerRemover.RemoveIfExists(containerName)
 
-  err = this.containerStarter.ContainerStart(image)
+  // start fresh container
+  err = this.containerStarter.Start(image)
 
   return
 }
