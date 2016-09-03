@@ -14,7 +14,7 @@ var _ = Describe("cli", func() {
       Context("create", func() {
 
         Context("with description", func() {
-          It("should call createCollectionUseCase.Execute with expected args", func() {
+          It("should call compositionRoot.CoreApi.CreateCollection with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
             fakeApi := new(core.FakeApi)
@@ -37,7 +37,7 @@ var _ = Describe("cli", func() {
         })
 
         Context("with no description", func() {
-          It("should call createCollectionUseCase.Execute with expected args", func() {
+          It("should call compositionRoot.CoreApi.CreateCollectionUseCase with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
             fakeApi := new(core.FakeApi)
@@ -62,7 +62,7 @@ var _ = Describe("cli", func() {
       Context("set", func() {
 
         Context("description", func() {
-          It("should call setCollectionDescriptionUseCase.Execute with expected args", func() {
+          It("should call compositionRoot.CoreApi.SetCollectionDescription with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
             fakeApi := new(core.FakeApi)
@@ -86,7 +86,7 @@ var _ = Describe("cli", func() {
     })
 
     Context("events", func() {
-      It("should call streamEventsUseCase.Execute with expected args", func() {
+      It("should call compositionRoot.CoreApi.StreamEvents with expected args", func() {
         /* arrange */
         fakeCompositionRoot := new(fakeCompositionRoot)
         fakeApi := new(core.FakeApi)
@@ -103,7 +103,7 @@ var _ = Describe("cli", func() {
     })
 
     Context("kill", func() {
-      It("should call killOpRunUseCase.Execute with expected args", func() {
+      It("should call compositionRoot.CoreApi.KillOpRun with expected args", func() {
         /* arrange */
         fakeCompositionRoot := new(fakeCompositionRoot)
         fakeApi := new(core.FakeApi)
@@ -123,7 +123,7 @@ var _ = Describe("cli", func() {
     })
 
     Context("ls", func() {
-      It("should call listOpsInCollectionUseCase.Execute with expected args", func() {
+      It("should call compositionRoot.CoreApi.ListOpsInCollection with expected args", func() {
         /* arrange */
         fakeCompositionRoot := new(fakeCompositionRoot)
         fakeApi := new(core.FakeApi)
@@ -144,7 +144,7 @@ var _ = Describe("cli", func() {
       Context("create", func() {
 
         Context("with description", func() {
-          It("should call createOpUseCase.Execute with expected args", func() {
+          It("should call compositionRoot.CoreApi.CreateOp with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
             fakeApi := new(core.FakeApi)
@@ -167,7 +167,7 @@ var _ = Describe("cli", func() {
         })
 
         Context("with no description", func() {
-          It("should call createOpUseCase.Execute with expected args", func() {
+          It("should call compositionRoot.CoreApi.CreateOp with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
             fakeApi := new(core.FakeApi)
@@ -192,7 +192,7 @@ var _ = Describe("cli", func() {
       Context("set", func() {
 
         Context("description", func() {
-          It("should call setOpDescriptionUseCase.Execute with expected args", func() {
+          It("should call compositionRoot.CoreApi.SetOpDescription with expected args", func() {
             /* arrange */
             fakeCompositionRoot := new(fakeCompositionRoot)
             fakeApi := new(core.FakeApi)
@@ -221,7 +221,7 @@ var _ = Describe("cli", func() {
     Context("run", func() {
 
       Context("with two op run args", func() {
-        It("should call runOpUseCase.Execute with expected args", func() {
+        It("should call compositionRoot.CoreApi.RunOp with expected args", func() {
           /* arrange */
           fakeCompositionRoot := new(fakeCompositionRoot)
           fakeApi := new(core.FakeApi)
@@ -244,7 +244,7 @@ var _ = Describe("cli", func() {
       })
 
       Context("with zero op run args", func() {
-        It("should call runOpUseCase.Execute with expected args", func() {
+        It("should call compositionRoot.CoreApi.RunOp with expected args", func() {
           /* arrange */
           fakeCompositionRoot := new(fakeCompositionRoot)
           fakeApi := new(core.FakeApi)
