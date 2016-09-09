@@ -79,28 +79,25 @@ name string,
   argsMap := make(map[string]string)
   for _, opParam := range opView.Inputs {
 
-    if (nil != opParam.String) {
-
-      if providedArg, ok := providedArgMap[opParam.Name]; ok {
-        argsMap[opParam.Name] = providedArg
-      } else if ("" != os.Getenv(opParam.Name)) {
-        argsMap[opParam.Name] = os.Getenv(opParam.Name)
+    if providedArg, ok := providedArgMap[opParam.Name]; ok {
+      argsMap[opParam.Name] = providedArg
+    } else if ("" != os.Getenv(opParam.Name)) {
+      argsMap[opParam.Name] = os.Getenv(opParam.Name)
+    } else {
+      var argValue string
+      argPrompt := fmt.Sprintf("%v: ", opParam.Name)
+      if (opParam.IsSecret) {
+        argValue, err = line.PasswordPrompt(argPrompt)
       } else {
-        var argValue string
-        argPrompt := fmt.Sprintf("%v: ", opParam.Name)
-        if (opParam.IsSecret) {
-          argValue, err = line.PasswordPrompt(argPrompt)
-        } else {
-          argValue, err = line.Prompt(argPrompt)
-        }
-
-        if (nil != err) {
-          this.exiter.Exit(ExitReq{Message:err.Error(), Code:1})
-          return // support fake exiter
-        }
-
-        argsMap[opParam.Name] = argValue
+        argValue, err = line.Prompt(argPrompt)
       }
+
+      if (nil != err) {
+        this.exiter.Exit(ExitReq{Message:err.Error(), Code:1})
+        return // support fake exiter
+      }
+
+      argsMap[opParam.Name] = argValue
     }
   }
 
