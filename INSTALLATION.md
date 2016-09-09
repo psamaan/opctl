@@ -3,7 +3,7 @@
 ## On Linux
 
 ```shell
-curl -L -o /usr/local/bin/opctl https://github.com/opspec-io/cli/releases/download/0.1.10/opctl-linux-x86_64 && \
+curl -L -o /usr/local/bin/opctl https://github.com/opspec-io/cli/releases/download/0.1.11/opctl-linux-x86_64 && \
 chmod +x /usr/local/bin/opctl
 ```
 
@@ -16,7 +16,7 @@ chmod +x /usr/local/bin/opctl
 > [docker-machine-nfs](https://github.com/adlogix/docker-machine-nfs)
 
 ```shell
-curl -L -o /usr/local/bin/opctl https://github.com/opspec-io/cli/releases/download/0.1.10/opctl-darwin-x86_64 && \
+curl -L -o /usr/local/bin/opctl https://github.com/opspec-io/cli/releases/download/0.1.11/opctl-darwin-x86_64 && \
 chmod +x /usr/local/bin/opctl
 ```
 
@@ -24,6 +24,7 @@ chmod +x /usr/local/bin/opctl
 
 ```shell
 if [[ ! -d "$HOME/bin" ]]; then mkdir -p "$HOME/bin"; fi && \
-curl -L https://github.com/opspec-io/cli/releases/download/0.1.10/opctl-windows-x86_64.exe > "$HOME/bin/opctl.exe" && \
+curl -L https://github.com/opspec-io/cli/releases/download/0.1.11/opctl-windows-x86_64.exe > "$HOME/bin/opctl.exe" && \
 chmod +x "$HOME/bin/opctl.exe"
 ```
+
