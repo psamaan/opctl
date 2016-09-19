@@ -5,7 +5,7 @@ package core
 import (
   "path"
   "github.com/opspec-io/sdk-golang"
-  opspecModels "github.com/opspec-io/sdk-golang/models"
+  models "github.com/opspec-io/sdk-golang/models"
 )
 
 type createCollectionUseCase interface {
@@ -35,7 +35,7 @@ description string,
 name string,
 ) error {
   err := this.opspecSdk.CreateCollection(
-    *opspecModels.NewCreateCollectionReq(
+    *models.NewCreateCollectionReq(
       path.Join(this.workDirPathGetter.Get(), name),
       name,
       description,

@@ -5,7 +5,7 @@ package core
 import (
   "path"
   "github.com/opspec-io/sdk-golang"
-  opspecModels "github.com/opspec-io/sdk-golang/models"
+  "github.com/opspec-io/sdk-golang/models"
 )
 
 type setCollectionDescriptionUseCase interface {
@@ -33,10 +33,10 @@ func (this _setCollectionDescriptionUseCase) Execute(
 description string,
 ) error {
   err := this.opspecSdk.SetCollectionDescription(
-    *opspecModels.NewSetCollectionDescriptionReq(
-      path.Join(this.workDirPathGetter.Get(), ".opspec"),
-      description,
-    ),
+    models.SetCollectionDescriptionReq{
+      PathToCollection:path.Join(this.workDirPathGetter.Get(), ".opspec"),
+      Description:description,
+    },
   )
   if (nil != err) {
     return err

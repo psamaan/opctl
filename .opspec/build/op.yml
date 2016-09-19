@@ -1,9 +1,8 @@
 description: builds binaries for all supported platforms/architectures
 name: build
 run:
-  serial:
+  parallel:
   - op: test
-  - parallel:
-    - op: build-bin-darwin
-    - op: build-bin-linux
-    - op: build-bin-windows
+  - op: build-bin-darwin
+  - op: build-bin-linux
+  - op: build-bin-windows

@@ -1,0 +1,20 @@
+version: "2"
+services:
+  publish-coverage:
+    extends:
+      service: go
+      file: ../.common/docker-compose.yml
+    environment:
+      - CODECOV_TOKEN
+      - GIT_BRANCH
+    entrypoint: |
+      sh -ce "
+        # generate aggregate coverage profile
+        find . -name '*.coverprofile' | xargs cat > coverage.txt
+
+        # strip fakes from coverage profile
+        sed -i '/fake/d' coverage.txt
+
+        # upload
+        curl -s https://codecov.io/bash | bash -s
+      "

@@ -3,9 +3,8 @@ package core
 //go:generate counterfeiter -o ./fakeStreamEventsUseCase.go --fake-name fakeStreamEventsUseCase ./ streamEventsUseCase
 
 import (
-  "github.com/opspec-io/engine-sdk-golang/models"
   "fmt"
-  "github.com/opspec-io/engine-sdk-golang"
+  "github.com/opspec-io/sdk-golang"
 )
 
 type streamEventsUseCase interface {
@@ -14,23 +13,23 @@ type streamEventsUseCase interface {
 
 func newStreamEventsUseCase(
 exiter exiter,
-opctlEngineSdk opctlengine.Sdk,
+opspecSdk opspec.Sdk,
 ) streamEventsUseCase {
   return _streamEventsUseCase{
     exiter:exiter,
-    opctlEngineSdk:opctlEngineSdk,
+    opspecSdk:opspecSdk,
   }
 }
 
 type _streamEventsUseCase struct {
-  exiter         exiter
-  opctlEngineSdk opctlengine.Sdk
+  exiter    exiter
+  opspecSdk opspec.Sdk
 }
 
 func (this _streamEventsUseCase) Execute(
 ) {
 
-  eventChannel, err := this.opctlEngineSdk.GetEventStream()
+  eventChannel, err := this.opspecSdk.GetEventStream()
   if (nil != err) {
     this.exiter.Exit(ExitReq{Message:err.Error(), Code:1})
     return // support fake exiter
@@ -44,27 +43,30 @@ func (this _streamEventsUseCase) Execute(
       return // support fake exiter
     }
 
-    switch event := event.(type) {
-    case models.LogEntryEmittedEvent:
+    if (nil != event.ContainerStdOutWrittenTo) {
       fmt.Printf(
         "%v \n",
-        event.LogEntryMsg(),
+        string(event.ContainerStdOutWrittenTo.Data),
       )
-    case models.OpRunStartedEvent:
+    } else if (nil != event.ContainerStdErrWrittenTo) {
       fmt.Printf(
-        "OpRunStarted: Id=%v OpUrl=%v Timestamp=%v \n",
-        event.OpRunId(),
-        event.OpRunOpUrl(),
-        event.Timestamp(),
+        "%v \n",
+        string(event.ContainerStdErrWrittenTo.Data),
       )
-    case models.OpRunEndedEvent:
+    } else if (nil != event.OpRunStarted) {
       fmt.Printf(
-        "OpRunEnded: Outcome=%v Id=%v Timestamp=%v \n",
-        event.Outcome(),
-        event.OpRunId(),
-        event.Timestamp(),
+        "OpRunStarted: Id=%v OpRef=%v Timestamp=%v \n",
+        event.OpRunStarted.OpRunId,
+        event.OpRunStarted.OpRef,
+        event.Timestamp,
       )
-    default: // no op
+    } else if (nil != event.OpRunEnded) {
+      fmt.Printf(
+        "OpRunEnded: Outcome:%v Id=%v Timestamp=%v \n",
+        event.OpRunEnded.Outcome,
+        event.OpRunEnded.OpRunId,
+        event.Timestamp,
+      )
     }
 
   }

@@ -5,7 +5,7 @@ package core
 import (
   "path"
   "github.com/opspec-io/sdk-golang"
-  opspecModels "github.com/opspec-io/sdk-golang/models"
+  "github.com/opspec-io/sdk-golang/models"
 )
 
 type setOpDescriptionUseCase interface {
@@ -35,10 +35,10 @@ description string,
 name string,
 ) error {
   err := this.opspecSdk.SetOpDescription(
-    *opspecModels.NewSetOpDescriptionReq(
-      path.Join(this.workDirPathGetter.Get(), ".opspec", name),
-      description,
-    ),
+    models.SetOpDescriptionReq{
+      PathToOp:path.Join(this.workDirPathGetter.Get(), ".opspec", name),
+      Description:description,
+    },
   )
   if (nil != err) {
     return err

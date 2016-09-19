@@ -3,8 +3,6 @@ package core
 //go:generate counterfeiter -o ./fakeCompositionRoot.go --fake-name fakeCompositionRoot ./ compositionRoot
 
 import (
-  "github.com/opspec-io/engine-sdk-golang"
-  dockerSdkHostAdapter "github.com/opspec-io/engine-sdk-golang/adapters/host/docker"
   "github.com/opspec-io/sdk-golang"
   "os"
 )
@@ -25,25 +23,18 @@ func newCompositionRoot(
 
   exiter := newExiter()
 
-  opctlEngineSdk, err := opctlengine.New(
-    dockerSdkHostAdapter.New(),
-  )
-  if (nil != err) {
-    exiter.Exit(ExitReq{Message:err.Error(), Code:1})
-  }
-
   opspecSdk := opspec.New()
   workDirPathGetter := newWorkDirPathGetter()
 
   compositionRoot = &_compositionRoot{
     createCollectionUseCase:newCreateCollectionUseCase(opspecSdk, workDirPathGetter),
     createOpUseCase:newCreateOpUseCase(opspecSdk, workDirPathGetter),
-    killOpRunUseCase:newKillOpRunUseCase(opctlEngineSdk),
+    killOpRunUseCase:newKillOpRunUseCase(opspecSdk),
     listOpsInCollectionUseCase:newListOpsInCollectionUseCase(opspecSdk, workDirPathGetter, os.Stdout),
-    runOpUseCase:newRunOpUseCase(exiter, opspecSdk, opctlEngineSdk, workDirPathGetter),
+    runOpUseCase:newRunOpUseCase(exiter, opspecSdk, workDirPathGetter),
     setCollectionDescriptionUseCase:newSetCollectionDescriptionUseCase(opspecSdk, workDirPathGetter),
     setOpDescriptionUseCase:newSetOpDescriptionUseCase(opspecSdk, workDirPathGetter),
-    streamEventsUseCase:newStreamEventsUseCase(exiter, opctlEngineSdk),
+    streamEventsUseCase:newStreamEventsUseCase(exiter, opspecSdk),
   }
 
   return

@@ -3,40 +3,40 @@ package core
 import (
   . "github.com/onsi/ginkgo"
   . "github.com/onsi/gomega"
-  "github.com/opspec-io/engine-sdk-golang"
-  "github.com/opspec-io/engine-sdk-golang/models"
   "errors"
+  "github.com/opspec-io/sdk-golang"
+  "github.com/opspec-io/sdk-golang/models"
 )
 
 var _ = Describe("streamEventsUseCase", func() {
   Context("Execute", func() {
-    It("should invoke opctlEngineSdk.GetEventStream", func() {
+    It("should invoke opspecSdk.GetEventStream", func() {
       /* arrange */
       fakeExiter := new(fakeExiter)
 
-      fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
+      fakeOpspecSdk := new(opspec.FakeSdk)
       eventChannel := make(chan models.Event)
       close(eventChannel)
-      fakeOpctlEngineSdk.GetEventStreamReturns(eventChannel, nil)
+      fakeOpspecSdk.GetEventStreamReturns(eventChannel, nil)
 
-      objectUnderTest := newStreamEventsUseCase(fakeExiter, fakeOpctlEngineSdk)
+      objectUnderTest := newStreamEventsUseCase(fakeExiter, fakeOpspecSdk)
 
       /* act */
       objectUnderTest.Execute()
 
       /* assert */
-      Expect(fakeOpctlEngineSdk.GetEventStreamCallCount()).Should(Equal(1))
+      Expect(fakeOpspecSdk.GetEventStreamCallCount()).Should(Equal(1))
 
     })
-    It("should call exiter with expected args when opctlEngineSdk.GetEventStream returns error", func() {
+    It("should call exiter with expected args when opspecSdk.GetEventStream returns error", func() {
       /* arrange */
       fakeExiter := new(fakeExiter)
       returnedError := errors.New("dummyError")
 
-      fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
-      fakeOpctlEngineSdk.GetEventStreamReturns(nil, returnedError)
+      fakeOpspecSdk := new(opspec.FakeSdk)
+      fakeOpspecSdk.GetEventStreamReturns(nil, returnedError)
 
-      objectUnderTest := newStreamEventsUseCase(fakeExiter, fakeOpctlEngineSdk)
+      objectUnderTest := newStreamEventsUseCase(fakeExiter, fakeOpspecSdk)
 
       /* act */
       objectUnderTest.Execute()
@@ -49,12 +49,12 @@ var _ = Describe("streamEventsUseCase", func() {
       /* arrange */
       fakeExiter := new(fakeExiter)
 
-      fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
+      fakeOpspecSdk := new(opspec.FakeSdk)
       eventChannel := make(chan models.Event)
       close(eventChannel)
-      fakeOpctlEngineSdk.GetEventStreamReturns(eventChannel, nil)
+      fakeOpspecSdk.GetEventStreamReturns(eventChannel, nil)
 
-      objectUnderTest := newStreamEventsUseCase(fakeExiter, fakeOpctlEngineSdk)
+      objectUnderTest := newStreamEventsUseCase(fakeExiter, fakeOpspecSdk)
 
       /* act */
       objectUnderTest.Execute()

@@ -1,22 +1,23 @@
 version: "2"
 services:
-  src:
+  working_dir:
     image: scratch
     volumes:
       - ../../:/go/src/github.com/opspec-io/cli
     working_dir: /go/src/github.com/opspec-io/cli
   go:
     extends:
-      service: src
+      service: working_dir
     build: ./
     environment:
-      - "GOARCH=amd64"
-      - CGO_ENABLED=0
+      - GOARCH=amd64
+      - GOOS=linux
   go-build:
     extends:
       service: go
     entrypoint: |
       sh -c "
-        go get ./... && \
         go build -a -o tmp/opctl-$${GOOS}-x86_64$${OUTPUT_FILE_EXTENSION}
       "
+    environment:
+      - CGO_ENABLED=0
