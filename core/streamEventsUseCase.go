@@ -6,6 +6,7 @@ import (
   "fmt"
   "github.com/opspec-io/sdk-golang"
   "os"
+  "time"
 )
 
 type streamEventsUseCase interface {
@@ -53,14 +54,14 @@ func (this _streamEventsUseCase) Execute(
         "OpRunStarted: Id=%v OpRef=%v Timestamp=%v \n",
         event.OpRunStarted.OpRunId,
         event.OpRunStarted.OpRef,
-        event.Timestamp,
+        event.Timestamp.Format(time.RFC3339),
       )
     } else if (nil != event.OpRunEnded) {
       fmt.Printf(
         "OpRunEnded: Id=%v Outcome=%v Timestamp=%v \n",
         event.OpRunEnded.OpRunId,
         event.OpRunEnded.Outcome,
-        event.Timestamp,
+        event.Timestamp.Format(time.RFC3339),
       )
     }
 

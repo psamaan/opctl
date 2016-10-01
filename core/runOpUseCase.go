@@ -12,6 +12,7 @@ import (
   "path"
   "github.com/peterh/liner"
   "github.com/opspec-io/sdk-golang/models"
+  "time"
 )
 
 type runOpUseCase interface {
@@ -159,14 +160,14 @@ name string,
           "OpRunStarted: Id=%v OpRef=%v Timestamp=%v \n",
           event.OpRunStarted.OpRunId,
           event.OpRunStarted.OpRef,
-          event.Timestamp,
+          event.Timestamp.Format(time.RFC3339),
         )
       } else if (nil != event.OpRunEnded && event.OpRunEnded.RootOpRunId == rootOpRunId) {
         fmt.Printf(
           "OpRunEnded: Id=%v Outcome=%v Timestamp=%v \n",
           event.OpRunEnded.OpRunId,
           event.OpRunEnded.Outcome,
-          event.Timestamp,
+          event.Timestamp.Format(time.RFC3339),
         )
         if (event.OpRunEnded.OpRunId == rootOpRunId) {
           switch event.OpRunEnded.Outcome{
