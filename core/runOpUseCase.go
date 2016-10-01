@@ -151,15 +151,9 @@ name string,
       }
 
       if (nil != event.ContainerStdOutWrittenTo && event.ContainerStdOutWrittenTo.RootOpRunId == rootOpRunId) {
-        fmt.Printf(
-          "%v \n",
-          string(event.ContainerStdOutWrittenTo.Data),
-        )
+        fmt.Fprintf(os.Stdout, "%v \n", string(event.ContainerStdOutWrittenTo.Data))
       } else if (nil != event.ContainerStdErrWrittenTo && event.ContainerStdErrWrittenTo.RootOpRunId == rootOpRunId) {
-        fmt.Printf(
-          "%v \n",
-          string(event.ContainerStdErrWrittenTo.Data),
-        )
+        fmt.Fprintf(os.Stderr, "%v \n", string(event.ContainerStdErrWrittenTo.Data))
       } else if (nil != event.OpRunStarted && event.OpRunStarted.RootOpRunId == rootOpRunId) {
         fmt.Printf(
           "OpRunStarted: Id=%v OpRef=%v Timestamp=%v \n",
@@ -169,9 +163,9 @@ name string,
         )
       } else if (nil != event.OpRunEnded && event.OpRunEnded.RootOpRunId == rootOpRunId) {
         fmt.Printf(
-          "OpRunEnded: Outcome:%v Id=%v Timestamp=%v \n",
-          event.OpRunEnded.Outcome,
+          "OpRunEnded: Id=%v Outcome=%v Timestamp=%v \n",
           event.OpRunEnded.OpRunId,
+          event.OpRunEnded.Outcome,
           event.Timestamp,
         )
         if (event.OpRunEnded.OpRunId == rootOpRunId) {

@@ -5,6 +5,7 @@ package core
 import (
   "fmt"
   "github.com/opspec-io/sdk-golang"
+  "os"
 )
 
 type streamEventsUseCase interface {
@@ -44,15 +45,9 @@ func (this _streamEventsUseCase) Execute(
     }
 
     if (nil != event.ContainerStdOutWrittenTo) {
-      fmt.Printf(
-        "%v \n",
-        string(event.ContainerStdOutWrittenTo.Data),
-      )
+      fmt.Fprintf(os.Stdout, "%v \n", string(event.ContainerStdOutWrittenTo.Data))
     } else if (nil != event.ContainerStdErrWrittenTo) {
-      fmt.Printf(
-        "%v \n",
-        string(event.ContainerStdErrWrittenTo.Data),
-      )
+      fmt.Fprintf(os.Stderr, "%v \n", string(event.ContainerStdErrWrittenTo.Data))
     } else if (nil != event.OpRunStarted) {
       fmt.Printf(
         "OpRunStarted: Id=%v OpRef=%v Timestamp=%v \n",
@@ -62,9 +57,9 @@ func (this _streamEventsUseCase) Execute(
       )
     } else if (nil != event.OpRunEnded) {
       fmt.Printf(
-        "OpRunEnded: Outcome:%v Id=%v Timestamp=%v \n",
-        event.OpRunEnded.Outcome,
+        "OpRunEnded: Id=%v Outcome=%v Timestamp=%v \n",
         event.OpRunEnded.OpRunId,
+        event.OpRunEnded.Outcome,
         event.Timestamp,
       )
     }

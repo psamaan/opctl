@@ -5,7 +5,6 @@ package opspec
 import (
   "github.com/opspec-io/sdk-golang/models"
   "github.com/opspec-io/sdk-golang/adapters"
-  "github.com/opspec-io/sdk-golang/docker"
 )
 
 type Sdk interface {
@@ -67,10 +66,10 @@ type Sdk interface {
 }
 
 func New(
+engineHost adapters.EngineHost,
 ) Sdk {
 
-  engineHost := docker.New()
-  err := engineHost.EnsureEngineRunning("opspec/engine:0.1.8")
+  err := engineHost.EnsureEngineRunning("opspec/engine:0.1.9")
   if (nil != err) {
     panic(err)
   }

@@ -5,6 +5,7 @@ package core
 import (
   "github.com/opspec-io/sdk-golang"
   "os"
+  "github.com/opspec-io/sdk-golang/adapters"
 )
 
 type compositionRoot interface {
@@ -19,11 +20,12 @@ type compositionRoot interface {
 }
 
 func newCompositionRoot(
+engineHost adapters.EngineHost,
 ) (compositionRoot compositionRoot) {
 
   exiter := newExiter()
 
-  opspecSdk := opspec.New()
+  opspecSdk := opspec.New(engineHost)
   workDirPathGetter := newWorkDirPathGetter()
 
   compositionRoot = &_compositionRoot{

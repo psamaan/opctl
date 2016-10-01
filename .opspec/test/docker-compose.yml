@@ -4,7 +4,5 @@ services:
     extends:
       service: go
       file: ../.common/docker-compose.yml
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
     entrypoint: ginkgo --v -cover -race -r
-    network_mode: host
+    network_mode: none

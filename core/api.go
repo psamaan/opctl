@@ -1,5 +1,7 @@
 package core
 
+import "github.com/opspec-io/sdk-golang/adapters"
+
 //go:generate counterfeiter -o ./fakeApi.go --fake-name FakeApi ./ Api
 
 type Api interface {
@@ -39,11 +41,12 @@ type Api interface {
 }
 
 func New(
+engineHost adapters.EngineHost,
 ) Api {
 
   return &_api{
     compositionRoot:
-    newCompositionRoot(),
+    newCompositionRoot(engineHost),
   }
 
 }

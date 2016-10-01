@@ -3,16 +3,19 @@ package core
 import (
   . "github.com/onsi/ginkgo"
   . "github.com/onsi/gomega"
+  "github.com/opspec-io/sdk-golang/adapters"
 )
 
 var _ = Describe("compositionRoot", func() {
+
+  fakeEngineHost := new(adapters.FakeEngineHost)
 
   Context("CreateCollectionUseCase()", func() {
 
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest := newCompositionRoot()
+      objectUnderTest := newCompositionRoot(fakeEngineHost)
 
       /* act */
       actualCli := objectUnderTest.CreateCollectionUseCase()
@@ -29,7 +32,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest := newCompositionRoot()
+      objectUnderTest := newCompositionRoot(fakeEngineHost)
 
       /* act */
       actualCli := objectUnderTest.CreateOpUseCase()
@@ -46,7 +49,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest := newCompositionRoot()
+      objectUnderTest := newCompositionRoot(fakeEngineHost)
 
       /* act */
       actualCli := objectUnderTest.KillOpRunUseCase()
@@ -63,7 +66,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest := newCompositionRoot()
+      objectUnderTest := newCompositionRoot(fakeEngineHost)
 
       /* act */
       actualCli := objectUnderTest.ListOpsInCollectionUseCase()
@@ -80,7 +83,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest := newCompositionRoot()
+      objectUnderTest := newCompositionRoot(fakeEngineHost)
 
       /* act */
       actualCli := objectUnderTest.RunOpUseCase()
@@ -97,7 +100,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest := newCompositionRoot()
+      objectUnderTest := newCompositionRoot(fakeEngineHost)
 
       /* act */
       actualCli := objectUnderTest.SetCollectionDescriptionUseCase()
@@ -114,7 +117,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest := newCompositionRoot()
+      objectUnderTest := newCompositionRoot(fakeEngineHost)
 
       /* act */
       actualCli := objectUnderTest.SetOpDescriptionUseCase()
@@ -131,7 +134,7 @@ var _ = Describe("compositionRoot", func() {
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest := newCompositionRoot()
+      objectUnderTest := newCompositionRoot(fakeEngineHost)
 
       /* act */
       actualCli := objectUnderTest.StreamEventsUseCase()
