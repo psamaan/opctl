@@ -49,9 +49,9 @@ Run 'opctl COMMAND --help' for more information on a command.
 
 All releases will be [tagged](https://github.com/opspec-io/cli/tags) and
 made available on the
-[releases](https://github.com/opspec-io/cli/releases) page with links to
-the corresponding versions of the [INSTALLATION.md](INSTALLATION.md) and
-[CHANGELOG.md](CHANGELOG.md) docs.
+[releases](https://github.com/opspec-io/cli/releases)
+[releases](https://github.com/opspec-io/sdk-golang/releases) page with
+links to docs.
 
 # Versioning
 

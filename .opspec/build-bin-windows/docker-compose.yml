@@ -7,3 +7,4 @@ services:
     environment:
       - GOOS=windows
       - OUTPUT_FILE_EXTENSION=.exe
+    network_mode: none

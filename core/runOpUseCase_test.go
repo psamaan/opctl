@@ -4,11 +4,8 @@ import (
   . "github.com/onsi/ginkgo"
   . "github.com/onsi/gomega"
   "github.com/opspec-io/sdk-golang"
-  engineModels "github.com/opspec-io/engine/core/models"
-  opspecSdkModels "github.com/opspec-io/sdk-golang/models"
+  "github.com/opspec-io/sdk-golang/models"
   "path"
-  "github.com/opspec-io/engine-sdk-golang"
-  "github.com/opspec-io/engine-sdk-golang/models"
   "errors"
   "time"
   "fmt"
@@ -24,17 +21,15 @@ var _ = Describe("runOpUseCase", func() {
       returnedError := errors.New("dummyError")
 
       fakeOpspecSdk := new(opspec.FakeSdk)
-      fakeOpspecSdk.GetOpReturns(opspecSdkModels.OpView{}, returnedError)
+      fakeOpspecSdk.GetOpReturns(models.OpView{}, returnedError)
 
-      fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
       eventChannel := make(chan models.Event)
       close(eventChannel)
-      fakeOpctlEngineSdk.GetEventStreamReturns(eventChannel, nil)
+      fakeOpspecSdk.GetEventStreamReturns(eventChannel, nil)
 
       objectUnderTest := newRunOpUseCase(
         fakeExiter,
         fakeOpspecSdk,
-        fakeOpctlEngineSdk,
         new(fakeWorkDirPathGetter),
       )
 
@@ -53,10 +48,9 @@ var _ = Describe("runOpUseCase", func() {
       workDirPath := "dummyWorkDirPath"
       fakeWorkDirPathGetter.GetReturns(workDirPath)
 
-      fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
       eventChannel := make(chan models.Event)
       close(eventChannel)
-      fakeOpctlEngineSdk.GetEventStreamReturns(eventChannel, nil)
+      fakeOpspecSdk.GetEventStreamReturns(eventChannel, nil)
 
       providedName := "dummyOpName"
 
@@ -65,7 +59,6 @@ var _ = Describe("runOpUseCase", func() {
       objectUnderTest := newRunOpUseCase(
         new(fakeExiter),
         fakeOpspecSdk,
-        fakeOpctlEngineSdk,
         fakeWorkDirPathGetter,
       )
 
@@ -75,21 +68,19 @@ var _ = Describe("runOpUseCase", func() {
       /* assert */
       Expect(fakeOpspecSdk.GetOpArgsForCall(0)).Should(Equal(expectedPath))
     })
-    It("should call exiter with expected args when opctlEngineSdk.GetEventStream returns error", func() {
+    It("should call exiter with expected args when opspecSdk.GetEventStream returns error", func() {
       /* arrange */
       fakeExiter := new(fakeExiter)
       returnedError := errors.New("dummyError")
 
       fakeOpspecSdk := new(opspec.FakeSdk)
-      fakeOpspecSdk.GetOpReturns(opspecSdkModels.OpView{}, nil)
+      fakeOpspecSdk.GetOpReturns(models.OpView{}, nil)
 
-      fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
-      fakeOpctlEngineSdk.GetEventStreamReturns(nil, returnedError)
+      fakeOpspecSdk.GetEventStreamReturns(nil, returnedError)
 
       objectUnderTest := newRunOpUseCase(
         fakeExiter,
         fakeOpspecSdk,
-        fakeOpctlEngineSdk,
         new(fakeWorkDirPathGetter),
       )
 
@@ -102,31 +93,29 @@ var _ = Describe("runOpUseCase", func() {
     })
     Describe("when op has params defined", func() {
       Describe("and corresponding args are provided explicitly with values", func() {
-        It("should call opctlEngineSdk.RunOp with provided arg values", func() {
+        It("should call opspecSdk.StartOpRun with provided arg values", func() {
           /* arrange */
           param1Name := "DUMMY_PARAM1_NAME"
           param1Value := "dummyParam1Value"
 
           fakeOpspecSdk := new(opspec.FakeSdk)
           fakeOpspecSdk.GetOpReturns(
-            opspecSdkModels.OpView{
-              Inputs:[]opspecSdkModels.Param{
+            models.OpView{
+              Inputs:[]models.Param{
                 {
                   Name: param1Name,
-                  String:&opspecSdkModels.StringParam{},
+                  String:&models.StringParam{},
                 },
               },
             },
             nil,
           )
 
-          fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
-          fakeOpctlEngineSdk.RunOpReturns("dummyOpRunId", "dummyCorrelationId", errors.New(""))
+          fakeOpspecSdk.StartOpRunReturns("dummyOpRunId", errors.New(""))
 
           objectUnderTest := newRunOpUseCase(
             new(fakeExiter),
             fakeOpspecSdk,
-            fakeOpctlEngineSdk,
             new(fakeWorkDirPathGetter),
           )
 
@@ -137,11 +126,11 @@ var _ = Describe("runOpUseCase", func() {
           objectUnderTest.Execute(providedArgs, "dummyOpName")
 
           /* assert */
-          Expect(fakeOpctlEngineSdk.RunOpArgsForCall(0).Args).To(BeEquivalentTo(expectedArgs))
+          Expect(fakeOpspecSdk.StartOpRunArgsForCall(0).Args).To(BeEquivalentTo(expectedArgs))
         })
       })
       Describe("and corresponding args are provided explicitly without values", func() {
-        It("should call opctlEngineSdk.RunOp with arg values obtained from the environment", func() {
+        It("should call opspecSdk.StartOpRun with arg values obtained from the environment", func() {
           /* arrange */
           param1Name := "DUMMY_PARAM1_NAME"
           param1Value := "dummyParam1Value"
@@ -150,24 +139,22 @@ var _ = Describe("runOpUseCase", func() {
 
           fakeOpspecSdk := new(opspec.FakeSdk)
           fakeOpspecSdk.GetOpReturns(
-            opspecSdkModels.OpView{
-              Inputs:[]opspecSdkModels.Param{
+            models.OpView{
+              Inputs:[]models.Param{
                 {
                   Name: param1Name,
-                  String:&opspecSdkModels.StringParam{},
+                  String:&models.StringParam{},
                 },
               },
             },
             nil,
           )
 
-          fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
-          fakeOpctlEngineSdk.RunOpReturns("dummyOpRunId", "dummyCorrelationId", errors.New(""))
+          fakeOpspecSdk.StartOpRunReturns("dummyOpRunId", errors.New(""))
 
           objectUnderTest := newRunOpUseCase(
             new(fakeExiter),
             fakeOpspecSdk,
-            fakeOpctlEngineSdk,
             new(fakeWorkDirPathGetter),
           )
 
@@ -178,11 +165,11 @@ var _ = Describe("runOpUseCase", func() {
           objectUnderTest.Execute(providedArgs, "dummyOpName")
 
           /* assert */
-          Expect(fakeOpctlEngineSdk.RunOpArgsForCall(0).Args).To(BeEquivalentTo(expectedArgs))
+          Expect(fakeOpspecSdk.StartOpRunArgsForCall(0).Args).To(BeEquivalentTo(expectedArgs))
         })
       })
       Describe("and corresponding args are not provided", func() {
-        It("should call opctlEngineSdk.RunOp with arg values obtained from the environment", func() {
+        It("should call opspecSdk.RunOp with arg values obtained from the environment", func() {
           /* arrange */
           param1Name := "DUMMY_PARAM1_NAME"
           param1Value := "dummyParam1Value"
@@ -191,24 +178,22 @@ var _ = Describe("runOpUseCase", func() {
 
           fakeOpspecSdk := new(opspec.FakeSdk)
           fakeOpspecSdk.GetOpReturns(
-            opspecSdkModels.OpView{
-              Inputs:[]opspecSdkModels.Param{
+            models.OpView{
+              Inputs:[]models.Param{
                 {
                   Name: param1Name,
-                  String:&opspecSdkModels.StringParam{},
+                  String:&models.StringParam{},
                 },
               },
             },
             nil,
           )
 
-          fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
-          fakeOpctlEngineSdk.RunOpReturns("dummyOpRunId", "dummyCorrelationId", errors.New(""))
+          fakeOpspecSdk.StartOpRunReturns("dummyOpRunId", errors.New(""))
 
           objectUnderTest := newRunOpUseCase(
             new(fakeExiter),
             fakeOpspecSdk,
-            fakeOpctlEngineSdk,
             new(fakeWorkDirPathGetter),
           )
 
@@ -219,25 +204,23 @@ var _ = Describe("runOpUseCase", func() {
           objectUnderTest.Execute(providedArgs, "dummyOpName")
 
           /* assert */
-          Expect(fakeOpctlEngineSdk.RunOpArgsForCall(0).Args).To(BeEquivalentTo(expectedArgs))
+          Expect(fakeOpspecSdk.StartOpRunArgsForCall(0).Args).To(BeEquivalentTo(expectedArgs))
         })
       })
     })
-    It("should call exiter with expected args when opctlEngineSdk.RunOp returns error", func() {
+    It("should call exiter with expected args when opspecSdk.StartOpRun returns error", func() {
       /* arrange */
       fakeExiter := new(fakeExiter)
       returnedError := errors.New("dummyError")
 
       fakeOpspecSdk := new(opspec.FakeSdk)
-      fakeOpspecSdk.GetOpReturns(opspecSdkModels.OpView{}, nil)
+      fakeOpspecSdk.GetOpReturns(models.OpView{}, nil)
 
-      fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
-      fakeOpctlEngineSdk.RunOpReturns("dummyOpRunId", "dummyCorrelationId", returnedError)
+      fakeOpspecSdk.StartOpRunReturns("dummyOpRunId", returnedError)
 
       objectUnderTest := newRunOpUseCase(
         fakeExiter,
         fakeOpspecSdk,
-        fakeOpctlEngineSdk,
         new(fakeWorkDirPathGetter),
       )
 
@@ -253,17 +236,15 @@ var _ = Describe("runOpUseCase", func() {
       fakeExiter := new(fakeExiter)
 
       fakeOpspecSdk := new(opspec.FakeSdk)
-      fakeOpspecSdk.GetOpReturns(opspecSdkModels.OpView{}, nil)
+      fakeOpspecSdk.GetOpReturns(models.OpView{}, nil)
 
-      fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
       eventChannel := make(chan models.Event)
       close(eventChannel)
-      fakeOpctlEngineSdk.GetEventStreamReturns(eventChannel, nil)
+      fakeOpspecSdk.GetEventStreamReturns(eventChannel, nil)
 
       objectUnderTest := newRunOpUseCase(
         fakeExiter,
         fakeOpspecSdk,
-        fakeOpctlEngineSdk,
         new(fakeWorkDirPathGetter),
       )
 
@@ -274,33 +255,33 @@ var _ = Describe("runOpUseCase", func() {
       Expect(fakeExiter.ExitArgsForCall(0)).
         Should(Equal(ExitReq{Message:"Event channel closed unexpectedly", Code:1}))
     })
-    Describe("when a related OpRunEndedEvent is received", func() {
+    Describe("when an OpRunEndedEvent is received for our root op run", func() {
+      rootOpRunId := "dummyRootOpRunId"
       It("should call exiter with expected args when it's Outcome is SUCCEEDED", func() {
         /* arrange */
-        opRunEndedEvent := engineModels.NewOpRunEndedEvent(
-          "dummyCorrelationId",
-          "dummyRootOpRunId",
-          engineModels.OpRunOutcomeSucceeded,
-          "dummyRootOpRunId",
-          time.Now(),
-        )
+        opRunEndedEvent := models.Event{
+          Timestamp:time.Now(),
+          OpRunEnded:&models.OpRunEndedEvent{
+            OpRunId:rootOpRunId,
+            Outcome:models.OpRunOutcomeSucceeded,
+            RootOpRunId:rootOpRunId,
+          },
+        }
 
         fakeExiter := new(fakeExiter)
 
         fakeOpspecSdk := new(opspec.FakeSdk)
-        fakeOpspecSdk.GetOpReturns(opspecSdkModels.OpView{}, nil)
+        fakeOpspecSdk.GetOpReturns(models.OpView{}, nil)
 
-        fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
         eventChannel := make(chan models.Event, 10)
         eventChannel <- opRunEndedEvent
         defer close(eventChannel)
-        fakeOpctlEngineSdk.GetEventStreamReturns(eventChannel, nil)
-        fakeOpctlEngineSdk.RunOpReturns(opRunEndedEvent.RootOpRunId(), "dummyCorrelationId", nil)
+        fakeOpspecSdk.GetEventStreamReturns(eventChannel, nil)
+        fakeOpspecSdk.StartOpRunReturns(opRunEndedEvent.OpRunEnded.RootOpRunId, nil)
 
         objectUnderTest := newRunOpUseCase(
           fakeExiter,
           fakeOpspecSdk,
-          fakeOpctlEngineSdk,
           new(fakeWorkDirPathGetter),
         )
 
@@ -311,30 +292,29 @@ var _ = Describe("runOpUseCase", func() {
       })
       It("should call exiter with expected args when it's Outcome is KILLED", func() {
         /* arrange */
-        opRunEndedEvent := engineModels.NewOpRunEndedEvent(
-          "dummyCorrelationId",
-          "dummyRootOpRunId",
-          engineModels.OpRunOutcomeKilled,
-          "dummyRootOpRunId",
-          time.Now(),
-        )
+        opRunEndedEvent := models.Event{
+          Timestamp:time.Now(),
+          OpRunEnded:&models.OpRunEndedEvent{
+            OpRunId:rootOpRunId,
+            Outcome:models.OpRunOutcomeKilled,
+            RootOpRunId:rootOpRunId,
+          },
+        }
 
         fakeExiter := new(fakeExiter)
 
         fakeOpspecSdk := new(opspec.FakeSdk)
-        fakeOpspecSdk.GetOpReturns(opspecSdkModels.OpView{}, nil)
+        fakeOpspecSdk.GetOpReturns(models.OpView{}, nil)
 
-        fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
         eventChannel := make(chan models.Event, 10)
         eventChannel <- opRunEndedEvent
         defer close(eventChannel)
-        fakeOpctlEngineSdk.GetEventStreamReturns(eventChannel, nil)
-        fakeOpctlEngineSdk.RunOpReturns(opRunEndedEvent.RootOpRunId(), "dummyCorrelationId", nil)
+        fakeOpspecSdk.GetEventStreamReturns(eventChannel, nil)
+        fakeOpspecSdk.StartOpRunReturns(opRunEndedEvent.OpRunEnded.RootOpRunId, nil)
 
         objectUnderTest := newRunOpUseCase(
           fakeExiter,
           fakeOpspecSdk,
-          fakeOpctlEngineSdk,
           new(fakeWorkDirPathGetter),
         )
 
@@ -345,37 +325,36 @@ var _ = Describe("runOpUseCase", func() {
       })
       It("should call exiter with expected args when it's Outcome is unexpected", func() {
         /* arrange */
-        opRunEndedEvent := engineModels.NewOpRunEndedEvent(
-          "dummyCorrelationId",
-          "dummyRootOpRunId",
-          "some unexpected outcome",
-          "dummyRootOpRunId",
-          time.Now(),
-        )
+        opRunEndedEvent := models.Event{
+          Timestamp:time.Now(),
+          OpRunEnded:&models.OpRunEndedEvent{
+            OpRunId:rootOpRunId,
+            Outcome:"some unexpected outcome",
+            RootOpRunId:rootOpRunId,
+          },
+        }
 
         fakeExiter := new(fakeExiter)
 
         fakeOpspecSdk := new(opspec.FakeSdk)
-        fakeOpspecSdk.GetOpReturns(opspecSdkModels.OpView{}, nil)
+        fakeOpspecSdk.GetOpReturns(models.OpView{}, nil)
 
-        fakeOpctlEngineSdk := new(opctlengine.FakeSdk)
         eventChannel := make(chan models.Event, 10)
         eventChannel <- opRunEndedEvent
         defer close(eventChannel)
-        fakeOpctlEngineSdk.GetEventStreamReturns(eventChannel, nil)
-        fakeOpctlEngineSdk.RunOpReturns(opRunEndedEvent.RootOpRunId(), "dummyCorrelationId", nil)
+        fakeOpspecSdk.GetEventStreamReturns(eventChannel, nil)
+        fakeOpspecSdk.StartOpRunReturns(opRunEndedEvent.OpRunEnded.RootOpRunId, nil)
 
         objectUnderTest := newRunOpUseCase(
           fakeExiter,
           fakeOpspecSdk,
-          fakeOpctlEngineSdk,
           new(fakeWorkDirPathGetter),
         )
 
         /* act/assert */
         objectUnderTest.Execute([]string{}, "dummyOpName")
         Expect(fakeExiter.ExitArgsForCall(0)).
-          Should(Equal(ExitReq{Message:fmt.Sprintf("Received unknown outcome `%v`", opRunEndedEvent.Outcome()), Code:1}))
+          Should(Equal(ExitReq{Message:fmt.Sprintf("Received unknown outcome `%v`", opRunEndedEvent.OpRunEnded.Outcome), Code:1}))
       })
     })
   })

@@ -2,9 +2,10 @@ package core
 
 //go:generate counterfeiter -o ./fakeKillOpRunUseCase.go --fake-name fakeKillOpRunUseCase ./ killOpRunUseCase
 
+import ()
 import (
-  "github.com/opspec-io/engine-sdk-golang/models"
-  "github.com/opspec-io/engine-sdk-golang"
+  "github.com/opspec-io/sdk-golang"
+  "github.com/opspec-io/sdk-golang/models"
 )
 
 type killOpRunUseCase interface {
@@ -14,25 +15,25 @@ type killOpRunUseCase interface {
 }
 
 func newKillOpRunUseCase(
-opctlEngineSdk opctlengine.Sdk,
+opspecSdk opspec.Sdk,
 ) killOpRunUseCase {
   return _killOpRunUseCase{
-    opctlEngineSdk:opctlEngineSdk,
+    opspecSdk:opspecSdk,
   }
 }
 
 type _killOpRunUseCase struct {
-  opctlEngineSdk opctlengine.Sdk
+  opspecSdk opspec.Sdk
 }
 
 func (this _killOpRunUseCase) Execute(
 opRunId string,
 ) error {
 
-  _, err := this.opctlEngineSdk.KillOpRun(
-    *models.NewKillOpRunReq(
-      opRunId,
-    ),
+  err := this.opspecSdk.KillOpRun(
+    models.KillOpRunReq{
+      OpRunId:opRunId,
+    },
   )
 
   return err

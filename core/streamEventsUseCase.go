@@ -3,9 +3,10 @@ package core
 //go:generate counterfeiter -o ./fakeStreamEventsUseCase.go --fake-name fakeStreamEventsUseCase ./ streamEventsUseCase
 
 import (
-  "github.com/opspec-io/engine-sdk-golang/models"
   "fmt"
-  "github.com/opspec-io/engine-sdk-golang"
+  "github.com/opspec-io/sdk-golang"
+  "os"
+  "time"
 )
 
 type streamEventsUseCase interface {
@@ -14,23 +15,23 @@ type streamEventsUseCase interface {
 
 func newStreamEventsUseCase(
 exiter exiter,
-opctlEngineSdk opctlengine.Sdk,
+opspecSdk opspec.Sdk,
 ) streamEventsUseCase {
   return _streamEventsUseCase{
     exiter:exiter,
-    opctlEngineSdk:opctlEngineSdk,
+    opspecSdk:opspecSdk,
   }
 }
 
 type _streamEventsUseCase struct {
-  exiter         exiter
-  opctlEngineSdk opctlengine.Sdk
+  exiter    exiter
+  opspecSdk opspec.Sdk
 }
 
 func (this _streamEventsUseCase) Execute(
 ) {
 
-  eventChannel, err := this.opctlEngineSdk.GetEventStream()
+  eventChannel, err := this.opspecSdk.GetEventStream()
   if (nil != err) {
     this.exiter.Exit(ExitReq{Message:err.Error(), Code:1})
     return // support fake exiter
@@ -44,27 +45,24 @@ func (this _streamEventsUseCase) Execute(
       return // support fake exiter
     }
 
-    switch event := event.(type) {
-    case models.LogEntryEmittedEvent:
+    if (nil != event.ContainerStdOutWrittenTo) {
+      fmt.Fprintf(os.Stdout, "%v \n", string(event.ContainerStdOutWrittenTo.Data))
+    } else if (nil != event.ContainerStdErrWrittenTo) {
+      fmt.Fprintf(os.Stderr, "%v \n", string(event.ContainerStdErrWrittenTo.Data))
+    } else if (nil != event.OpRunStarted) {
       fmt.Printf(
-        "%v \n",
-        event.LogEntryMsg(),
+        "OpRunStarted: Id=%v OpRef=%v Timestamp=%v \n",
+        event.OpRunStarted.OpRunId,
+        event.OpRunStarted.OpRef,
+        event.Timestamp.Format(time.RFC3339),
       )
-    case models.OpRunStartedEvent:
+    } else if (nil != event.OpRunEnded) {
       fmt.Printf(
-        "OpRunStarted: Id=%v OpUrl=%v Timestamp=%v \n",
-        event.OpRunId(),
-        event.OpRunOpUrl(),
-        event.Timestamp(),
+        "OpRunEnded: Id=%v Outcome=%v Timestamp=%v \n",
+        event.OpRunEnded.OpRunId,
+        event.OpRunEnded.Outcome,
+        event.Timestamp.Format(time.RFC3339),
       )
-    case models.OpRunEndedEvent:
-      fmt.Printf(
-        "OpRunEnded: Outcome=%v Id=%v Timestamp=%v \n",
-        event.Outcome(),
-        event.OpRunId(),
-        event.Timestamp(),
-      )
-    default: // no op
     }
 
   }

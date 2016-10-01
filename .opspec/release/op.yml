@@ -6,4 +6,4 @@ inputs:
 run:
   serial:
   - op: build
-  - op: publish-coverage-to-codecov
+  - op: publish-coverage

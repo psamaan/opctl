@@ -4,14 +4,5 @@ services:
     extends:
       service: go
       file: ../.common/docker-compose.yml
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    entrypoint: |
-      sh -c "
-        go get -t ./... && \
-        go get github.com/onsi/ginkgo/ginkgo && \
-        ginkgo -cover -race --progress . ./core
-      "
-    environment:
-      - CGO_ENABLED=1
-    network_mode: host
+    entrypoint: ginkgo --v -cover -race -r
+    network_mode: none

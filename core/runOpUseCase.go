@@ -4,9 +4,6 @@ package core
 
 import (
   "fmt"
-  "github.com/opspec-io/engine-sdk-golang"
-  "github.com/opspec-io/engine-sdk-golang/models"
-  engineModels "github.com/opspec-io/engine/core/models"
   "os"
   "syscall"
   "os/signal"
@@ -14,6 +11,8 @@ import (
   "github.com/opspec-io/sdk-golang"
   "path"
   "github.com/peterh/liner"
+  "github.com/opspec-io/sdk-golang/models"
+  "time"
 )
 
 type runOpUseCase interface {
@@ -26,13 +25,11 @@ type runOpUseCase interface {
 func newRunOpUseCase(
 exiter exiter,
 opspecSdk opspec.Sdk,
-opctlEngineSdk opctlengine.Sdk,
 workDirPathGetter workDirPathGetter,
 ) runOpUseCase {
   return _runOpUseCase{
     exiter:exiter,
     opspecSdk:opspecSdk,
-    opctlEngineSdk:opctlEngineSdk,
     workDirPathGetter:workDirPathGetter,
   }
 }
@@ -40,7 +37,6 @@ workDirPathGetter workDirPathGetter,
 type _runOpUseCase struct {
   exiter            exiter
   opspecSdk         opspec.Sdk
-  opctlEngineSdk    opctlengine.Sdk
   workDirPathGetter workDirPathGetter
 }
 
@@ -112,17 +108,17 @@ name string,
   )
 
   // init event channel
-  eventChannel, err := this.opctlEngineSdk.GetEventStream()
+  eventChannel, err := this.opspecSdk.GetEventStream()
   if (nil != err) {
     this.exiter.Exit(ExitReq{Message:err.Error(), Code:1})
     return // support fake exiter
   }
 
-  rootOpRunId, correlationId, err := this.opctlEngineSdk.RunOp(
-    *models.NewRunOpReq(
-      argsMap,
-      opPath,
-    ),
+  rootOpRunId, err := this.opspecSdk.StartOpRun(
+    models.StartOpRunReq{
+      Args:argsMap,
+      OpUrl:opPath,
+    },
   )
   if (nil != err) {
     this.exiter.Exit(ExitReq{Message:err.Error(), Code:1})
@@ -139,10 +135,10 @@ name string,
         fmt.Println()
         fmt.Println("Gracefully stopping... (signal Control-C again to force)")
 
-        this.opctlEngineSdk.KillOpRun(
-          *models.NewKillOpRunReq(
-            rootOpRunId,
-          ),
+        this.opspecSdk.KillOpRun(
+          models.KillOpRunReq{
+            OpRunId:rootOpRunId,
+          },
         )
       } else {
         this.exiter.Exit(ExitReq{Message:"Terminated by Control-C", Code:130})
@@ -155,48 +151,38 @@ name string,
         return // support fake exiter
       }
 
-      switch event := event.(type) {
-      case models.LogEntryEmittedEvent:
-        // @TODO: this doesn't catch log entries for the same tree but triggered from different actions (such as kills) see https://github.com/opspec-io/engine/issues/2
-        if (event.CorrelationId() == correlationId) {
-          fmt.Printf(
-            "%v \n",
-            event.LogEntryMsg(),
-          )
-        }
-      case models.OpRunStartedEvent:
-        if (event.RootOpRunId() == rootOpRunId) {
-          fmt.Printf(
-            "OpRunStarted: Id=%v OpUrl=%v Timestamp=%v \n",
-            event.OpRunId(),
-            event.OpRunOpUrl(),
-            event.Timestamp(),
-          )
-        }
-      case models.OpRunEndedEvent:
-        if (event.RootOpRunId() == rootOpRunId) {
-          fmt.Printf(
-            "OpRunEnded: Outcome:%v Id=%v Timestamp=%v \n",
-            event.Outcome(),
-            event.OpRunId(),
-            event.Timestamp(),
-          )
-          if (event.OpRunId() == rootOpRunId) {
-            switch event.Outcome(){
-            case engineModels.OpRunOutcomeSucceeded:
-              this.exiter.Exit(ExitReq{Message:"", Code:0})
-            case engineModels.OpRunOutcomeKilled:
-              this.exiter.Exit(ExitReq{Message:"", Code:137})
-            case engineModels.OpRunOutcomeFailed:
-              this.exiter.Exit(ExitReq{Message:"", Code:1})
-            default:
-              // fallback to general error
-              this.exiter.Exit(ExitReq{Message:fmt.Sprintf("Received unknown outcome `%v`", event.Outcome()), Code:1})
-            }
-            return // support fake exiter
+      if (nil != event.ContainerStdOutWrittenTo && event.ContainerStdOutWrittenTo.RootOpRunId == rootOpRunId) {
+        fmt.Fprintf(os.Stdout, "%v \n", string(event.ContainerStdOutWrittenTo.Data))
+      } else if (nil != event.ContainerStdErrWrittenTo && event.ContainerStdErrWrittenTo.RootOpRunId == rootOpRunId) {
+        fmt.Fprintf(os.Stderr, "%v \n", string(event.ContainerStdErrWrittenTo.Data))
+      } else if (nil != event.OpRunStarted && event.OpRunStarted.RootOpRunId == rootOpRunId) {
+        fmt.Printf(
+          "OpRunStarted: Id=%v OpRef=%v Timestamp=%v \n",
+          event.OpRunStarted.OpRunId,
+          event.OpRunStarted.OpRef,
+          event.Timestamp.Format(time.RFC3339),
+        )
+      } else if (nil != event.OpRunEnded && event.OpRunEnded.RootOpRunId == rootOpRunId) {
+        fmt.Printf(
+          "OpRunEnded: Id=%v Outcome=%v Timestamp=%v \n",
+          event.OpRunEnded.OpRunId,
+          event.OpRunEnded.Outcome,
+          event.Timestamp.Format(time.RFC3339),
+        )
+        if (event.OpRunEnded.OpRunId == rootOpRunId) {
+          switch event.OpRunEnded.Outcome{
+          case models.OpRunOutcomeSucceeded:
+            this.exiter.Exit(ExitReq{Message:"", Code:0})
+          case models.OpRunOutcomeKilled:
+            this.exiter.Exit(ExitReq{Message:"", Code:137})
+          case models.OpRunOutcomeFailed:
+            this.exiter.Exit(ExitReq{Message:"", Code:1})
+          default:
+            // fallback to general error
+            this.exiter.Exit(ExitReq{Message:fmt.Sprintf("Received unknown outcome `%v`", event.OpRunEnded.Outcome), Code:1})
           }
+          return // support fake exiter
         }
-      default: // no op
       }
     }
 

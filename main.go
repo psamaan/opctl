@@ -4,6 +4,7 @@ import (
   "os"
   "fmt"
   "github.com/opspec-io/cli/core"
+  "github.com/opspec-io/sdk-golang/docker"
 )
 
 func main() {
@@ -15,11 +16,12 @@ func main() {
         fmt.Fprintln(os.Stderr, err.Message)
         os.Exit(err.Code)
       default:
+        fmt.Fprintf(os.Stderr,"%v", err)
         os.Exit(1)
       }
     }
   }()
 
-  newCli(newCompositionRoot()).Run(os.Args)
+  newCli(newCompositionRoot(docker.New())).Run(os.Args)
 
 }
