@@ -3,19 +3,19 @@ package main
 import (
   . "github.com/onsi/ginkgo"
   . "github.com/onsi/gomega"
-  "github.com/opspec-io/sdk-golang/adapters"
+  "github.com/opspec-io/sdk-golang/pkg/engineprovider/providers/fake"
 )
 
 var _ = Describe("compositionRoot", func() {
 
-  fakeEngineHost := new(adapters.FakeEngineHost)
+  fakeEngineProvider := new(fake.EngineProvider)
 
   Context("CoreApi()", func() {
 
     It("should not return nil", func() {
 
       /* arrange */
-      objectUnderTest := newCompositionRoot(fakeEngineHost)
+      objectUnderTest := newCompositionRoot(fakeEngineProvider)
 
       /* act */
       actualTcpApi := objectUnderTest.CoreApi()

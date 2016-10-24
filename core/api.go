@@ -1,6 +1,12 @@
 package core
 
-import "github.com/opspec-io/sdk-golang/adapters"
+import (
+  "github.com/opspec-io/sdk-golang/pkg/engineprovider"
+  "github.com/opspec-io/sdk-golang/pkg/engineclient"
+  "github.com/opspec-io/sdk-golang/pkg/bundle"
+  "io"
+  "os"
+)
 
 //go:generate counterfeiter -o ./fakeApi.go --fake-name FakeApi ./ Api
 
@@ -41,90 +47,23 @@ type Api interface {
 }
 
 func New(
-engineHost adapters.EngineHost,
+engineProvider engineprovider.EngineProvider,
 ) Api {
 
   return &_api{
-    compositionRoot:
-    newCompositionRoot(engineHost),
+    bundle:bundle.New(),
+    exiter:newExiter(),
+    engineClient:engineclient.New(engineProvider),
+    workDirPathGetter:newWorkDirPathGetter(),
+    writer:os.Stdout,
   }
 
 }
 
 type _api struct {
-  compositionRoot compositionRoot
-}
-
-func (this _api) CreateCollection(
-description string,
-name string,
-) {
-  this.
-  compositionRoot.
-    CreateCollectionUseCase().
-    Execute(description, name)
-}
-
-func (this _api) CreateOp(
-description string,
-name string,
-) {
-  this.
-  compositionRoot.
-    CreateOpUseCase().
-    Execute(description, name)
-}
-
-func (this _api) KillOpRun(
-opRunId string,
-) {
-  this.
-  compositionRoot.
-    KillOpRunUseCase().
-    Execute(opRunId)
-}
-
-func (this _api) ListOpsInCollection(
-) {
-  this.
-  compositionRoot.
-    ListOpsInCollectionUseCase().
-    Execute()
-}
-
-func (this _api) RunOp(
-args []string,
-name string,
-) {
-  this.
-  compositionRoot.
-    RunOpUseCase().
-    Execute(args, name)
-}
-
-func (this _api) SetCollectionDescription(
-description string,
-) {
-  this.
-  compositionRoot.
-    SetCollectionDescriptionUseCase().
-    Execute(description)
-}
-
-func (this _api) SetOpDescription(
-description string,
-name string,
-) {
-  this.
-  compositionRoot.
-    SetOpDescriptionUseCase().
-    Execute(description, name)
-}
-
-func (this _api) StreamEvents(
-) {
-  this.
-  compositionRoot.
-    StreamEventsUseCase().
-    Execute()
+  bundle bundle.Bundle
+  exiter exiter
+  engineClient engineclient.EngineClient
+  workDirPathGetter workDirPathGetter
+  writer io.Writer
 }

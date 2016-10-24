@@ -4,7 +4,7 @@ import (
   "os"
   "fmt"
   "github.com/opspec-io/cli/core"
-  "github.com/opspec-io/sdk-golang/docker"
+  "github.com/opspec-io/sdk-golang/pkg/engineprovider/providers/docker"
 )
 
 func main() {
