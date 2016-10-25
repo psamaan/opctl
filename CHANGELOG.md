@@ -6,8 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- refactored to use
-  [opspec sdk](https://github.com/opspec-io/sdk-golang)
+- bumped [opspec sdk](https://github.com/opspec-io/sdk-golang) version
 - event timestamps now output in RFC3339 format
 
 ### Fixed
