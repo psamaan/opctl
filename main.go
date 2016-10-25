@@ -22,6 +22,8 @@ func main() {
     }
   }()
 
-  newCli(newCompositionRoot(docker.New())).Run(os.Args)
+  engineProvider := docker.New()
+  engineProvider.EnsureEngineRunning()
+  newCli(newCompositionRoot(engineProvider)).Run(os.Args)
 
 }
