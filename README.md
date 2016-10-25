@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/opspec-io/cli.svg?branch=master)](https://travis-ci.org/opspec-io/cli)
-[![Coverage](https://codecov.io/gh/opspec-io/cli/branch/master/graph/badge.svg)](https://codecov.io/gh/opspec-io/cli)
+[![Build Status](https://travis-ci.org/opspec-io/opctl.svg?branch=master)](https://travis-ci.org/opspec-io/opctl)
+[![Coverage](https://codecov.io/gh/opspec-io/opctl/branch/master/graph/badge.svg)](https://codecov.io/gh/opspec-io/opctl)
 
 CLI for controlling http://opspec.io compliant ops.
 
@@ -47,9 +47,9 @@ Run 'opctl COMMAND --help' for more information on a command.
 
 # Releases
 
-All releases will be [tagged](https://github.com/opspec-io/cli/tags) and
+All releases will be [tagged](https://github.com/opspec-io/opctl/tags) and
 made available on the
-[releases](https://github.com/opspec-io/cli/releases)
+[releases](https://github.com/opspec-io/opctl/releases)
 [releases](https://github.com/opspec-io/sdk-golang/releases) page with
 links to docs.
 
