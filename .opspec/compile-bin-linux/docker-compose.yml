@@ -1,0 +1,10 @@
+version: "2"
+services:
+  compile-bin-linux:
+    extends:
+      service: go-build
+      file: ../.common/docker-compose.yml
+    environment:
+      - GOOS=linux
+      - OUTPUT_FILE_EXTENSION
+    network_mode: none

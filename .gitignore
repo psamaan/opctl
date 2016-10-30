@@ -9,5 +9,6 @@ tmp/
 *.coverprofile
 coverage.txt
 
-### OSX
-.DS_Store/
+### vendor
+vendor/*/
+

@@ -183,24 +183,6 @@
 			"revisionTime": "2016-08-24T19:54:34Z"
 		},
 		{
-			"checksumSHA1": "3tyU0G6S6K2YVwieeheEvPnnWzA=",
-			"path": "github.com/opspec-io/sdk-golang",
-			"revision": "a99b1fbf61ef616f81bf1c6892f83da3875e0dec",
-			"revisionTime": "2016-10-04T00:39:55Z"
-		},
-		{
-			"checksumSHA1": "O6ej7gbx/FBnxxdumPm8VkvqsOQ=",
-			"path": "github.com/opspec-io/sdk-golang/adapters",
-			"revision": "a99b1fbf61ef616f81bf1c6892f83da3875e0dec",
-			"revisionTime": "2016-10-04T00:39:55Z"
-		},
-		{
-			"checksumSHA1": "uzGxUbFcDqDdPmmQe2hNE2qb5s4=",
-			"path": "github.com/opspec-io/sdk-golang/docker",
-			"revision": "a99b1fbf61ef616f81bf1c6892f83da3875e0dec",
-			"revisionTime": "2016-10-04T00:39:55Z"
-		},
-		{
 			"checksumSHA1": "wDTo//uhVg4fUKSrY5kHmqXY1/E=",
 			"path": "github.com/opspec-io/sdk-golang/models",
 			"revision": "6714f507178bdfef84f80605847b008e5246b880",

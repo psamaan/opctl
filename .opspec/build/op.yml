@@ -1,8 +1,12 @@
-description: builds binaries for all supported platforms/architectures
+description: runs a build
 name: build
+inputs:
+- { name: CODECOV_TOKEN, description: 'A https://codecov.io/ auth token', isSecret: true }
+- { name: GIT_BRANCH, description: 'The git branch the coverage should be associated with' }
 run:
-  parallel:
-  - op: test
-  - op: build-bin-darwin
-  - op: build-bin-linux
-  - op: build-bin-windows
+  serial:
+  - op: clean
+  - parallel:
+    - op: test
+    - op: compile
+  - op: publish-coverage
