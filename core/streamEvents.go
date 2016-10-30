@@ -29,6 +29,14 @@ func (this _api) StreamEvents(
       fmt.Fprintf(os.Stdout, "%v \n", string(event.ContainerStdOutWrittenTo.Data))
     } else if (nil != event.ContainerStdErrWrittenTo) {
       fmt.Fprintf(os.Stderr, "%v \n", string(event.ContainerStdErrWrittenTo.Data))
+    } else if (nil != event.OpRunEncounteredError) {
+      fmt.Printf(
+        "OpRunEncounteredError: Id=%v OpRef=%v Timestamp=%v Msg=%v \n",
+        event.OpRunEncounteredError.OpRunId,
+        event.OpRunEncounteredError.OpRef,
+        event.Timestamp.Format(time.RFC3339),
+        event.OpRunEncounteredError.Msg,
+      )
     } else if (nil != event.OpRunStarted) {
       fmt.Printf(
         "OpRunStarted: Id=%v OpRef=%v Timestamp=%v \n",
