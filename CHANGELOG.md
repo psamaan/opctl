@@ -2,12 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## 0.1.12 - 2016-10-03
+## 0.1.12 - 2016-10-30
 
 ### Changed
 
 - bumped [opspec sdk](https://github.com/opspec-io/sdk-golang) version
 - event timestamps now output in RFC3339 format
+- added OpRunEncounteredError event to `events` & `run` cmd outputs 
 
 ### Fixed
 
