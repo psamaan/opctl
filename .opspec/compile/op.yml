@@ -1,0 +1,9 @@
+description: compiles binaries for all supported platforms/architectures
+name: compile
+run:
+  serial:
+  - op: init
+  - parallel:
+    - op: compile-bin-darwin
+    - op: compile-bin-linux
+    - op: compile-bin-windows
